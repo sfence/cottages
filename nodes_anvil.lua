@@ -42,7 +42,7 @@ local cottages_anvil_formspec =
 					"label[6.0,3.0;"..S("storage for").."]"..
 					"label[6.0,3.3;"..S("your hammer").."]"..
 
-					"label[0,-0.5;"..S("Anvil").."]"..
+					"label[0,0;"..S("Anvil").."]"..
 					"label[0,3.0;"..S("Punch anvil with hammer to").."]"..
 					"label[0,3.3;"..S("repair tool in workpiece-slot.").."]"..
                                 "list[current_player;main;0,4;8,4;]";
@@ -129,8 +129,9 @@ minetest.register_node("cottages:anvil", {
 		if( listname=='hammer' and stack and stack:get_name() ~= 'cottages:hammer') then
 			return 0;
 		end
+                                         
 		if(   listname=='input'
-		 and( stack:get_wear() == 0
+		and( stack:get_wear() == 0
                    or stack:get_name() == "technic:water_can" 
                    or stack:get_name() == "technic:lava_can" )) then
 
@@ -138,6 +139,14 @@ minetest.register_node("cottages:anvil", {
 				S('The workpiece slot is for damaged tools only.'));
 			return 0;
 		end
+                                         
+		local itemdef = minetest.registered_items[stack:get_name()]
+		if itemdef.wear_represents and itemdef.wear_represents == "technic_RE_charge" then
+			minetest.chat_send_player( player:get_player_name(),
+				S('The workpiece slot is for mechanical tools only.'));
+			return 0;
+		end
+                                         
 		return stack:get_count()
 	end,
 
@@ -166,15 +175,23 @@ minetest.register_node("cottages:anvil", {
 
 		local input = inv:get_stack('input',1);
 
+		                                        
 		-- only tools can be repaired
-		if( not( input ) 
-		   or input:is_empty()
-                   or input:get_name() == "technic:water_can" 
-                   or input:get_name() == "technic:lava_can" ) then
-
+		if 	(not( input ) 
+			or input:is_empty()
+			or input:get_name() == "technic:water_can" 
+			or input:get_name() == "technic:lava_can" ) then
 			meta:set_string("formspec",
 					cottages_anvil_formspec,
 					"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]");
+			return;
+		end
+                                         
+		local itemdef = minetest.registered_items[input:get_name()]
+		if itemdef.wear_represents and itemdef.wear_represents == "technic_RE_charge" then
+			meta:set_string("formspec",
+				cottages_anvil_formspec,
+				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]");  
 			return;
 		end
 
