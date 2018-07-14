@@ -22,7 +22,7 @@ end
 -- an even simpler from of bed - usually for animals 
 -- it is a nodebox and not wallmounted because that makes it easier to replace beds with straw mats
 minetest.register_node("cottages:straw_mat", {
-        description = S("layer of straw"),
+        description = S("Layer of straw"),
         drawtype = 'nodebox',
         tiles = { 'cottages_darkage_straw.png' }, -- done by VanessaE
         wield_image = 'cottages_darkage_straw.png',
@@ -54,7 +54,7 @@ minetest.register_node("cottages:straw_mat", {
 -- straw bales are a must for farming environments; if you for some reason do not have the darkage mod installed, this here gets you a straw bale
 minetest.register_node("cottages:straw_bale", {
 	drawtype = "nodebox",
-	description = S("straw bale"),
+	description = S("Straw bale"),
 	tiles = {"cottages_darkage_straw_bale.png"},
 	paramtype = "light",
 	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
@@ -78,7 +78,7 @@ minetest.register_node("cottages:straw_bale", {
 -- just straw
 minetest.register_node("cottages:straw", {
 	drawtype = "normal",
-	description = S("straw"),
+	description = S("Straw block"),
 	tiles = {"cottages_darkage_straw.png"},
 	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,flammable=3},
 	sounds = default.node_sound_wood_defaults(),
@@ -104,7 +104,7 @@ local cottages_formspec_treshing_floor =
 
 minetest.register_node("cottages:threshing_floor", {
 	drawtype = "nodebox",
-	description = S("threshing floor"),
+	description = S("Threshing floor"),
 -- TODO: stone also looks pretty well for this
 	tiles = {"cottages_junglewood.png^farming_wheat.png","cottages_junglewood.png","cottages_junglewood.png^"..cottages.texture_stick},
 	paramtype  = "light",
@@ -358,7 +358,7 @@ local cottages_handmill_formspec = "size[8,8]"..
                                 "list[current_player;main;0,4;8,4;]";
 
 minetest.register_node("cottages:handmill", {
-	description = S("mill, powered by punching"),
+	description = S("Mill, powered by punching"),
 	drawtype = "mesh",
 	mesh = "cottages_handmill.obj",
 	tiles = {"cottages_stone.png"},
@@ -576,3 +576,58 @@ minetest.register_craft({
 		{"cottages:straw_bale"},
 	},
 })
+
+-----
+-- Derivative blocks
+-----
+        
+if stairs and stairs.mod and stairs.mod == "redo" then
+
+	stairs.register_all("straw_bale", "cottages:straw_bale",
+		{snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		{"cottages_darkage_straw_bale.png"},
+		S("Straw bale stair"),
+		S("Straw bale slab"),
+		default.node_sound_wood_defaults())
+                                                     
+	stairs.register_all("straw", "cottages:straw",
+		{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+		{"cottages_darkage_straw.png"},
+		S("Straw block stair"),
+		S("Straw block slab"),
+		default.node_sound_wood_defaults())
+                                                                                        
+elseif minetest.global_exists("stairsplus") then
+                                                                                        
+	stairsplus:register_all("cottages", "straw_bale", "cottages:straw_bale", {
+		description = S("Straw bale"),
+		tiles = {"cottages_darkage_straw_bale.png"},
+		groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		sounds = default.node_sound_wood_defaults(),
+	})
+                                                                                        
+	stairsplus:register_all("cottages", "straw", "cottages:straw", {
+		description = S("Straw block"),
+		tiles = {"cottages_darkage_straw.png"},
+		groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+		sounds = default.node_sound_wood_defaults(),
+	})
+                                                                                        
+else
+
+	stairs.register_stair_and_slab("straw_bale", "cottages:straw_bale",
+		{snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		{"cottages_darkage_straw_bale.png"},
+		S("Straw bale stair"),
+		S("Straw bale slab"),
+		default.node_sound_wood_defaults())
+                                                                                        
+	stairs.register_stair_and_slab("straw", "cottages:straw",
+		{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+		{"cottages_darkage_straw.png"},
+		S("Straw block stair"),
+		S("Straw block slab"),
+		default.node_sound_wood_defaults())
+
+                               
+end

@@ -2,7 +2,7 @@
 -- decoration and building material
 ---------------------------------------------------------------------------------------
 -- * includes a wagon wheel that can be used as decoration on walls or to build (stationary) wagons
--- * dirt road - those are more natural in small old villages than cobble roads
+-- * Dirt road - those are more natural in small old villages than cobble roads
 -- * loam - no, old buildings are usually not built out of clay; loam was used
 -- * straw - useful material for roofs
 -- * glass pane - an improvement compared to fence posts as windows :-)
@@ -11,7 +11,7 @@
 local S = cottages.S
 
 -- supported modes:
--- * simple: only a straight dirt road; no curves, junctions etc.
+-- * simple: only a straight Dirt road; no curves, junctions etc.
 -- * flat: each node is a full node; junction, t-junction and corner are included
 -- * nodebox: like flat - except that each node has a nodebox that fits to that road node
 -- * mesh: like nodebox - except that it uses a nice roundish model
@@ -60,10 +60,10 @@ local function register_recipes(include_end)
 	end
 end
 
---- a nice dirt road for small villages or paths to fields
+--- a nice Dirt road for small villages or paths to fields
 if( cottages_feldweg_mode == "simple" or cottages_feldweg_mode == "flat" ) then
 	minetest.register_node("cottages:feldweg", {
-		description = S("dirt road"),
+		description = S("Dirt road"),
 		tiles = {"cottages_feldweg.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -82,7 +82,7 @@ end
 if( cottages_feldweg_mode == "flat" ) then
 
 	minetest.register_node("cottages:feldweg_crossing", {
-		description = S("dirt road crossing"),
+		description = S("Dirt road crossing"),
 		tiles = {"cottages_feldweg_kreuzung.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -93,7 +93,7 @@ if( cottages_feldweg_mode == "flat" ) then
 	})
 
 	minetest.register_node("cottages:feldweg_t_junction", {
-		description = S("dirt road t junction"),
+		description = S("Dirt road t junction"),
 		tiles = {"cottages_feldweg_t-kreuzung.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -104,7 +104,7 @@ if( cottages_feldweg_mode == "flat" ) then
 	})
 
 	minetest.register_node("cottages:feldweg_curve", {
-		description = S("dirt road curve"),
+		description = S("Dirt road curve"),
 		tiles = {"cottages_feldweg_ecke.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -120,7 +120,7 @@ if( cottages_feldweg_mode == "flat" ) then
 --
 elseif( cottages_feldweg_mode == "nodebox" ) then
 	minetest.register_node("cottages:feldweg", {
-	        description = S("dirt road"),
+	        description = S("Dirt road"),
 		tiles = {"cottages_feldweg_orig.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
 		roups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -152,7 +152,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 	})
 
 	minetest.register_node("cottages:feldweg_crossing", {
-		description = S("dirt road crossing"),
+		description = S("Dirt road crossing"),
 		tiles = {"cottages_feldweg_kreuzung.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -198,7 +198,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 	})
 
 	minetest.register_node("cottages:feldweg_t_junction", {
-		description = S("dirt road t junction"),
+		description = S("Dirt road t junction"),
 		tiles = {"cottages_feldweg_t-kreuzung.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -242,7 +242,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 	})
 
 	minetest.register_node("cottages:feldweg_curve", {
-		description = S("dirt road curve"),
+		description = S("Dirt road curve"),
 		tiles = {"cottages_feldweg_ecke.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -293,9 +293,9 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 --
 elseif( cottages_feldweg_mode == "mesh" ) then
 
-	-- a nice dirt road for small villages or paths to fields
+	-- a nice Dirt road for small villages or paths to fields
 	minetest.register_node("cottages:feldweg", {
-		description = S("dirt road"),
+		description = S("Dirt road"),
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
@@ -313,7 +313,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 
 
 	minetest.register_node("cottages:feldweg_crossing", {
-		description = S("dirt road crossing"),
+		description = S("Dirt road crossing"),
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
@@ -331,7 +331,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 
 	                                          
 	minetest.register_node("cottages:feldweg_t_junction", {
-		description = S("dirt road t junction"),
+		description = S("Dirt road t junction"),
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
@@ -349,7 +349,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 
 
 	minetest.register_node("cottages:feldweg_curve", {
-		description = S("dirt road curve"),
+		description = S("Dirt road curve"),
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
@@ -367,7 +367,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 
 							
 	minetest.register_node("cottages:feldweg_end", {
-		description = S("dirt road end"),
+		description = S("Dirt road end"),
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
@@ -421,7 +421,7 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 			}};
 
 	minetest.register_node("cottages:feldweg_slope", {
-		description = S("dirt road slope"),
+		description = S("Dirt road slope"),
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
@@ -443,7 +443,7 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
                                  
 	                                          
 	minetest.register_node("cottages:feldweg_slope_long", {
-		description = S("dirt road slope long"),
+		description = S("Dirt road slope long"),
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
