@@ -76,7 +76,7 @@ barrel.on_construct = function( pos )
 	inv:set_size("output",    1);  -- to extract liquid 
 
 	meta:set_string('formspec', barrel.prepare_formspec())
-
+	meta:set_string('infotext', S("Empty barrel"))
 
 end
 
@@ -157,6 +157,7 @@ barrel.on_metadata_inventory_put = function( pos, listname, index, stack, player
 				meta:set_string('formspec', barrel.prepare_formspec(level, l))
 				if level == 1 then
 					minetest.swap_node(pos, {name = node.name:gsub("_open$",""), param2 = node.param2})
+					meta:set_string('infotext', S("Barrel with ") .. d.name)
 				end
 				break
 			end
@@ -171,6 +172,7 @@ barrel.on_metadata_inventory_put = function( pos, listname, index, stack, player
 		local level = meta:get_int("liquid_level") - 1
 		if level == 0 then
 			minetest.swap_node(pos, {name = node.name .. "_open", param2 = node.param2})
+			meta:set_string('infotext', S("Empty barrel"))
 			meta:set_string("liquid_type", "")
 			meta:set_int("liquid_level", 0)
 			lt = nil
