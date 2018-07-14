@@ -12,6 +12,7 @@
 -- 24.03.13 Can no longer be opended/closed on rightclick because that is now used for a formspec;
 --          instead, it can be filled with liquids.
 --          Filled barrels will always be closed, while empty barrels will always be open.
+-- 15.07.2018 The barrels finally work, and hold 50 buckets of any liquid
 
 -- pipes: table with the following entries for each pipe-part:
 --    f: radius factor; if 1, it will have a radius of half a nodebox and fill the entire nodebox

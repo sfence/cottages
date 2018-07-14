@@ -88,19 +88,19 @@ minetest.register_node("cottages:straw", {
 
 
 local cottages_formspec_treshing_floor = 
-                               "size[8,8]"..
-				"image[1.5,0;1,1;"..cottages.texture_stick.."]"..
-				"image[0,1;1,1;farming_wheat.png]"..
-                                "list[current_name;harvest;1,1;2,1;]"..
-                                "list[current_name;straw;5,0;2,2;]"..
-                                "list[current_name;seeds;5,2;2,2;]"..
-					"label[1,0.5;"..S("Harvested wheat:").."]"..
-					"label[4,0.0;"..S("Straw:").."]"..
-					"label[4,2.0;"..S("Seeds:").."]"..
-					"label[0,-0.5;"..S("Threshing floor").."]"..
-					"label[0,2.5;"..S("Punch threshing floor with a stick").."]"..
-					"label[0,3.0;"..S("to get straw and seeds from wheat.").."]"..
-                                "list[current_player;main;0,4;8,4;]";
+			"size[8,8]"..
+			"image[3.5,2.5;1,1;"..cottages.texture_stick.."]"..
+			"image[0,1;1,1;farming_wheat.png]"..
+			"list[current_name;harvest;1,1;2,1;]"..
+			"list[current_name;straw;6,0;2,2;]"..
+			"list[current_name;seeds;6,2;2,2;]"..
+			"label[1,0.5;"..S("Harvested wheat:").."]"..
+			"label[5,0.0;"..S("Straw:").."]"..
+			"label[5,2.0;"..S("Seeds:").."]"..
+			"label[0,0;"..S("Threshing floor").."]"..
+			"label[0,2.5;"..S("Punch threshing floor with a stick").."]"..
+			"label[0,3.0;"..S("to get straw and seeds from wheat.").."]"..
+			"list[current_player;main;0,4;8,4;]";
 
 minetest.register_node("cottages:threshing_floor", {
 	drawtype = "nodebox",
@@ -145,7 +145,7 @@ minetest.register_node("cottages:threshing_floor", {
 		meta:set_string("infotext", S("Threshing floor (owned by %s)"):format(meta:get_string("owner") or ""));
 		meta:set_string("formspec",
 				cottages_formspec_treshing_floor..
-				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
+				"label[2.5,0t;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
         end,
 
         can_dig = function(pos,player)
@@ -228,7 +228,7 @@ minetest.register_node("cottages:threshing_floor", {
 			-- update the formspec
 			meta:set_string("formspec",
 				cottages_formspec_treshing_floor..
-				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
+				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
 			return;
 		end
 
@@ -347,15 +347,15 @@ minetest.register_node("cottages:threshing_floor", {
 
 
 local cottages_handmill_formspec = "size[8,8]"..
-				"image[0,1;1,1;"..cottages.texture_wheat_seed.."]"..
-                                "list[current_name;seeds;1,1;1,1;]"..
-                                "list[current_name;flour;5,1;2,2;]"..
-					"label[0,0.5;"..S("Wheat seeds:").."]"..
-					"label[4,0.5;"..S("Flour:").."]"..
-					"label[0,-0.3;"..S("Mill").."]"..
-					"label[0,2.5;"..S("Punch this hand-driven mill").."]"..
-					"label[0,3.0;"..S("to convert wheat seeds into flour.").."]"..
-                                "list[current_player;main;0,4;8,4;]";
+			"image[0,1;1,1;"..cottages.texture_wheat_seed.."]"..
+			"list[current_name;seeds;1,1;1,1;]"..
+			"list[current_name;flour;5,1;2,2;]"..
+			"label[0,0.5;"..S("Wheat seeds:").."]"..
+			"label[4,0.5;"..S("Flour:").."]"..
+			"label[0,0;"..S("Mill").."]"..
+			"label[0,2.5;"..S("Punch this hand-driven mill").."]"..
+			"label[0,3.0;"..S("to convert wheat seeds into flour.").."]"..
+			"list[current_player;main;0,4;8,4;]";
 
 minetest.register_node("cottages:handmill", {
 	description = S("Mill, powered by punching"),
@@ -393,7 +393,7 @@ minetest.register_node("cottages:handmill", {
 		meta:set_string("infotext", S("Mill, powered by punching (owned by %s)"):format(meta:get_string("owner") or ""));
 		meta:set_string("formspec",
 				cottages_handmill_formspec..
-				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]" );
+				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]" );
         end,
 
         can_dig = function(pos,player)
@@ -466,7 +466,7 @@ minetest.register_node("cottages:handmill", {
 			-- update the formspec
 			meta:set_string("formspec",
 				cottages_handmill_formspec..
-				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]" );
+				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]" );
 			return;
 		end
 
@@ -578,7 +578,7 @@ minetest.register_craft({
 })
 
 -----
--- Derivative blocks
+-- Derivative blocks for straw blocks (bale and regular)
 -----
         
 if stairs and stairs.mod and stairs.mod == "redo" then
