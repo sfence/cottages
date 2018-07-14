@@ -27,7 +27,7 @@ minetest.register_node("cottages:wagon_wheel", {
         },
         groups = {choppy=2,dig_immediate=2,attached_node=1},
         legacy_wallmounted = true,
-        sounds = default.node_sound_defaults(),
+        sounds = default.node_sound_defaults,
 	is_ground_content = false,
 })
 
