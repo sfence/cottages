@@ -51,8 +51,8 @@ barrel.prepare_formspec = function(fill, contents)
 	end
 	
 	local formspec =  "size[8,9]"..
-				"image[2.6,2;2,3;default_sandstone.png^[lowpart:"..
-				percent .. ":default_desert_stone.png]"..
+				"image[2.6,2;2,3;default_wood.png^[lowpart:"..
+				percent .. ":cottages_water_indicator.png]"..
 				"label[2.2,0;"..S("Pour:").."]"..
 				"list[current_name;input;3,0.5;1,1;]"..
 				"item_image_button[5,2;1,1;" .. item .. ";" .. label .. ";" .. hint .. "]" ..
@@ -66,30 +66,16 @@ end
 -- prepare formspec
 barrel.on_construct = function( pos )
 
-   local meta = minetest.get_meta(pos);
---    local percent = math.random( 1, 100 ); -- TODO: show real filling
-	local percent = 100
+	local meta = minetest.get_meta(pos);
 
-   meta:set_string( 'liquid_type', '' ); -- which liquid is in the barrel?
-   meta:set_int(    'liquid_level', 0 ); -- how much of the liquid is in there?
+	meta:set_string( 'liquid_type', '' ); -- which liquid is in the barrel?
+	meta:set_int(    'liquid_level', 0 ); -- how much of the liquid is in there?
 
-   local inv = meta:get_inventory()
-   inv:set_size("input",     1);  -- to fill in new liquid
-   inv:set_size("output",    1);  -- to extract liquid 
-	
-	meta:set_string( 'formspec', barrel.prepare_formspec())
-	
---    meta:set_string( 'formspec', 
---                                "size[8,9]"..
---                                 "image[2.6,2;2,3;default_sandstone.png^[lowpart:"..
---                                                 (100-percent)..":default_desert_stone.png]".. -- TODO: better images
---                                 "label[2.2,0;"..S("Pour:").."]"..
---                                 "list[current_name;input;3,0.5;1,1;]"..
---                                 "item_image_button[5,2;1,1;air;nothing;]" ..
---                                 "label[5,3.3;"..S("Fill:").."]"..
---                                 "list[current_name;output;5,3.8;1,1;]"..
---                                 "list[current_player;main;0,5;8,4;]");
+	local inv = meta:get_inventory()
+	inv:set_size("input",     1);  -- to fill in new liquid
+	inv:set_size("output",    1);  -- to extract liquid 
 
+	meta:set_string('formspec', barrel.prepare_formspec())
 
 
 end
@@ -97,18 +83,16 @@ end
 -- can only be digged if there are no more vessels/buckets in any of the slots
 -- TODO: allow digging of a filled barrel? this would disallow stacking of them
 barrel.can_dig = function( pos, player )
-   local  meta = minetest.get_meta(pos);
-   local  inv = meta:get_inventory()
+	local  meta = minetest.get_meta(pos);
+	local  inv = meta:get_inventory()
 
-   return true
-   
---    return ( inv:is_empty('input')
---         and inv:is_empty('output')
---         and meta:get_string('liquid_level') == 0);
+	return ( inv:is_empty('input')
+		and inv:is_empty('output')
+		and meta:get_string('liquid_level') == 0);
 end
 
 
--- allow to put into "pour": if barrel is empty or has the same type
+-- allow to put into "pour": if barrel is empty or has the same type AND we know the bucket type
 -- allow to put into "fill": if empty bucket and barrel is not empty
 barrel.allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 	local iname = stack:get_name()
@@ -117,7 +101,7 @@ barrel.allow_metadata_inventory_put = function(pos, listname, index, stack, play
 	
 	if listname == "input" then
 	
-		local ltype = false
+		local ltype = nil
                                       
 		for l,d in pairs(liquids) do
 			if d.bucket == iname then
@@ -157,7 +141,8 @@ barrel.on_metadata_inventory_put = function( pos, listname, index, stack, player
 
 	local iname = stack:get_name()
       local meta = minetest.get_meta(pos)
-	local inv = meta:get_inventory()   
+	local inv = meta:get_inventory()
+	local node = minetest.get_node(pos)
 	
 	if listname == "input" then
 		local liquid = ""
@@ -166,12 +151,13 @@ barrel.on_metadata_inventory_put = function( pos, listname, index, stack, player
 				liquid = d.bucket
 				inv:set_stack("input", 1, {name = "bucket:bucket_empty"})
 				local level = meta:get_int("liquid_level") + 1
-				minetest.chat_send_all(level)
 				meta:set_int("liquid_level", level)
 				meta:set_string("liquid_type", l)
 				
-				meta:set_string( 'formspec', barrel.prepare_formspec(level, l))
-				minetest.swap_node(pos, {name = "cottages:barrel"})
+				meta:set_string('formspec', barrel.prepare_formspec(level, l))
+				if level == 1 then
+					minetest.swap_node(pos, {name = node.name:gsub("_open$",""), param2 = node.param2})
+				end
 				break
 			end
 		end
@@ -183,9 +169,8 @@ barrel.on_metadata_inventory_put = function( pos, listname, index, stack, player
 		
 		inv:set_stack("output", 1, {name = liquids[lt].bucket})
 		local level = meta:get_int("liquid_level") - 1
-		minetest.chat_send_all(level)
 		if level == 0 then
-			minetest.swap_node(pos, {name = "cottages:barrel_open"})
+			minetest.swap_node(pos, {name = node.name .. "_open", param2 = node.param2})
 			meta:set_string("liquid_type", "")
 			meta:set_int("liquid_level", 0)
 			lt = nil
@@ -193,143 +178,141 @@ barrel.on_metadata_inventory_put = function( pos, listname, index, stack, player
 			meta:set_int("liquid_level", level)
 		end
 
-		meta:set_string( 'formspec', barrel.prepare_formspec(level, lt))
+		meta:set_string('formspec', barrel.prepare_formspec(level, lt))
 		
 	end
 	
                                       
 end
 
+-- Barrels: default = open = empty // closed = has contents
 
--- right-click to open/close barrel; punch to switch between horizontal/vertical position
-        minetest.register_node("cottages:barrel", {
-		description = S("Barrel (closed)"),
-		paramtype = "light",
-		drawtype = "mesh",
-		mesh = "cottages_barrel_closed.obj",
-		tiles = {"cottages_barrel.png" },
-		groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
-		drop = "cottages:barrel",
---                on_rightclick = function(pos, node, puncher)
---                    minetest.add_node(pos, {name = "cottages:barrel_open", param2 = node.param2})
---                end,
--- TODO: on_rightclick is no longer available - maybe open if empty and closed if full?
---                 on_punch      = function(pos, node, puncher)
---                     minetest.add_node(pos, {name = "cottages:barrel_lying", param2 = node.param2})
---                 end,
+-- this barrel is closed
+minetest.register_node("cottages:barrel", {
+	description = S("Barrel (closed)"),
+	paramtype = "light",
+	drawtype = "mesh",
+	mesh = "cottages_barrel_closed.obj",
+	tiles = {"cottages_barrel.png" },
+	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
+	drop = "cottages:barrel",
 
-		on_construct = function( pos )
-			return barrel.on_construct( pos );
-		end,
-		can_dig = function(pos,player)
-			return barrel.can_dig( pos, player );
-		end,
-		allow_metadata_inventory_put = barrel.allow_metadata_inventory_put,
-		on_metadata_inventory_put = barrel.on_metadata_inventory_put,
+	on_construct = function( pos )
+		return barrel.on_construct( pos );
+	end,
+	can_dig = function(pos,player)
+		return barrel.can_dig( pos, player );
+	end,
+	allow_metadata_inventory_put = barrel.allow_metadata_inventory_put,
+	on_metadata_inventory_put = barrel.on_metadata_inventory_put,
 
-		is_ground_content = false,
+	is_ground_content = false,
+})
 
-        })
+-- this barrel is opened at the top
+minetest.register_node("cottages:barrel_open", {
+	description = S("Barrel (open)"),
+	paramtype = "light",
+	drawtype = "mesh",
+	mesh = "cottages_barrel.obj",
+	tiles = {"cottages_barrel.png" },
+	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	drop = "cottages:barrel",
 
-        -- this barrel is opened at the top
-        minetest.register_node("cottages:barrel_open", {
-		description = S("Barrel (open)"),
-		paramtype = "light",
-		drawtype = "mesh",
-		mesh = "cottages_barrel.obj",
-		tiles = {"cottages_barrel.png" },
-		groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
-		drop = "cottages:barrel",
--- 			on_punch      = function(pos, node, puncher)
--- 				minetest.add_node(pos, {name = "cottages:barrel_lying_open", param2 = node.param2})
--- 			end,
-		on_construct = function( pos )
-			return barrel.on_construct( pos );
-		end,
-		can_dig = function(pos,player)
-			return barrel.can_dig( pos, player );
-		end,
-		allow_metadata_inventory_put = barrel.allow_metadata_inventory_put,
-		on_metadata_inventory_put = barrel.on_metadata_inventory_put,
+	on_construct = function( pos )
+		return barrel.on_construct( pos );
+	end,
+	can_dig = function(pos,player)
+		return barrel.can_dig( pos, player );
+	end,
+	allow_metadata_inventory_put = barrel.allow_metadata_inventory_put,
+	on_metadata_inventory_put = barrel.on_metadata_inventory_put,
 
-		is_ground_content = false,
-        })
+	is_ground_content = false,
+})
 
-        -- horizontal barrel
-        minetest.register_node("cottages:barrel_lying", {
-		description = S("Barrel (closed), lying somewhere"),
-		paramtype = "light",
-		paramtype2 = "facedir",
-		drawtype = "mesh",
-		mesh = "cottages_barrel_closed_lying.obj",
-		tiles = {"cottages_barrel.png" },
-		groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
-		drop = "cottages:barrel",
-                on_rightclick = function(pos, node, puncher)
-                    minetest.add_node(pos, {name = "cottages:barrel_lying_open", param2 = node.param2})
-                end,
-                on_punch      = function(pos, node, puncher)
-                    if( node.param2 < 4 ) then
-                       minetest.add_node(pos, {name = "cottages:barrel_lying", param2 = (node.param2+1)})
-                    else
-                       minetest.add_node(pos, {name = "cottages:barrel", param2 = 0})
-                    end
-                end,
-		is_ground_content = false,
-        })
+-- horizontal barrel
+minetest.register_node("cottages:barrel_lying", {
+	description = S("Barrel (closed), lying somewhere"),
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	drawtype = "mesh",
+	mesh = "cottages_barrel_closed_lying.obj",
+	tiles = {"cottages_barrel.png" },
+	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
+	drop = "cottages:barrel",
+	on_construct = function( pos )
+		return barrel.on_construct( pos );
+	end,
+	can_dig = function(pos,player)
+		return barrel.can_dig( pos, player );
+	end,
+	allow_metadata_inventory_put = barrel.allow_metadata_inventory_put,
+	on_metadata_inventory_put = barrel.on_metadata_inventory_put,
+	is_ground_content = false,
+})
 
-        -- horizontal barrel, open
-        minetest.register_node("cottages:barrel_lying_open", {
-		description = S("Barrel (opened), lying somewhere"),
-		paramtype = "light",
-		paramtype2 = "facedir",
-		drawtype = "mesh",
-		mesh = "cottages_barrel_lying.obj",
-		tiles = {"cottages_barrel.png" },
-		groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
-		drop = "cottages:barrel",
-                on_rightclick = function(pos, node, puncher)
-                    minetest.add_node(pos, {name = "cottages:barrel_lying", param2 = node.param2})
-                end,
-                on_punch      = function(pos, node, puncher)
-                    if( node.param2 < 4 ) then
-                       minetest.add_node(pos, {name = "cottages:barrel_lying_open", param2 = (node.param2+1)})
-                    else
-                       minetest.add_node(pos, {name = "cottages:barrel_open", param2 = 0})
-                    end
-                end,
-		is_ground_content = false,
+-- horizontal barrel, open
+minetest.register_node("cottages:barrel_lying_open", {
+	description = S("Barrel (opened), lying somewhere"),
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	drawtype = "mesh",
+	mesh = "cottages_barrel_lying.obj",
+	tiles = {"cottages_barrel.png" },
+	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, },
+	drop = "cottages:barrel",
+	on_construct = function( pos )
+		return barrel.on_construct( pos );
+	end,
+	can_dig = function(pos,player)
+		return barrel.can_dig( pos, player );
+	end,
+	allow_metadata_inventory_put = barrel.allow_metadata_inventory_put,
+	on_metadata_inventory_put = barrel.on_metadata_inventory_put,
+	is_ground_content = false,
+})
 
-        })
-
-        -- let's hope "tub" is the correct english word for "bottich"
-        minetest.register_node("cottages:tub", {
-		description = S("Tub"),
-		paramtype = "light",
-		drawtype = "mesh",
-		mesh = "cottages_tub.obj",
-		tiles = {"cottages_barrel.png" },
-		selection_box = {
-			type = "fixed",
-			fixed = {
-				{-0.5, -0.5, -0.5, 0.5,-0.1, 0.5},
-			}},
-		collision_box = {
-			type = "fixed",
-			fixed = {
-				{-0.5, -0.5, -0.5, 0.5,-0.1, 0.5},
-			}},
-		groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
-		is_ground_content = false,
-        })
+        
+        
+-- let's hope "tub" is the correct english word for "bottich"
+minetest.register_node("cottages:tub", {
+	description = S("Tub"),
+	paramtype = "light",
+	drawtype = "mesh",
+	mesh = "cottages_tub.obj",
+	tiles = {"cottages_barrel.png" },
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5,-0.1, 0.5},
+		}},
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5,-0.1, 0.5},
+		}},
+	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
+	is_ground_content = false,
+})
 
 
 minetest.register_craft({
 	output = "cottages:barrel",
 	recipe = {
-		{cottages.craftitem_wood,          "",              cottages.craftitem_wood },
-		{cottages.craftitem_steel, "",              cottages.craftitem_steel},
-		{cottages.craftitem_wood,          cottages.craftitem_wood,    cottages.craftitem_wood },
+		{ cottages.craftitem_wood,	"",					cottages.craftitem_wood },
+		{ cottages.craftitem_steel,	"",					cottages.craftitem_steel},
+		{ cottages.craftitem_wood,	cottages.craftitem_wood,	cottages.craftitem_wood },
+	},
+})
+
+
+minetest.register_craft({
+	output = "cottages:barrel_lying",
+	recipe = {
+		{ cottages.craftitem_wood,	cottages.craftitem_steel,	cottages.craftitem_wood },
+		{ cottages.craftitem_wood,	"",          			"" },
+		{ cottages.craftitem_wood,	cottages.craftitem_steel,	cottages.craftitem_wood },
 	},
 })
 
