@@ -32,7 +32,8 @@ minetest.register_node("cottages:rope", {
 minetest.register_craft({
 	output = "cottages:rope",
 	recipe = {
-		{"default:cotton","default:cotton","default:cotton"}
+		{"farming:cotton","farming:string","farming:cotton"},
+		{"farming:string","farming:cotton","farming:string"}
         }
 })
 
