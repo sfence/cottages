@@ -559,6 +559,14 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:straw",
 	recipe = {
+		{"cottages:straw_mat", "cottages:straw_mat", "cottages:straw_mat"}
+	},
+})
+
+
+minetest.register_craft({
+	output = "cottages:straw",
+	recipe = {
 		{"cottages:straw_bale"},
 	},
 })
