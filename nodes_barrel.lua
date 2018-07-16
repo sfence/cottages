@@ -87,9 +87,15 @@ barrel.can_dig = function( pos, player )
 	local  meta = minetest.get_meta(pos);
 	local  inv = meta:get_inventory()
 
+	local name = player:get_player_name()
+	if minetest.is_protected(pos, name) then
+		minetest.record_protection_violation(pos, name)
+		return false
+	end
+	
 	return ( inv:is_empty('input')
 		and inv:is_empty('output')
-		and meta:get_string('liquid_level') == 0);
+		and meta:get_int('liquid_level') == 0);
 end
 
 
@@ -198,7 +204,7 @@ minetest.register_node("cottages:barrel", {
 	mesh = "cottages_barrel_closed.obj",
 	tiles = {"cottages_barrel.png" },
 	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
-	drop = "cottages:barrel",
+	drop = "cottages:barrel_open",
 
 	on_construct = function( pos )
 		return barrel.on_construct( pos );
@@ -220,7 +226,7 @@ minetest.register_node("cottages:barrel_open", {
 	mesh = "cottages_barrel.obj",
 	tiles = {"cottages_barrel.png" },
 	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
-	drop = "cottages:barrel",
+	drop = "cottages:barrel_open",
 
 	on_construct = function( pos )
 		return barrel.on_construct( pos );
@@ -243,7 +249,7 @@ minetest.register_node("cottages:barrel_lying", {
 	mesh = "cottages_barrel_closed_lying.obj",
 	tiles = {"cottages_barrel.png" },
 	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
-	drop = "cottages:barrel",
+	drop = "cottages:barrel_lying_open",
 	on_construct = function( pos )
 		return barrel.on_construct( pos );
 	end,
@@ -264,7 +270,7 @@ minetest.register_node("cottages:barrel_lying_open", {
 	mesh = "cottages_barrel_lying.obj",
 	tiles = {"cottages_barrel.png" },
 	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, },
-	drop = "cottages:barrel",
+	drop = "cottages:barrel_lying_open",
 	on_construct = function( pos )
 		return barrel.on_construct( pos );
 	end,
@@ -301,7 +307,7 @@ minetest.register_node("cottages:tub", {
 
 
 minetest.register_craft({
-	output = "cottages:barrel",
+	output = "cottages:barrel_open",
 	recipe = {
 		{ cottages.craftitem_wood,	"",					cottages.craftitem_wood },
 		{ cottages.craftitem_steel,	"",					cottages.craftitem_steel},
@@ -311,7 +317,7 @@ minetest.register_craft({
 
 
 minetest.register_craft({
-	output = "cottages:barrel_lying",
+	output = "cottages:barrel_lying_open",
 	recipe = {
 		{ cottages.craftitem_wood,	cottages.craftitem_steel,	cottages.craftitem_wood },
 		{ cottages.craftitem_wood,	"",          			"" },
