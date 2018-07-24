@@ -193,7 +193,7 @@ end
 -- crafting receipes
 ---------------------------------------------------------------------------------------
 minetest.register_craft({
-	output = "cottages:wagon_wheel 3",
+	output = "cottages:wagon_wheel 4",
 	recipe = {
 		{cottages.craftitem_iron, cottages.craftitem_stick,       cottages.craftitem_iron },
 		{cottages.craftitem_stick,     cottages.craftitem_steel, cottages.craftitem_stick },
@@ -203,7 +203,7 @@ minetest.register_craft({
 
 -- run a wagon wheel over dirt :-)
 minetest.register_craft({
-	output = "cottages:feldweg 6",
+	output = "cottages:feldweg 12",
 	recipe = {
 		{"",            "cottages:wagon_wheel", "" },
 		{cottages.craftitem_dirt,cottages.craftitem_dirt,cottages.craftitem_dirt }
