@@ -91,9 +91,9 @@ local cottages_formspec_treshing_floor =
 			"size[8,8]"..
 			"image[3.5,2.5;1,1;"..cottages.texture_stick.."]"..
 			"image[0,1;1,1;farming_wheat.png]"..
-			"list[current_name;harvest;1,1;2,1;]"..
-			"list[current_name;straw;6,0;2,2;]"..
-			"list[current_name;seeds;6,2;2,2;]"..
+			"list[context;harvest;1,1;2,1;]"..
+			"list[context;straw;6,0;2,2;]"..
+			"list[context;seeds;6,2;2,2;]"..
 			"label[1,0.5;"..S("Harvested wheat:").."]"..
 			"label[5,0.0;"..S("Straw:").."]"..
 			"label[5,2.0;"..S("Seeds:").."]"..
@@ -348,8 +348,8 @@ minetest.register_node("cottages:threshing_floor", {
 
 local cottages_handmill_formspec = "size[8,8]"..
 			"image[0,1;1,1;"..cottages.texture_wheat_seed.."]"..
-			"list[current_name;seeds;1,1;1,1;]"..
-			"list[current_name;flour;5,1;2,2;]"..
+			"list[context;seeds;1,1;1,1;]"..
+			"list[context;flour;5,1;2,2;]"..
 			"label[0,0.5;"..S("Wheat seeds:").."]"..
 			"label[4,0.5;"..S("Flour:").."]"..
 			"label[0,0;"..S("Mill").."]"..

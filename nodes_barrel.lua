@@ -55,10 +55,10 @@ barrel.prepare_formspec = function(fill, contents)
 				"image[2.6,2;2,3;default_wood.png^[lowpart:"..
 				percent .. ":cottages_water_indicator.png]"..
 				"label[2.2,0;"..S("Pour:").."]"..
-				"list[current_name;input;3,0.5;1,1;]"..
+				"list[context;input;3,0.5;1,1;]"..
 				"item_image_button[5,2;1,1;" .. item .. ";" .. label .. ";" .. hint .. "]" ..
 				"label[5,3.3;"..S("Fill:").."]"..
-				"list[current_name;output;5,3.8;1,1;]"..
+				"list[context;output;5,3.8;1,1;]"..
 				"list[current_player;main;0,5;8,4;]"
 				
 	return (formspec)

@@ -30,10 +30,10 @@ minetest.register_tool("cottages:hammer", {
 local cottages_anvil_formspec =
                                "size[8,8]"..
 				"image[7,3;1,1;glooptest_tool_steelhammer.png]"..
---                                "list[current_name;sample;0,0.5;1,1;]"..
-                                "list[current_name;input;2.5,1.5;1,1;]"..
---                                "list[current_name;material;5,0;3,3;]"..
-                                "list[current_name;hammer;5,3;1,1;]"..
+--                                "list[context;sample;0,0.5;1,1;]"..
+                                "list[context;input;2.5,1.5;1,1;]"..
+--                                "list[context;material;5,0;3,3;]"..
+                                "list[context;hammer;5,3;1,1;]"..
 --					"label[0.0,0.0;Sample:]"..
 --					"label[0.0,1.0;(Receipe)]"..
 					"label[2.5,1.0;"..S("Workpiece:").."]"..

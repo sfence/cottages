@@ -203,7 +203,7 @@ minetest.register_craft({
 
 -- run a wagon wheel over dirt :-)
 minetest.register_craft({
-	output = "cottages:feldweg 4",
+	output = "cottages:feldweg 6",
 	recipe = {
 		{"",            "cottages:wagon_wheel", "" },
 		{cottages.craftitem_dirt,cottages.craftitem_dirt,cottages.craftitem_dirt }
