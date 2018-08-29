@@ -328,12 +328,12 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:tub 2",
 	recipe = {
-		{"cottages:barrel"},
+		{"cottages:barrel_open"},
 	},
 })
 
 minetest.register_craft({
-	output = "cottages:barrel",
+	output = "cottages:barrel_open",
 	recipe = {
 		{"cottages:tub"},
 		{"cottages:tub"},

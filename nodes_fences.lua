@@ -110,7 +110,7 @@ minetest.register_node("cottages:fence_end", {
 })
 
 minetest.register_craft({
-	output = "cottages:fence_small 3",
+	output = "cottages:fence_small 4",
 	recipe = {
 		{cottages.craftitem_fence, cottages.craftitem_fence},
 	}
@@ -121,7 +121,7 @@ if ( minetest.get_modpath("xfences") ~= nil ) then
    minetest.register_craft({
 	output = "cottages:fence_small 3",
 	recipe = {
-		{"xfences:fence","xfences:fence" },
+		{"xfences:fence", "xfences:fence" },
 	}
    })
 end
@@ -129,7 +129,7 @@ end
 minetest.register_craft({
 	output = "cottages:fence_corner",
 	recipe = {
-		{"cottages:fence_small","cottages:fence_small" },
+		{"cottages:fence_small", "cottages:fence_small" },
 	}
 })
 
@@ -143,7 +143,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:fence_end",
 	recipe = {
-		{"cottages:fence_small","cottages:fence_small", "cottages:fence_small" },
+		{"cottages:fence_small", "cottages:fence_small", "cottages:fence_small" },
 	}
 })
 

@@ -12,37 +12,69 @@ local S = cottages.S
 
 -- can be used to buid real stationary wagons or attached to walls as decoration
 minetest.register_node("cottages:wagon_wheel", {
-        description = S("Wagon wheel"),
-        drawtype = "signlike",
-        tiles = {"cottages_wagonwheel.png"}, -- done by VanessaE!
-        inventory_image = "cottages_wagonwheel.png",
-        wield_image = "cottages_wagonwheel.png",
-        paramtype = "light",
-        paramtype2 = "wallmounted",
+	description = S("Wagon wheel"),
+	drawtype = "signlike",
+	tiles = {"cottages_wagonwheel.png"}, -- done by VanessaE!
+	inventory_image = "cottages_wagonwheel.png",
+	wield_image = "cottages_wagonwheel.png",
+	paramtype = "light",
+	paramtype2 = "wallmounted",
 
-        sunlight_propagates = true,
-        walkable = false,
-        selection_box = {
-                type = "wallmounted",
-        },
-        groups = {choppy=2,dig_immediate=2,attached_node=1},
-        legacy_wallmounted = true,
-        sounds = default.node_sound_defaults,
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+		type = "wallmounted",
+	},
+	groups = {choppy=2,dig_immediate=2,attached_node=1},
+	legacy_wallmounted = true,
+	sounds = default.node_sound_defaults,
 	is_ground_content = false,
 })
 
 
 -- people didn't use clay for houses; they did build with loam
 minetest.register_node("cottages:loam", {
-        description = S("Loam"),
-        tiles = {"cottages_loam.png"},
+	description = S("Loam"),
+	tiles = {"cottages_loam.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-        groups = {crumbly=3},
-        sounds = default.node_sound_dirt_defaults,
+	groups = {crumbly=3},
+	sounds = default.node_sound_dirt_defaults,
 	is_ground_content = false,
 })
 
 -- create stairs if possible
+
+        
+if stairs and stairs.mod and stairs.mod == "redo" then
+
+	stairs.register_all("loam", "cottages:loam",
+		{snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
+		{"cottages_loam.png"},
+		S("Loam stair"),
+		S("Loam slab"),
+		default.node_sound_dirt_defaults())
+                                                     
+elseif minetest.global_exists("stairsplus") then
+                                                                                        
+	stairsplus:register_all("cottages", "loam", "cottages:loam", {
+		description = S("Loam"),
+		tiles = {"cottages_loam.png"},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
+		sounds = default.node_sound_dirt_defaults(),
+	})
+                                                                                        
+else
+
+	stairs.register_stair_and_slab("loam", "cottages:loam",
+		{snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
+		{"cottages_loam.png"},
+		S("Loam stair"),
+		S("Loam slab"),
+		default.node_sound_dirt_defaults())
+   
+                               
+end
+--[[
 if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab) then
 
    stairs.register_stair_and_slab("loam", "cottages:loam",
@@ -60,17 +92,16 @@ if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab
 		S("Clay slab"),
 		default.node_sound_dirt_defaults())
    end
-end
+end]]
 
 
 -- straw is a common material for places where animals are kept indoors
 -- right now, this block mostly serves as a placeholder
 minetest.register_node("cottages:straw_ground", {
-        description = S("Straw ground for animals"),
-        tiles = {"cottages_darkage_straw.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png"},
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-        groups = {crumbly=3},
-        sounds = default.node_sound_dirt_defaults,
+	description = S("Straw ground for animals"),
+	tiles = {"cottages_darkage_straw.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png"},
+	groups = {snappy=2,crumbly=3,choppy=2,oddly_breakable_by_hand=2},
+	sounds = default.node_sound_dirt_defaults,
 	is_ground_content = false,
 })
 
@@ -208,7 +239,7 @@ minetest.register_craft({
 		{"",            "cottages:wagon_wheel", "" },
 		{cottages.craftitem_dirt,cottages.craftitem_dirt,cottages.craftitem_dirt }
 	},
-        replacements = { {'cottages:wagon_wheel', 'cottages:wagon_wheel'}, }
+	replacements = { {'cottages:wagon_wheel', 'cottages:wagon_wheel'}, }
 })
 
 minetest.register_craft({

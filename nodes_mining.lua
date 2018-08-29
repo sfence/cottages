@@ -43,8 +43,8 @@ minetest.register_node("cottages:ladder_with_rope_and_rail", {
 	description = S("Ladder with rail support"),
 	drawtype = "signlike",
 	tiles = {"default_ladder_wood.png^carts_rail_straight.png^cottages_rope.png"},
-	inventory_image = "default_ladder_wood.png",
-	wield_image = "default_ladder_wood.png",
+	inventory_image = "default_ladder_wood.png^carts_rail_straight.png^cottages_rope.png",
+	wield_image = "default_ladder_wood.png^carts_rail_straight.png^cottages_rope.png",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
@@ -54,7 +54,8 @@ minetest.register_node("cottages:ladder_with_rope_and_rail", {
 	selection_box = {
 		type = "wallmounted",
 	},
-	groups = {choppy=2,oddly_breakable_by_hand=3,rail=1,connect_to_raillike=1}, --connect_to_raillike=minetest.raillike_group("rail")},
+-- 	groups = {choppy=2,oddly_breakable_by_hand=3,rail=1,connect_to_raillike=1}, --connect_to_raillike=minetest.raillike_group("rail")},
+	groups = {choppy=2,oddly_breakable_by_hand=3,rail=1,connect_to_raillike=minetest.raillike_group("rail")},
 	legacy_wallmounted = true,
 	sounds = default.node_sound_wood_defaults,
 })

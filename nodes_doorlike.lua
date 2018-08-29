@@ -222,7 +222,7 @@ minetest.register_node("cottages:half_door_inverted", {
 
 
 ------------------------------------------------------------------------------------------------------------------------------
--- this gate for fences solves the "where to store the opened gate" problem by dropping it to the floor in optened state
+-- this gate for fences solves the "where to store the opened gate" problem by dropping it to the floor in opened state
 ------------------------------------------------------------------------------------------------------------------------------
 minetest.register_node("cottages:gate_closed", {
 		description = S("Closed fence gate"),

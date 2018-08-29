@@ -16,6 +16,11 @@ cottages.craftitem_wood  = "group:wood";
 cottages.craftitem_door  = "doors:door_wood";
 -- used for: small fence
 cottages.craftitem_fence = "default:fence_wood";
+
+if minetest.get_modpath("ethereal") then
+	cottages.craftitem_fence = "group:fence";
+end
+
 -- used for: bed (head+foot), wool for tents
 cottages.craftitem_wool  = "wool:white";
 -- used for: washing place, loam
@@ -72,7 +77,7 @@ if( not( minetest.registered_nodes["default:tree"])) then
 		cottages.craftitem_steel = "metals:pig_iron_ingot";
 		-- stone exists, but is hard to obtain; chiseled stone is more suitable
 		cottages.craftitem_stone = "default:stone_flat";
-		-- there are far more diffrent wood tpyes
+		-- there are far more diffrent wood types
 		cottages.craftitem_wood  = "group:planks";
 		cottages.craftitem_door  = "doors:door_birch";
 		cottages.craftitem_fence = "group:fence";

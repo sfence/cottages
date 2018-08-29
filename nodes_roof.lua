@@ -199,17 +199,49 @@ minetest.register_node("cottages:slate_vertical", {
 
 
 minetest.register_craft({
-	output  = "cottages:slate_vertical",
+	output  = "cottages:slate_vertical 2",
 	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood,  '' }
 	}
 });
+
+
+        
+if stairs and stairs.mod and stairs.mod == "redo" then
+
+	stairs.register_all("slate_vertical", "cottages:slate_vertical",
+		{cracky = 2, stone = 1},
+		{"cottages_slate.png"},
+		S("Slate stair"),
+		S("Slate slab"),
+		default.node_sound_dirt_defaults())
+                                                     
+elseif minetest.global_exists("stairsplus") then
+                                                                                        
+	stairsplus:register_all("cottages", "slate_vertical", "cottages:slate_vertical", {
+		description = S("Slate"),
+		tiles = {"cottages_slate.png"},
+		groups = {cracky = 2, stone = 1},
+		sounds = default.node_sound_dirt_defaults(),
+	})
+                                                                                        
+else
+
+	stairs.register_stair_and_slab("slate_vertical", "cottages:slate_vertical",
+		{cracky = 2, stone = 1},
+		{"cottages_slate.png"},
+		S("Slate stair"),
+		S("Slate slab"),
+		default.node_sound_dirt_defaults())
+   
+                               
+end
 
 ---------------------------------------------------------------------------------------
 -- Reed might also be needed as a full block
 ---------------------------------------------------------------------------------------
 minetest.register_node("cottages:reet", {
-        description = S("Reet for thatching"),
-        tiles = {"cottages_reet.png"},
+	description = S("Reet for thatching"),
+	tiles = {"cottages_reet.png"},
 	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,flammable=3},
 	sounds = default.node_sound_wood_defaults,
 	is_ground_content = false,
@@ -218,7 +250,39 @@ minetest.register_node("cottages:reet", {
 
 minetest.register_craft({
 	output  = "cottages:reet",
-	recipe = { {cottages.craftitem_papyrus,cottages.craftitem_papyrus},
-	           {cottages.craftitem_papyrus,cottages.craftitem_papyrus},
+	recipe = { {cottages.craftitem_papyrus, cottages.craftitem_papyrus},
+	           {cottages.craftitem_papyrus, cottages.craftitem_papyrus},
 	},
 })
+
+
+
+if stairs and stairs.mod and stairs.mod == "redo" then
+
+	stairs.register_all("reet", "cottages:reet",
+		{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+		{"cottages_reet.png"},
+		S("Reet stair"),
+		S("Reet slab"),
+		default.node_sound_wood_defaults())
+                                                     
+elseif minetest.global_exists("stairsplus") then
+                                                                                        
+	stairsplus:register_all("cottages", "reet", "cottages:reet", {
+		description = S("Reet"),
+		tiles = {"cottages_reet.png"},
+		groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+		sounds = default.node_sound_wood_defaults(),
+	})
+                                                                                        
+else
+
+	stairs.register_stair_and_slab("reet", "cottages:reet",
+		{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+		{"cottages_reet.png"},
+		S("Reet stair"),
+		S("Reet slab"),
+		default.node_sound_wood_defaults())
+   
+                               
+end
