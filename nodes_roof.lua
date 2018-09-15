@@ -186,8 +186,11 @@ cottages.register_roof( 'slate',
 ---------------------------------------------------------------------------------------
 -- slate roofs are sometimes on vertical fronts of houses
 ---------------------------------------------------------------------------------------
+		
+-- minetest.register_alias("cottages:roof_vertical_slate", "cottages:slate_vertical")
+		
 minetest.register_node("cottages:slate_vertical", {
-	description = S("Vertical Slate"),
+	description = S("Vertical slate"),
 	tiles = {"cottages_slate.png", cottages.texture_roof_sides, 
                "cottages_slate.png", "cottages_slate.png", 
                cottages.texture_roof_sides, "cottages_slate.png"},
@@ -235,6 +238,223 @@ else
    
                                
 end
+
+
+---------------------------------------------------------------------------------------
+-- asphalt roof: sawable block
+---------------------------------------------------------------------------------------
+minetest.register_node("cottages:roof_vertical_asphalt", {
+	description = S("Vertical asphalt roof"),
+	tiles = {"cottages_homedecor_shingles_asphalt.png", cottages.texture_roof_sides, 
+               "cottages_homedecor_shingles_asphalt.png", "cottages_homedecor_shingles_asphalt.png", 
+               cottages.texture_roof_sides, "cottages_homedecor_shingles_asphalt.png"},
+	paramtype2 = "facedir",
+	groups = {cracky=2, stone=1},
+	sounds = default.node_sound_stone_defaults,
+	is_ground_content = false,
+})
+
+
+minetest.register_craft({
+	output  = "cottages:roof_vertical_asphalt 3",
+	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood,  cottages.craftitem_coal_lump }
+	}
+});
+
+
+        
+if stairs and stairs.mod and stairs.mod == "redo" then
+
+	stairs.register_all("roof_vertical_asphalt", "cottages:roof_vertical_asphalt",
+		{cracky = 2, stone = 1},
+		{"cottages_homedecor_shingles_asphalt.png"},
+		S("Asphalt stair"),
+		S("Asphalt slab"),
+		default.node_sound_dirt_defaults())
+                                                     
+elseif minetest.global_exists("stairsplus") then
+                                                                                        
+	stairsplus:register_all("cottages", "roof_vertical_asphalt", "cottages:roof_vertical_asphalt", {
+		description = S("Asphalt"),
+		tiles = {"cottages_homedecor_shingles_asphalt.png"},
+		groups = {cracky = 2, stone = 1},
+		sounds = default.node_sound_dirt_defaults(),
+	})
+                                                                                        
+else
+
+	stairs.register_stair_and_slab("roof_vertical_asphalt", "cottages:roof_vertical_asphalt",
+		{cracky = 2, stone = 1},
+		{"cottages_homedecor_shingles_asphalt.png"},
+		S("Asphalt stair"),
+		S("Asphalt slab"),
+		default.node_sound_dirt_defaults())
+   
+                               
+end
+
+
+---------------------------------------------------------------------------------------
+-- terracota roof: sawable block
+---------------------------------------------------------------------------------------
+minetest.register_node("cottages:roof_vertical_terracotta", {
+	description = S("Vertical terracotta roof"),
+	tiles = {"cottages_homedecor_shingles_terracotta.png", cottages.texture_roof_sides, 
+               "cottages_homedecor_shingles_terracotta.png", "cottages_homedecor_shingles_terracotta.png", 
+               cottages.texture_roof_sides, "cottages_homedecor_shingles_terracotta.png"},
+	paramtype2 = "facedir",
+	groups = {cracky=2, stone=1},
+	sounds = default.node_sound_stone_defaults,
+	is_ground_content = false,
+})
+
+
+minetest.register_craft({
+	output  = "cottages:roof_vertical_terracotta 3",
+	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood,  cottages.craftitem_clay_brick }
+	}
+});
+
+
+        
+if stairs and stairs.mod and stairs.mod == "redo" then
+
+	stairs.register_all("roof_vertical_terracotta", "cottages:roof_vertical_terracotta",
+		{cracky = 2, stone = 1},
+		{"cottages_homedecor_shingles_terracotta.png"},
+		S("Terracotta stair"),
+		S("Terracotta slab"),
+		default.node_sound_dirt_defaults())
+                                                     
+elseif minetest.global_exists("stairsplus") then
+                                                                                        
+	stairsplus:register_all("cottages", "roof_vertical_terracotta", "cottages:roof_vertical_terracotta", {
+		description = S("Terracotta"),
+		tiles = {"cottages_homedecor_shingles_terracotta.png"},
+		groups = {cracky = 2, stone = 1},
+		sounds = default.node_sound_dirt_defaults(),
+	})
+                                                                                        
+else
+
+	stairs.register_stair_and_slab("roof_vertical_terracotta", "cottages:roof_vertical_terracotta",
+		{cracky = 2, stone = 1},
+		{"cottages_homedecor_shingles_terracotta.png"},
+		S("Terracotta stair"),
+		S("Terracotta slab"),
+		default.node_sound_dirt_defaults())
+   
+                               
+end
+
+
+
+---------------------------------------------------------------------------------------
+-- wooden roof: sawable block
+---------------------------------------------------------------------------------------
+minetest.register_node("cottages:roof_vertical_wood", {
+	description = S("Vertical wooden roof"),
+	tiles = {cottages.textures_roof_wood, cottages.texture_roof_sides, 
+               cottages.textures_roof_wood, cottages.textures_roof_wood, 
+               cottages.texture_roof_sides, cottages.textures_roof_wood},
+	paramtype2 = "facedir",
+	groups = {cracky=2, stone=1},
+	sounds = default.node_sound_stone_defaults,
+	is_ground_content = false,
+})
+
+
+minetest.register_craft({
+	output  = "cottages:roof_vertical_wood 3",
+	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood, "default:tree" }
+	}
+});
+
+
+        
+if stairs and stairs.mod and stairs.mod == "redo" then
+
+	stairs.register_all("roof_vertical_wood", "cottages:roof_vertical_wood",
+		{cracky = 2, stone = 1},
+		{cottages.textures_roof_wood},
+		S("Wooden roof stair"),
+		S("Wooden roof slab"),
+		default.node_sound_dirt_defaults())
+                                                     
+elseif minetest.global_exists("stairsplus") then
+                                                                                        
+	stairsplus:register_all("cottages", "roof_vertical_wood", "cottages:roof_vertical_wood", {
+		description = S("Wooden roof"),
+		tiles = {cottages.textures_roof_wood},
+		groups = {cracky = 2, stone = 1},
+		sounds = default.node_sound_dirt_defaults(),
+	})
+                                                                                        
+else
+
+	stairs.register_stair_and_slab("roof_vertical_wood", "cottages:roof_vertical_wood",
+		{cracky = 2, stone = 1},
+		{cottages.textures_roof_wood},
+		S("Wooden roof stair"),
+		S("Wooden roof slab"),
+		default.node_sound_dirt_defaults())
+   
+                               
+end
+
+---------------------------------------------------------------------------------------
+-- brown shingles roof: sawable block
+---------------------------------------------------------------------------------------
+minetest.register_node("cottages:roof_vertical_brown", {
+	description = S("Vertical shingle roof"),
+	tiles = {"cottages_homedecor_shingles_wood.png", cottages.texture_roof_sides, 
+               "cottages_homedecor_shingles_wood.png", "cottages_homedecor_shingles_wood.png", 
+               cottages.texture_roof_sides, "cottages_homedecor_shingles_wood.png"},
+	paramtype2 = "facedir",
+	groups = {cracky=2, stone=1},
+	sounds = default.node_sound_stone_defaults,
+	is_ground_content = false,
+})
+
+
+minetest.register_craft({
+	output  = "cottages:roof_vertical_brown 3",
+	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood,  cottages.craftitem_dirt }
+	}
+});
+
+
+        
+if stairs and stairs.mod and stairs.mod == "redo" then
+
+	stairs.register_all("roof_vertical_brown", "cottages:roof_vertical_brown",
+		{cracky = 2, stone = 1},
+		{"cottages_homedecor_shingles_wood.png"},
+		S("Shingles stair"),
+		S("Shingles slab"),
+		default.node_sound_dirt_defaults())
+                                                     
+elseif minetest.global_exists("stairsplus") then
+                                                                                        
+	stairsplus:register_all("cottages", "roof_vertical_brown", "cottages:roof_vertical_brown", {
+		description = S("Shingles"),
+		tiles = {"cottages_homedecor_shingles_wood.png"},
+		groups = {cracky = 2, stone = 1},
+		sounds = default.node_sound_dirt_defaults(),
+	})
+                                                                                        
+else
+
+	stairs.register_stair_and_slab("roof_vertical_brown", "cottages:roof_vertical_brown",
+		{cracky = 2, stone = 1},
+		{"cottages_homedecor_shingles_wood.png"},
+		S("Shingles stair"),
+		S("Shingles slab"),
+		default.node_sound_dirt_defaults())
+   
+                               
+end
+
 
 ---------------------------------------------------------------------------------------
 -- Reed might also be needed as a full block
