@@ -26,6 +26,7 @@ local S = cottages.S
 
 barrel = {};
 
+--- 50 bucket barrels
 local barrel_max = 50
 
 local liquids = {
@@ -81,7 +82,7 @@ barrel.on_construct = function( pos )
 
 end
 
--- can only be digged if there are no more vessels/buckets in any of the slots
+-- can only be dug if there are no more vessels/buckets in any of the slots
 -- TODO: allow digging of a filled barrel? this would disallow stacking of them
 barrel.can_dig = function( pos, player )
 	local  meta = minetest.get_meta(pos);
@@ -99,11 +100,15 @@ barrel.can_dig = function( pos, player )
 end
 
 
--- allow to put into "pour": if barrel is empty or has the same type AND we know the bucket type
+-- allow to put into "pour": if barrel is empty OR has the same type AND we know the bucket type AND the barrel is not full
 -- allow to put into "fill": if empty bucket and barrel is not empty
 barrel.allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+	
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	                        
 	local iname = stack:get_name()
-                                      
 	local meta = minetest.get_meta(pos)
 	
 	if listname == "input" then
@@ -145,6 +150,10 @@ end
                                      
 -- the barrel received input; either a new liquid that is to be poured in or a vessel that is to be filled
 barrel.on_metadata_inventory_put = function( pos, listname, index, stack, player )
+
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return
+	end
 
 	local iname = stack:get_name()
       local meta = minetest.get_meta(pos)
@@ -191,7 +200,6 @@ barrel.on_metadata_inventory_put = function( pos, listname, index, stack, player
 		
 	end
 	
-                                      
 end
 
 -- Barrels: default = open = empty // closed = has contents
@@ -242,7 +250,7 @@ minetest.register_node("cottages:barrel_open", {
 
 -- horizontal barrel
 minetest.register_node("cottages:barrel_lying", {
-	description = S("Barrel (closed), lying somewhere"),
+	description = S("Barrel (closed), lying on its side"),
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	drawtype = "mesh",
@@ -263,7 +271,7 @@ minetest.register_node("cottages:barrel_lying", {
 
 -- horizontal barrel, open
 minetest.register_node("cottages:barrel_lying_open", {
-	description = S("Barrel (opened), lying somewhere"),
+	description = S("Barrel (opened), lying on its side"),
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	drawtype = "mesh",
