@@ -261,37 +261,50 @@ minetest.register_node("cottages:shelf", {
 		},
 
 		on_construct = function(pos)
+			local meta = minetest.get_meta(pos);
+			meta:set_string("formspec",
+						"size[8,8]"..
+						"list[context;main;0,0;8,3;]"..
+						"list[current_player;main;0,4;8,4;]")
+			meta:set_string("infotext", S("open storage shelf"))
+			local inv = meta:get_inventory();
+			inv:set_size("main", 24);
+		end,
 
-                	local meta = minetest.get_meta(pos);
+		can_dig = function(pos, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return false
+			end
+			local  meta = minetest.get_meta( pos );
+			local  inv = meta:get_inventory();
+			return inv:is_empty("main");
+		end,
 
-	                meta:set_string("formspec",
-                                "size[8,8]"..
-                                "list[context;main;0,0;8,3;]"..
-                                "list[current_player;main;0,4;8,4;]")
-                	meta:set_string("infotext", S("open storage shelf"))
-                	local inv = meta:get_inventory();
-                	inv:set_size("main", 24);
-        	end,
-
-	        can_dig = function( pos,player )
-	                local  meta = minetest.get_meta( pos );
-	                local  inv = meta:get_inventory();
-	                return inv:is_empty("main");
-	        end,
-
-                on_metadata_inventory_put  = function(pos, listname, index, stack, player)
-	                local  meta = minetest.get_meta( pos );
-                        meta:set_string('infotext', S('open storage shelf (in use)'));
-                end,
-                on_metadata_inventory_take = function(pos, listname, index, stack, player)
-	                local  meta = minetest.get_meta( pos );
-	                local  inv = meta:get_inventory();
-	                if( inv:is_empty("main")) then
-                           meta:set_string('infotext', S('open storage shelf (empty)'));
-                        end
-                end,
+		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return 0
+			end
+			return stack:get_count()
+		end,
+		allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return 0
+			end
+			return stack:get_count()
+		end,
+                                          
+		on_metadata_inventory_put  = function(pos, listname, index, stack, player)
+			local  meta = minetest.get_meta( pos );
+			meta:set_string('infotext', S('Open storage shelf (in use)'));
+		end,
+		on_metadata_inventory_take = function(pos, listname, index, stack, player)
+			local  meta = minetest.get_meta( pos );
+			local  inv = meta:get_inventory();
+			if( inv:is_empty("main")) then
+				meta:set_string('infotext', S('Open storage shelf (empty)'));
+			end
+		end,
 		is_ground_content = false,
-
 
 })
 
