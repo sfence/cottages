@@ -192,21 +192,26 @@ local cottages_table_def = {
 		description = S("Table"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
-		tiles = {"cottages_minimal_wood.png"},
+		tiles = {"cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png^[transformR90",
+                     "cottages_minimal_wood.png^[transformR90",
+                     "cottages_minimal_wood.png^[transformR90",
+                     "cottages_minimal_wood.png^[transformR90"},
 		paramtype = "light",
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{ -0.1, -0.5, -0.1,  0.1, 0.3,  0.1},
-				{ -0.5,  0.48, -0.5,  0.5, 0.4,  0.5},
+				{ -0.1, -0.5, -0.1,  0.1, 0.4,  0.1},
+				{ -0.5,  0.5, -0.5,  0.5, 0.4,  0.5},
 			},
 		},
 		selection_box = {
 			type = "fixed",
 			fixed = {
-				{ -0.5, -0.5, -0.5,  0.5, 0.4,  0.5},
+				{ -0.5, -0.5, -0.5,  0.5, 0.5,  0.5},
 			},
 		},
 		is_ground_content = false,
@@ -238,7 +243,12 @@ minetest.register_node("cottages:shelf", {
 		description = S("Open storage shelf"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
-		tiles = {"cottages_minimal_wood.png"},
+		tiles = {"cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png^[transformFYR90",
+                     "cottages_minimal_wood.png^[transformFXR90",
+                     "cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png"},
 		paramtype = "light",
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -266,7 +276,7 @@ minetest.register_node("cottages:shelf", {
 						"size[8,8]"..
 						"list[context;main;0,0;8,3;]"..
 						"list[current_player;main;0,4;8,4;]")
-			meta:set_string("infotext", S("open storage shelf"))
+			meta:set_string("infotext", S("Open storage shelf"))
 			local inv = meta:get_inventory();
 			inv:set_size("main", 24);
 		end,
@@ -308,6 +318,224 @@ minetest.register_node("cottages:shelf", {
 
 })
 
+-- bedside stand
+
+minetest.register_node("cottages:bedside_table", {
+		description = S("Bedside table"),
+		drawtype = "nodebox",
+                -- top, bottom, side1, side2, inner, outer
+		tiles = {"cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png^[transformFYR90",
+                     "cottages_minimal_wood.png^[transformFXR90",
+                     "cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png"},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		node_box = {
+			type = "fixed",
+			fixed = {
+				-- top
+				{ -0.5, 0.4, -0.5, 0.5, 0.5,  0.5},
+				-- drawer
+ 				{ -0.4, 0, -0.45, 0.4,  0.5,  0.45},
+ 				-- legs
+ 				{ -0.45, -0.5, -0.45, -0.35,  0.5,  0.45},
+ 				{ 0.45, -0.5, -0.45, 0.35,  0.5,  0.45},
+ 				-- drawer front
+ 				{ -0.425, 0.05, -0.475, 0.425,  0.35,  -0.45},
+ 				-- drawer knob
+ 				{ -0.05, 0.3, -0.5, 0.05,  0.25,  -0.45},
+			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{ -0.5, -0.5, -0.5,  0.5, 0.5,  0.5},
+			},
+		},
+		
+		on_construct = function(pos)
+			local meta = minetest.get_meta(pos);
+			meta:set_string("formspec",
+						"size[8,8]"..
+						"list[context;main;0,0;8,2;]"..
+						"list[current_player;main;0,4;8,4;]")
+			meta:set_string("infotext", S("Bedside table"))
+			local inv = meta:get_inventory();
+			inv:set_size("main", 24);
+		end,
+
+		can_dig = function(pos, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return false
+			end
+			local  meta = minetest.get_meta( pos );
+			local  inv = meta:get_inventory();
+			return inv:is_empty("main");
+		end,
+
+		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return 0
+			end
+			return stack:get_count()
+		end,
+		allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return 0
+			end
+			return stack:get_count()
+		end,
+                                          
+		on_metadata_inventory_put  = function(pos, listname, index, stack, player)
+			local  meta = minetest.get_meta( pos );
+			meta:set_string('infotext', S('Bedside table (in use)'));
+		end,
+		on_metadata_inventory_take = function(pos, listname, index, stack, player)
+			local  meta = minetest.get_meta( pos );
+			local  inv = meta:get_inventory();
+			if( inv:is_empty("main")) then
+				meta:set_string('infotext', S('Bedside table (empty)'));
+			end
+		end,
+		is_ground_content = false,
+		
+})
+
+
+-- 4-legged table
+
+minetest.register_node("cottages:sturdy_table", {
+		description = S("Sturdy table"),
+		drawtype = "nodebox",
+                -- top, bottom, side1, side2, inner, outer
+		tiles = {"cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png^[transformR90",
+                     "cottages_minimal_wood.png^[transformR90",
+                     "cottages_minimal_wood.png^[transformR90",
+                     "cottages_minimal_wood.png^[transformR90"},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		node_box = {
+			type = "fixed",
+			fixed = {
+				-- top
+				{ -0.5, 0.4, -0.5, 0.5, 0.5,  0.5},
+ 				-- legs
+ 				{ -0.45, -0.5, -0.45, -0.35,  0.4,  -0.35},
+ 				{ -0.45, -0.5, 0.45, -0.35,  0.4,  0.35},
+ 				{ 0.45, -0.5, -0.45, 0.35,  0.4,  -0.35},
+ 				{ 0.45, -0.5, 0.45, 0.35,  0.4,  0.35},
+ 				-- beams
+ 				{ -0.45, 0.2, -0.45, -0.35,  0.3,  0.45},
+ 				{ 0.45, 0.2, 0.45, 0.35,  0.3,  -0.45},
+ 				{ -0.45, 0.2, -0.45, 0.45,  0.3,  -0.35},
+ 				{ -0.45, 0.2, 0.45, 0.45,  0.3,  0.35},
+			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{ -0.5, -0.5, -0.5,  0.5, 0.5,  0.5},
+			},
+		},
+		
+
+})
+
+-- cabinet
+
+minetest.register_node("cottages:cabinet", {
+		description = S("Cabinet"),
+		drawtype = "nodebox",
+                -- top, bottom, side1, side2, inner, outer
+		tiles = {"cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png^[transformFYR90",
+                     "cottages_minimal_wood.png^[transformFXR90",
+                     "cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png^(cottages_minimal_wood.png^[transformR90^cottages_cabinet_doors_mask.png^[makealpha:255,0,0)"},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		node_box = {
+			type = "fixed",
+			fixed = {
+				-- case
+ 				{ -0.5, -0.4, -0.45, 0.5,  0.5,  0.5},
+ 				-- legs
+ 				{ -0.5, -0.5, -0.45, -0.4,  -0.4,  -0.35},
+ 				{ -0.5, -0.5, 0.5, -0.4,  -0.4,  0.4},
+ 				{ 0.5, -0.5, -0.45, 0.4,  -0.4,  -0.35},
+ 				{ 0.5, -0.5, 0.5, 0.4,  -0.4,  0.4},
+ 				-- doors
+ 				{ -6/16, -5/16, -0.475, -1/64,  6/16,  -0.45},
+ 				{ 1/64, -5/16, -0.475, 6/16,  6/16,  -0.45},
+ 				-- knobs
+ 				{ 0.05, 0.25, -0.5, 0.1,  0.35,  -0.45},
+ 				{ -0.05, 0.25, -0.5, -0.1,  0.35,  -0.45},
+			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{ -0.5, -0.5, -0.5,  0.5, 0.5,  0.5},
+			},
+		},
+		
+		
+		on_construct = function(pos)
+			local meta = minetest.get_meta(pos);
+			meta:set_string("formspec",
+						"size[8,8]"..
+						"list[context;main;0,0;8,3;]"..
+						"list[current_player;main;0,4;8,4;]")
+			meta:set_string("infotext", S("Cabinet"))
+			local inv = meta:get_inventory();
+			inv:set_size("main", 24);
+		end,
+
+		can_dig = function(pos, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return false
+			end
+			local  meta = minetest.get_meta( pos );
+			local  inv = meta:get_inventory();
+			return inv:is_empty("main");
+		end,
+
+		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return 0
+			end
+			return stack:get_count()
+		end,
+		allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return 0
+			end
+			return stack:get_count()
+		end,
+                                          
+		on_metadata_inventory_put  = function(pos, listname, index, stack, player)
+			local  meta = minetest.get_meta( pos );
+			meta:set_string('infotext', S('Cabinet (in use)'));
+		end,
+		on_metadata_inventory_take = function(pos, listname, index, stack, player)
+			local  meta = minetest.get_meta( pos );
+			local  inv = meta:get_inventory();
+			if( inv:is_empty("main")) then
+				meta:set_string('infotext', S('Cabinet (empty)'));
+			end
+		end,
+		is_ground_content = false,
+})
+
+                                                
 -- so that the smoke from a furnace can get out of a building
 minetest.register_node("cottages:stovepipe", {
 		description = S("Stovepipe"),
