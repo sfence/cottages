@@ -42,6 +42,7 @@ cottages.craftitem_clay_brick   = "default:clay_brick";
 -- used for: treshing floor
 cottages.craftitem_junglewood   = "default:junglewood";
 cottages.craftitem_chest_locked = "default:chest_locked";
+cottages.craftitem_chest        = "default:chest";
 -- used for: hatch, table
 cottages.craftitem_slab_wood    = "stairs:slab_wood";
 

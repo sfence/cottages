@@ -862,9 +862,36 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "cottages:shelf",
 	recipe = {
-		{cottages.craftitem_stick,  cottages.craftitem_wood, cottages.craftitem_stick, },
-		{cottages.craftitem_stick, cottages.craftitem_wood, cottages.craftitem_stick, },
-		{cottages.craftitem_stick, "",             cottages.craftitem_stick}
+		{cottages.craftitem_stick, cottages.craftitem_wood,  cottages.craftitem_stick, },
+		{cottages.craftitem_stick, cottages.craftitem_chest, cottages.craftitem_stick, },
+		{cottages.craftitem_stick, "",                       cottages.craftitem_stick  }
+	}
+})
+
+minetest.register_craft({
+	output = "cottages:cabinet",
+	recipe = {
+		{cottages.craftitem_wood,  cottages.craftitem_wood,  cottages.craftitem_wood, },
+		{cottages.craftitem_wood,  cottages.craftitem_chest, cottages.craftitem_wood, },
+		{cottages.craftitem_stick, "",                       cottages.craftitem_stick }
+	}
+})
+
+minetest.register_craft({
+	output = "cottages:bedside_table",
+	recipe = {
+		{cottages.craftitem_wood,      cottages.craftitem_wood,  cottages.craftitem_wood, },
+		{cottages.craftitem_wood,      cottages.craftitem_chest, cottages.craftitem_wood, },
+		{cottages.craftitem_slab_wood, "",                       cottages.craftitem_slab_wood  }
+	}
+})
+
+minetest.register_craft({
+	output = "cottages:sturdy_table",
+	recipe = {
+		{cottages.craftitem_wood,  cottages.craftitem_wood, cottages.craftitem_wood,  },
+		{cottages.craftitem_stick, "",                      cottages.craftitem_stick, },
+		{cottages.craftitem_stick, "",                      cottages.craftitem_stick  }
 	}
 })
 
