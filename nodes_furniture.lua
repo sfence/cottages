@@ -602,6 +602,68 @@ minetest.register_node("cottages:washing", {
 })
 
 
+-- barrel for dry storage (think apples etc)
+
+minetest.register_node("cottages:storage_barrel", {
+	description = S("Storage barrel"),
+	paramtype = "light",
+	paramtype2 = "facedir",
+	drawtype = "mesh",
+	mesh = "cottages_barrel_closed.obj",
+	tiles = {"cottages_barrel_storage.png" },
+	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
+	drop = "cottages:storage_barrel",
+
+	on_construct = function(pos)
+		local meta = minetest.get_meta(pos);
+		meta:set_string("formspec",
+					"size[8,8]"..
+					"list[context;main;1.5,0;5,4;]"..
+					"list[current_player;main;0,4;8,4;]")
+		meta:set_string("infotext", S("Storage barrel"))
+		local inv = meta:get_inventory();
+		inv:set_size("main", 24);
+	end,
+	
+	on_place = minetest.rotate_node,
+
+	can_dig = function(pos, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return false
+		end
+		local  meta = minetest.get_meta( pos );
+		local  inv = meta:get_inventory();
+		return inv:is_empty("main");
+	end,
+
+	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return 0
+		end
+		return stack:get_count()
+	end,
+	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return 0
+		end
+		return stack:get_count()
+	end,
+						
+	on_metadata_inventory_put  = function(pos, listname, index, stack, player)
+		local  meta = minetest.get_meta( pos );
+		meta:set_string('infotext', S('Storage barrel (in use)'));
+	end,
+	on_metadata_inventory_take = function(pos, listname, index, stack, player)
+		local  meta = minetest.get_meta( pos );
+		local  inv = meta:get_inventory();
+		if( inv:is_empty("main")) then
+			meta:set_string('infotext', S('Storage barrel (empty)'));
+		end
+	end,
+
+	is_ground_content = false,
+})
+
 ---------------------------------------------------------------------------------------
 -- functions for sitting or sleeping
 ---------------------------------------------------------------------------------------
@@ -908,4 +970,13 @@ minetest.register_craft({
 	recipe = {
 		{cottages.craftitem_steel, '', cottages.craftitem_steel},
 	}
+})
+
+minetest.register_craft({
+	output = "cottages:storage_barrel",
+	recipe = {
+		{ cottages.craftitem_wood,	"",					cottages.craftitem_wood },
+		{ cottages.craftitem_steel,	cottages.craftitem_chest,	cottages.craftitem_steel},
+		{ cottages.craftitem_wood,	cottages.craftitem_wood,	cottages.craftitem_wood },
+	},
 })

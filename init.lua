@@ -58,6 +58,39 @@ cottages.handmill_product[ 'default:coal_lump'] = 'dye:black 6';
 cottages.handmill_max_per_turn = 20;
 cottages.handmill_min_per_turn = 0;
 
+-- generalized function to register microblocks/stairs
+cottages.derive_blocks = function( modname, nodename, nodedesc, tile, groups )
+	
+	if stairs and stairs.mod and stairs.mod == "redo" then
+
+		stairs.register_all(nodename, modname .. ":" .. nodename,
+			{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+			{tile},
+			cottages.S(nodedesc .. " stair"),
+			cottages.S(nodedesc .. " slab"),
+			default.node_sound_wood_defaults())
+									
+	elseif minetest.global_exists("stairsplus") then
+															
+		stairsplus:register_all(modname, nodename, modname .. ":" .. nodename, {
+			description = cottages.S(nodedesc),
+			tiles = {tile},
+			groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+			sounds = default.node_sound_wood_defaults(),
+		})
+
+	else
+
+		stairs.register_stair_and_slab(nodename, modname .. ":" .. nodename,
+			{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+			{tile},
+			cottages.S(nodedesc .. " stair"),
+			cottages.S(nodedesc .. " slab"),
+			default.node_sound_wood_defaults())
+	
+	end
+	
+end
 
 -- uncomment parts you do not want
 dofile(minetest.get_modpath("cottages").."/nodes_furniture.lua");

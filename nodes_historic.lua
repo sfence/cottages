@@ -42,57 +42,9 @@ minetest.register_node("cottages:loam", {
 	is_ground_content = false,
 })
 
--- create stairs if possible
+-- register derivative blocks (stairs etc)
 
-        
-if stairs and stairs.mod and stairs.mod == "redo" then
-
-	stairs.register_all("loam", "cottages:loam",
-		{snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
-		{"cottages_loam.png"},
-		S("Loam stair"),
-		S("Loam slab"),
-		default.node_sound_dirt_defaults())
-                                                     
-elseif minetest.global_exists("stairsplus") then
-                                                                                        
-	stairsplus:register_all("cottages", "loam", "cottages:loam", {
-		description = S("Loam"),
-		tiles = {"cottages_loam.png"},
-		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
-		sounds = default.node_sound_dirt_defaults(),
-	})
-                                                                                        
-else
-
-	stairs.register_stair_and_slab("loam", "cottages:loam",
-		{snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
-		{"cottages_loam.png"},
-		S("Loam stair"),
-		S("Loam slab"),
-		default.node_sound_dirt_defaults())
-   
-                               
-end
---[[
-if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab) then
-
-   stairs.register_stair_and_slab("loam", "cottages:loam",
-		{snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		{"cottages_loam.png"},
-		S("Loam stairs"),
-		S("Loam slab"),
-		default.node_sound_dirt_defaults())
-
-   if( minetest.registered_nodes["default:clay"]) then
-      stairs.register_stair_and_slab("clay", "default:clay",
-	        {crumbly=3},
-		{"cottages_clay.png"},
-		S("Clay stairs"),
-		S("Clay slab"),
-		default.node_sound_dirt_defaults())
-   end
-end]]
+cottages.derive_blocks( "cottages", "loam", "Loam", "cottages_loam.png", {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2} )
 
 
 -- straw is a common material for places where animals are kept indoors

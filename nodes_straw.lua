@@ -588,54 +588,17 @@ minetest.register_craft({
 -----
 -- Derivative blocks for straw blocks (bale and regular)
 -----
-        
-if stairs and stairs.mod and stairs.mod == "redo" then
 
-	stairs.register_all("straw_bale", "cottages:straw_bale",
-		{snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
-		{"cottages_darkage_straw_bale.png"},
-		S("Straw bale stair"),
-		S("Straw bale slab"),
-		default.node_sound_wood_defaults())
-                                                     
-	stairs.register_all("straw", "cottages:straw",
-		{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
-		{"cottages_darkage_straw.png"},
-		S("Straw block stair"),
-		S("Straw block slab"),
-		default.node_sound_wood_defaults())
-                                                                                        
-elseif minetest.global_exists("stairsplus") then
-                                                                                        
-	stairsplus:register_all("cottages", "straw_bale", "cottages:straw_bale", {
-		description = S("Straw bale"),
-		tiles = {"cottages_darkage_straw_bale.png"},
-		groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
-		sounds = default.node_sound_wood_defaults(),
-	})
-                                                                                        
-	stairsplus:register_all("cottages", "straw", "cottages:straw", {
-		description = S("Straw block"),
-		tiles = {"cottages_darkage_straw.png"},
-		groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
-		sounds = default.node_sound_wood_defaults(),
-	})
-                                                                                        
-else
+cottages.derive_blocks( "cottages", 
+				"straw_bale", 
+				"Straw bale", 
+				"cottages_darkage_straw_bale.png", 
+				{snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3} )
 
-	stairs.register_stair_and_slab("straw_bale", "cottages:straw_bale",
-		{snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
-		{"cottages_darkage_straw_bale.png"},
-		S("Straw bale stair"),
-		S("Straw bale slab"),
-		default.node_sound_wood_defaults())
-                                                                                        
-	stairs.register_stair_and_slab("straw", "cottages:straw",
-		{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
-		{"cottages_darkage_straw.png"},
-		S("Straw block stair"),
-		S("Straw block slab"),
-		default.node_sound_wood_defaults())
-
-                               
-end
+				
+cottages.derive_blocks( "cottages", 
+				"straw", 
+				"Straw block", 
+				"cottages_darkage_straw.png", 
+				{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3} )
+                                                  
