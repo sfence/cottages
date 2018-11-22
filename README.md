@@ -80,6 +80,11 @@ Bas080 (CC; see https://forum.minetest.net/viewtopic.php?t=2344)
 
 Derived from Universal schema.jpg by Stefanie Lindener, which can be found here: http://de.wikipedia.org/w/index.php?title=Datei:Universal_schema.jpg&filetimestamp=20060510110309& The texture is CC-by-sa 2.0/de.
    cottages_slate.png
+   
+v-rob
+   Shingle texture (cottages_homedecor_shingles_misc_wood.png),
+   better wheel (cottages_wagonwheel.png) texture, 
+   wooden barrel texture (cottages_barrel_storage.png).
 
 Textures not provided but used (need to be supplied by a default mod):
 	default_wood.png

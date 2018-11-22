@@ -22,17 +22,17 @@ end
 -- an even simpler from of bed - usually for animals 
 -- it is a nodebox and not wallmounted because that makes it easier to replace beds with straw mats
 minetest.register_node("cottages:straw_mat", {
-        description = S("Layer of straw"),
-        drawtype = 'nodebox',
-        tiles = { 'cottages_darkage_straw.png' }, -- done by VanessaE
-        wield_image = 'cottages_darkage_straw.png',
-        inventory_image = 'cottages_darkage_straw.png',
-        sunlight_propagates = true,
-        paramtype = 'light',
-        paramtype2 = "facedir",
-        walkable = false,
-        groups = { snappy = 3 },
-        sounds = default.node_sound_leaves_defaults,
+	description = S("Layer of straw"),
+	drawtype = 'nodebox',
+	tiles = { 'cottages_darkage_straw.png' }, -- done by VanessaE
+	wield_image = 'cottages_darkage_straw.png',
+	inventory_image = 'cottages_darkage_straw.png',
+	sunlight_propagates = true,
+	paramtype = 'light',
+	paramtype2 = "facedir",
+	walkable = false,
+	groups = { snappy = 3 },
+	sounds = default.node_sound_leaves_defaults,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -57,9 +57,9 @@ minetest.register_node("cottages:straw_bale", {
 	description = S("Straw bale"),
 	tiles = {"cottages_darkage_straw_bale.png"},
 	paramtype = "light",
-	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
+	groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
 	sounds = default.node_sound_wood_defaults,
-        -- the bale is slightly smaller than a full node
+	-- the bale is slightly smaller than a full node
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -80,9 +80,9 @@ minetest.register_node("cottages:straw", {
 	drawtype = "normal",
 	description = S("Straw block"),
 	tiles = {"cottages_darkage_straw.png"},
-	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,flammable=3},
+	groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1},
 	sounds = default.node_sound_wood_defaults,
-        -- the bale is slightly smaller than a full node
+	-- the bale is slightly smaller than a full node
 	is_ground_content = false,
 })
 
@@ -108,8 +108,8 @@ minetest.register_node("cottages:threshing_floor", {
 -- TODO: stone also looks pretty well for this
 	tiles = {"cottages_junglewood.png^farming_wheat.png","cottages_junglewood.png","cottages_junglewood.png^"..cottages.texture_stick},
 	paramtype  = "light",
-        paramtype2 = "facedir",
-	groups = {cracky=2},
+	paramtype2 = "facedir",
+	groups = {cracky = 2},
 	is_ground_content = false,
 	node_box = {
 		type = "fixed",
@@ -130,14 +130,14 @@ minetest.register_node("cottages:threshing_floor", {
 			}
 	},
 	on_construct = function(pos)
-               	local meta = minetest.get_meta(pos);
-               	meta:set_string("infotext", S("Threshing floor"));
-               	local inv = meta:get_inventory();
-               	inv:set_size("harvest", 2);
-               	inv:set_size("straw", 4);
-               	inv:set_size("seeds", 4);
-                meta:set_string("formspec", cottages_formspec_treshing_floor );
-       	end,
+		local meta = minetest.get_meta(pos);
+		meta:set_string("infotext", S("Threshing floor"));
+		local inv = meta:get_inventory();
+		inv:set_size("harvest", 2);
+		inv:set_size("straw", 4);
+		inv:set_size("seeds", 4);
+		meta:set_string("formspec", cottages_formspec_treshing_floor );
+	end,
 
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos);
@@ -150,19 +150,18 @@ minetest.register_node("cottages:threshing_floor", {
 
         can_dig = function(pos,player)
 
-                local meta  = minetest.get_meta(pos);
-                local inv   = meta:get_inventory();
+		local meta  = minetest.get_meta(pos);
+		local inv   = meta:get_inventory();
 		local owner = meta:get_string('owner');
 
-                if(  not( inv:is_empty("harvest"))
-		  or not( inv:is_empty("straw"))
-		  or not( inv:is_empty("seeds"))
-		  or not( player )
-		  or ( owner and owner ~= ''  and player:get_player_name() ~= owner )) then
-
-		   return false;
+		if(  not( inv:is_empty("harvest"))
+		or not( inv:is_empty("straw"))
+		or not( inv:is_empty("seeds"))
+		or not( player )
+		or ( owner and owner ~= ''  and player:get_player_name() ~= owner )) then
+			return false;
 		end
-                return true;
+		return true;
         end,
 
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
@@ -364,7 +363,7 @@ minetest.register_node("cottages:handmill", {
 	tiles = {"cottages_stone.png"},
 	paramtype  = "light",
 	paramtype2 = "facedir",
-	groups = {cracky=2},
+	groups = {cracky = 2},
 	is_ground_content = false,
 	selection_box = {
 		type = "fixed",
@@ -600,5 +599,5 @@ cottages.derive_blocks( "cottages",
 				"straw", 
 				"Straw block", 
 				"cottages_darkage_straw.png", 
-				{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3} )
+				{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1} )
                                                   

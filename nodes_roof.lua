@@ -18,7 +18,7 @@ cottages.register_roof = function( name, tiles, basic_material, homedecor_altern
 		tiles = tiles,
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, roof = 1},
 		node_box = {
 			type = "fixed",
 			fixed = {
@@ -44,7 +44,7 @@ cottages.register_roof = function( name, tiles, basic_material, homedecor_altern
 		tiles = tiles,
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, roof = 1},
 		node_box = {
 			type = "fixed",
 			fixed = {
@@ -71,7 +71,7 @@ cottages.register_roof = function( name, tiles, basic_material, homedecor_altern
 		tiles = { tiles[1], tiles[2], tiles[1], tiles[1], tiles[1], tiles[1] };
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, roof = 1},
 		node_box = {
 			type = "fixed",
 			fixed = {	
@@ -201,18 +201,17 @@ minetest.register_node("cottages:slate_vertical", {
                "cottages_slate.png", "cottages_slate.png", 
                cottages.texture_roof_sides, "cottages_slate.png"},
 	paramtype2 = "facedir",
-	groups = {cracky=2, stone=1},
+	groups = {cracky = 2, roof = 1},
 	sounds = default.node_sound_stone_defaults,
 	is_ground_content = false,
 })
 
 minetest.register_craft({
-	output  = "cottages:slate_vertical 2",
-	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood,  '' }
-	}
+	output = "cottages:slate_vertical 2",
+	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, '' }}
 });
 
-cottages.derive_blocks( "cottages", "slate_vertical", "Slate", "cottages_slate.png", {cracky = 2, stone = 1} )
+cottages.derive_blocks( "cottages", "slate_vertical", "Slate", "cottages_slate.png", {cracky = 2, roof = 1} )
 
 
 ---------------------------------------------------------------------------------------
@@ -224,18 +223,17 @@ minetest.register_node("cottages:roof_vertical_asphalt", {
                "cottages_homedecor_shingles_asphalt.png", "cottages_homedecor_shingles_asphalt.png", 
                cottages.texture_roof_sides, "cottages_homedecor_shingles_asphalt.png"},
 	paramtype2 = "facedir",
-	groups = {cracky=2, stone=1},
+	groups = {cracky = 2, roof = 1},
 	sounds = default.node_sound_stone_defaults,
 	is_ground_content = false,
 })
 
 minetest.register_craft({
-	output  = "cottages:roof_vertical_asphalt 3",
-	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood,  cottages.craftitem_coal_lump }
-	}
+	output = "cottages:roof_vertical_asphalt 3",
+	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, cottages.craftitem_coal_lump }}
 });
 
-cottages.derive_blocks( "cottages", "roof_vertical_asphalt", "Asphalt", "cottages_homedecor_shingles_asphalt.png", {cracky = 2, stone = 1} )
+cottages.derive_blocks( "cottages", "roof_vertical_asphalt", "Asphalt", "cottages_homedecor_shingles_asphalt.png", {cracky = 2, roof = 1} )
 
 
 
@@ -248,18 +246,17 @@ minetest.register_node("cottages:roof_vertical_terracotta", {
                "cottages_homedecor_shingles_terracotta.png", "cottages_homedecor_shingles_terracotta.png", 
                cottages.texture_roof_sides, "cottages_homedecor_shingles_terracotta.png"},
 	paramtype2 = "facedir",
-	groups = {cracky=2, stone=1},
+	groups = {cracky = 2, roof = 1},
 	sounds = default.node_sound_stone_defaults,
 	is_ground_content = false,
 })
 
 minetest.register_craft({
-	output  = "cottages:roof_vertical_terracotta 3",
-	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood,  cottages.craftitem_clay_brick }
-	}
+	output = "cottages:roof_vertical_terracotta 3",
+	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, cottages.craftitem_clay_brick }}
 });
 
-cottages.derive_blocks( "cottages", "roof_vertical_terracotta", "Terracotta", "cottages_homedecor_shingles_terracotta.png", {cracky = 2, stone = 1} )
+cottages.derive_blocks( "cottages", "roof_vertical_terracotta", "Terracotta", "cottages_homedecor_shingles_terracotta.png", {cracky = 2, roof = 1} )
 
 
 
@@ -272,18 +269,17 @@ minetest.register_node("cottages:roof_vertical_wood", {
                cottages.textures_roof_wood, cottages.textures_roof_wood, 
                cottages.texture_roof_sides, cottages.textures_roof_wood},
 	paramtype2 = "facedir",
-	groups = {cracky=2, stone=1},
+	groups = {cracky = 2, roof = 1},
 	sounds = default.node_sound_stone_defaults,
 	is_ground_content = false,
 })
 
 minetest.register_craft({
-	output  = "cottages:roof_vertical_wood 3",
-	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood, "default:tree" }
-	}
+	output = "cottages:roof_vertical_wood 3",
+	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, "default:tree" }}
 });
 
-cottages.derive_blocks( "cottages", "roof_vertical_wood", "Wooden", cottages.textures_roof_wood, {cracky = 2, stone = 1} )
+cottages.derive_blocks( "cottages", "roof_vertical_wood", "Wooden", cottages.textures_roof_wood, {cracky = 2, roof = 1} )
 
 
 
@@ -291,23 +287,22 @@ cottages.derive_blocks( "cottages", "roof_vertical_wood", "Wooden", cottages.tex
 -- brown shingles roof: sawable block
 ---------------------------------------------------------------------------------------
 minetest.register_node("cottages:roof_vertical_brown", {
-	description = S("Vertical shingle roof"),
+	description = S("Vertical brown shingle roof"),
 	tiles = {"cottages_homedecor_shingles_wood.png", cottages.texture_roof_sides, 
                "cottages_homedecor_shingles_wood.png", "cottages_homedecor_shingles_wood.png", 
                cottages.texture_roof_sides, "cottages_homedecor_shingles_wood.png"},
 	paramtype2 = "facedir",
-	groups = {cracky=2, stone=1},
+	groups = {cracky = 2, roof = 1},
 	sounds = default.node_sound_stone_defaults,
 	is_ground_content = false,
 })
 
 minetest.register_craft({
-	output  = "cottages:roof_vertical_brown 3",
-	recipe = { {cottages.craftitem_stone, cottages.craftitem_wood,  cottages.craftitem_dirt }
-	}
+	output = "cottages:roof_vertical_brown 3",
+	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, cottages.craftitem_dirt }}
 });
 
-cottages.derive_blocks( "cottages", "roof_vertical_brown", "Shingles", "cottages_homedecor_shingles_wood.png", {cracky = 2, stone = 1} )
+cottages.derive_blocks( "cottages", "roof_vertical_brown", "Brown shingle", "cottages_homedecor_shingles_wood.png", {cracky = 2, roof = 1} )
 
 
 
@@ -315,24 +310,29 @@ cottages.derive_blocks( "cottages", "roof_vertical_brown", "Shingles", "cottages
 -- assorted shingles roof: sawable block
 ---------------------------------------------------------------------------------------
 minetest.register_node("cottages:roof_vertical_shingle", {
-	description = S("Vertical misc shingle roof"),
+	description = S("Vertical shingle roof"),
 	tiles = {"cottages_homedecor_shingles_misc_wood.png", cottages.texture_roof_sides, 
                "cottages_homedecor_shingles_misc_wood.png", "cottages_homedecor_shingles_misc_wood.png", 
                cottages.texture_roof_sides, "cottages_homedecor_shingles_misc_wood.png"},
 	paramtype2 = "facedir",
-	groups = {cracky=2, stone=1},
+	groups = {cracky = 2, roof = 1},
 	sounds = default.node_sound_stone_defaults,
 	is_ground_content = false,
 })
 
+-- minetest.register_craft({
+-- 	output = "cottages:roof_vertical_shingle",
+-- 	recipe = { {"cottages:wood_flat", "cottages:wood_flat"},
+-- 	           {"cottages:wood_flat", "cottages:wood_flat"},
+-- 	},
+-- })
+
 minetest.register_craft({
-	output  = "cottages:roof_vertical_shingle",
-	recipe = { {"cottages:wood_flat", "cottages:wood_flat"},
-	           {"cottages:wood_flat", "cottages:wood_flat"},
-	},
-})
+	output = "cottages:roof_vertical_shingle 2",
+	recipe = {{ cottages.craftitem_wood, "cottages:wood_flat" }}
+});
      
-cottages.derive_blocks( "cottages", "roof_vertical_shingle", "Misc shingles", "cottages_homedecor_shingles_misc_wood.png", {cracky = 2, stone = 1} )
+cottages.derive_blocks( "cottages", "roof_vertical_shingle", "Shingle", "cottages_homedecor_shingles_misc_wood.png", {cracky = 2, roof = 1} )
 
 
 ---------------------------------------------------------------------------------------
@@ -341,16 +341,17 @@ cottages.derive_blocks( "cottages", "roof_vertical_shingle", "Misc shingles", "c
 minetest.register_node("cottages:reet", {
 	description = S("Reet for thatching"),
 	tiles = {"cottages_reet.png"},
-	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,flammable=3},
+	groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1},
 	sounds = default.node_sound_wood_defaults,
 	is_ground_content = false,
 })
 
 minetest.register_craft({
-	output  = "cottages:reet",
-	recipe = { {cottages.craftitem_papyrus, cottages.craftitem_papyrus},
-	           {cottages.craftitem_papyrus, cottages.craftitem_papyrus},
+	output = "cottages:reet",
+	recipe = {
+			{ cottages.craftitem_papyrus, cottages.craftitem_papyrus },
+			{ cottages.craftitem_papyrus, cottages.craftitem_papyrus },
 	},
 })
 
-cottages.derive_blocks( "cottages", "reet", "Reet", "cottages_reet.png", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3} )
+cottages.derive_blocks( "cottages", "reet", "Reet", "cottages_reet.png", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1} )
