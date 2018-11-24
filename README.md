@@ -86,6 +86,9 @@ v-rob
    better wheel (cottages_wagonwheel.png) texture, 
    wooden barrel texture (cottages_barrel_storage.png).
 
+Napiophelios and Ferk (CC BY-SA 3.0; https://forum.minetest.net/viewtopic.php?f=4&t=13327)
+   Fireplace (furnace) textures
+   
 Textures not provided but used (need to be supplied by a default mod):
 	default_wood.png
 	default_tree.png

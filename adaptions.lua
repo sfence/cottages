@@ -9,6 +9,7 @@ cottages.craftitem_steel = "default:steel_ingot";
 cottages.craftitem_stick = "group:stick";
 -- used for: treshing floor, handmill, slate roof, vertical slate
 cottages.craftitem_stone = "default:stone";
+cottages.craftitem_cobble = "default:cobble";
 -- used for: window shutter, half door, half door inverted, fence gate,
 --           bed, bench, shelf, roof connector, vertical slate
 cottages.craftitem_wood  = "group:wood";
