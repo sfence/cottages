@@ -12,7 +12,7 @@ local S = cottages.S
 cottages.register_roof = function( name, description, tiles, basic_material, homedecor_alternative )
 
    minetest.register_node("cottages:roof_"..name, {
-		description = S(description .. " roof"),
+		description = S(description) .. " " .. S("roof"),
 		drawtype = "nodebox",
 		--tiles = {cottages.textures_roof_wood,cottages.texture_roof_sides,cottages.texture_roof_sides,cottages.texture_roof_sides,cottages.texture_roof_sides,cottages.textures_roof_wood},
 		tiles = tiles,
@@ -38,7 +38,7 @@ cottages.register_roof = function( name, description, tiles, basic_material, hom
 
    -- a better roof than the normal stairs; this one is for usage directly on top of walls (it has the form of a stair)
    minetest.register_node("cottages:roof_connector_"..name, {
-		description = S(description .. " roof (connector)"),
+		description = S(description) .. " " .. S("roof (connector)"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = tiles,
@@ -64,7 +64,7 @@ cottages.register_roof = function( name, description, tiles, basic_material, hom
 
    -- this one is the slab version of the above roof
    minetest.register_node("cottages:roof_flat_"..name, {
-		description = S(description .. " roof (flat)"),
+		description = S(description) .. " " .. S("roof (flat)"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
                 -- this one is from all sides - except from the underside - of the given material
