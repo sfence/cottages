@@ -354,4 +354,4 @@ minetest.register_craft({
 	},
 })
 
-cottages.derive_blocks( "cottages", "reet", "Reet", "cottages_reet.png", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1} )
+cottages.derive_blocks( "cottages", "reet", "Reed", "cottages_reet.png", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1} )
