@@ -9,10 +9,10 @@ local S = cottages.S
 
 
 -- create the three basic roof parts plus receipes for them;
-cottages.register_roof = function( name, tiles, basic_material, homedecor_alternative )
+cottages.register_roof = function( name, description, tiles, basic_material, homedecor_alternative )
 
    minetest.register_node("cottages:roof_"..name, {
-		description = S("Roof "..name),
+		description = S(description .. " roof"),
 		drawtype = "nodebox",
 		--tiles = {cottages.textures_roof_wood,cottages.texture_roof_sides,cottages.texture_roof_sides,cottages.texture_roof_sides,cottages.texture_roof_sides,cottages.textures_roof_wood},
 		tiles = tiles,
@@ -38,7 +38,7 @@ cottages.register_roof = function( name, tiles, basic_material, homedecor_altern
 
    -- a better roof than the normal stairs; this one is for usage directly on top of walls (it has the form of a stair)
    minetest.register_node("cottages:roof_connector_"..name, {
-		description = S("Roof connector "..name),
+		description = S(description .. " roof (connector)"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = tiles,
@@ -64,7 +64,7 @@ cottages.register_roof = function( name, tiles, basic_material, homedecor_altern
 
    -- this one is the slab version of the above roof
    minetest.register_node("cottages:roof_flat_"..name, {
-		description = S("Roof (flat) "..name),
+		description = S(description .. " roof (flat)"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
                 -- this one is from all sides - except from the underside - of the given material
@@ -147,43 +147,43 @@ end -- of cottages.register_roof( name, tiles, basic_material )
 ---------------------------------------------------------------------------------------
 -- add the diffrent roof types
 ---------------------------------------------------------------------------------------
-cottages.register_roof( 'straw',
+cottages.register_roof( 'straw', "Straw",
 		{"cottages_darkage_straw.png","cottages_darkage_straw.png",
 		"cottages_darkage_straw.png","cottages_darkage_straw.png",
 		"cottages_darkage_straw.png","cottages_darkage_straw.png"},
 		'cottages:straw_mat', nil );
-cottages.register_roof( 'reet',
+cottages.register_roof( 'reet', "Reed",
 		{"cottages_reet.png","cottages_reet.png",
 		"cottages_reet.png","cottages_reet.png",
 		"cottages_reet.png","cottages_reet.png"},
 		cottages.craftitem_papyrus, nil );
-cottages.register_roof( 'wood',
+cottages.register_roof( 'wood', "Wooden",
 		{cottages.textures_roof_wood, cottages.texture_roof_sides,
 		cottages.texture_roof_sides,  cottages.texture_roof_sides,
 		cottages.texture_roof_sides,  cottages.textures_roof_wood},
 		cottages.craftitem_wood, nil);
-cottages.register_roof( 'black',
+cottages.register_roof( 'black', "Asphalt",
 		{"cottages_homedecor_shingles_asphalt.png", cottages.texture_roof_sides,
 		cottages.texture_roof_sides, cottages.texture_roof_sides,
 		cottages.texture_roof_sides, "cottages_homedecor_shingles_asphalt.png"},
 		'homedecor:shingles_asphalt', cottages.craftitem_coal_lump);
-cottages.register_roof( 'red',
+cottages.register_roof( 'red', "Terracotta",
 		{"cottages_homedecor_shingles_terracotta.png", cottages.texture_roof_sides,
 		cottages.texture_roof_sides, cottages.texture_roof_sides,
 		cottages.texture_roof_sides, "cottages_homedecor_shingles_terracotta.png"},
 		'homedecor:shingles_terracotta', cottages.craftitem_clay_brick);
-cottages.register_roof( 'brown',
+cottages.register_roof( 'brown', "Brown shingle",
 		{"cottages_homedecor_shingles_wood.png", cottages.texture_roof_sides,
 		cottages.texture_roof_sides, cottages.texture_roof_sides,
 		cottages.texture_roof_sides, "cottages_homedecor_shingles_wood.png"},
 		'homedecor:shingles_wood', cottages.craftitem_dirt);
-cottages.register_roof( 'slate',
+cottages.register_roof( 'slate', "Slate",
 		{"cottages_slate.png", cottages.texture_roof_sides,
 		"cottages_slate.png", "cottages_slate.png",
 		cottages.texture_roof_sides,"cottages_slate.png"},
 		cottages.craftitem_stone, nil);
 
-cottages.register_roof( 'shingle',
+cottages.register_roof( 'shingle', "Shingle",
 		{"cottages_homedecor_shingles_misc_wood.png", cottages.texture_roof_sides,
 		cottages.texture_roof_sides, cottages.texture_roof_sides,
 		cottages.texture_roof_sides, "cottages_homedecor_shingles_misc_wood.png"},
@@ -339,7 +339,7 @@ cottages.derive_blocks( "cottages", "roof_vertical_shingle", "Shingle", "cottage
 -- Reed might also be needed as a full block
 ---------------------------------------------------------------------------------------
 minetest.register_node("cottages:reet", {
-	description = S("Reet for thatching"),
+	description = S("Reed for thatching"),
 	tiles = {"cottages_reet.png"},
 	groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1},
 	sounds = default.node_sound_wood_defaults,
