@@ -152,6 +152,11 @@ cottages.register_roof( 'straw', "Straw",
 		"cottages_darkage_straw.png","cottages_darkage_straw.png",
 		"cottages_darkage_straw.png","cottages_darkage_straw.png"},
 		'cottages:straw_mat', nil );
+cottages.register_roof( 'straw_dark', "Dark straw",
+		{"cottages_dark_straw.png","cottages_dark_straw.png",
+		"cottages_dark_straw.png","cottages_dark_straw.png",
+		"cottages_dark_straw.png","cottages_dark_straw.png"},
+		'cottages:straw_bale', nil );
 cottages.register_roof( 'reet', "Reed",
 		{"cottages_reet.png","cottages_reet.png",
 		"cottages_reet.png","cottages_reet.png",

@@ -16,10 +16,12 @@ local S = cottages.S
 -- small window shutters for single-node-windows; they open at day and close at night if the abm is working
 -----------------------------------------------------------------------------------------------------------
 
+local shutter_polling_int = 5 -- change this to 600 if your machine is too slow
+
 -- propagate shutting/closing of window shutters to window shutters below/above this one
 cottages_window_sutter_operate = function( pos, old_node_state_name, new_node_state_name )
    
-   local offsets   = {-1,1,-2,2,-3,3};
+   local offsets   = {-1, 1, -2, 2, -3, 3};
    local stop_up   = 0;
    local stop_down = 0;
 
@@ -50,25 +52,40 @@ minetest.register_node("cottages:window_shutter_open", {
 		tiles = {"cottages_minimal_wood.png"},
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
                 -- larger than one node but slightly smaller than a half node so that wallmounted torches pose no problem
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{-0.90, -0.5,  0.4, -0.45, 0.5,  0.5},
-				{ 0.45, -0.5,  0.4,  0.9, 0.5,  0.5},
+				{-0.90, -0.5, 0.4, -0.45, 0.5, 0.5},
+				{ 0.45, -0.5, 0.4, 0.9, 0.5, 0.5},
 			},
 		},
 		selection_box = {
 			type = "fixed",
 			fixed = {
-				{-0.9, -0.5,  0.4,  0.9, 0.5,  0.5},
+				{-0.9, -0.5, 0.4, 0.9, 0.5, 0.5},
 			},
 		},
-                on_rightclick = function(pos, node, puncher)
-                    minetest.swap_node(pos, {name = "cottages:window_shutter_closed", param2 = node.param2})
-                    cottages_window_sutter_operate( pos, "cottages:window_shutter_open", "cottages:window_shutter_closed" );
-                end,
+		on_rightclick = function(pos, node, puncher)
+			minetest.swap_node(pos, {name = "cottages:window_shutter_closed", param2 = node.param2})
+			cottages_window_sutter_operate( pos, "cottages:window_shutter_open", "cottages:window_shutter_closed" );
+		end,
+		-- close shutters in the evening
+		on_construct = function(pos)
+			local t = minetest.get_node_timer(pos)
+			t:start(shutter_polling_int)
+		end,
+		on_timer = function(pos)
+			-- same time at which sleeping is allowed in beds, 50% chance
+			if (minetest.get_timeofday() < 0.2 or minetest.get_timeofday() > 0.805) and math.random() > 0.5 then
+				local old_node = minetest.get_node(pos);
+				minetest.swap_node(pos, {name = "cottages:window_shutter_closed", param2 = old_node.param2})
+				cottages_window_sutter_operate(pos, "cottages:window_shutter_open", "cottages:window_shutter_closed");
+			end
+			return true
+			
+		end,
 		is_ground_content = false,
 })
 
@@ -79,62 +96,48 @@ minetest.register_node("cottages:window_shutter_closed", {
 		tiles = {"cottages_minimal_wood.png"},
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, not_in_creative_inventory = 1},
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{-0.5,  -0.5,  0.4, -0.05, 0.5,  0.5},
-				{ 0.05, -0.5,  0.4,  0.5,  0.5,  0.5},
+				{-0.5, -0.5, 0.4, -0.05, 0.5, 0.5},
+				{ 0.05, -0.5, 0.4, 0.5, 0.5, 0.5},
 			},
 		},
 		selection_box = {
 			type = "fixed",
 			fixed = {
-				{-0.5, -0.5,  0.4,  0.5, 0.5,  0.5},
+				{-0.5, -0.5, 0.4, 0.5, 0.5, 0.5},
 			},
 		},
-                on_rightclick = function(pos, node, puncher)
-                    minetest.swap_node(pos, {name = "cottages:window_shutter_open", param2 = node.param2})
-                    cottages_window_sutter_operate( pos, "cottages:window_shutter_closed", "cottages:window_shutter_open" );
-                end,
+		on_rightclick = function(pos, node, puncher)
+			minetest.swap_node(pos, {name = "cottages:window_shutter_open", param2 = node.param2})
+			cottages_window_sutter_operate(pos, "cottages:window_shutter_closed", "cottages:window_shutter_open");
+		end,
 		is_ground_content = false,
 		drop = "cottages:window_shutter_open",
+		-- open shutters in the morning
+		on_timer = function(pos)
+			-- at this time, sleeping in a bed is not possible, 50% chance
+			if (not (minetest.get_timeofday() < 0.2 or minetest.get_timeofday() > 0.805)) and math.random() > 0.5 then
+				local old_node = minetest.get_node(pos);
+				minetest.swap_node(pos, {name = "cottages:window_shutter_open", param2 = old_node.param2})
+				cottages_window_sutter_operate(pos, "cottages:window_shutter_closed", "cottages:window_shutter_open");
+			end
+			return true
+		end,
 })
 
-
--- open shutters in the morning
-minetest.register_abm({
-   nodenames = {"cottages:window_shutter_closed"},
-   interval = 20, -- change this to 600 if your machine is too slow
-   chance = 3, -- not all people wake up at the same time!
-   action = function(pos)
-
-        -- at this time, sleeping in a bed is not possible
-        if( not(minetest.get_timeofday() < 0.2 or minetest.get_timeofday() > 0.805)) then
-           local old_node = minetest.get_node( pos );
-           minetest.swap_node(pos, {name = "cottages:window_shutter_open", param2 = old_node.param2})
-           cottages_window_sutter_operate( pos, "cottages:window_shutter_closed", "cottages:window_shutter_open" );
-       end
-   end
+-- LBM to start timers on existing, ABM-driven nodes
+minetest.register_lbm({
+	name = "cottages:timer_init",
+	nodenames = {"cottages:window_shutter_closed", "cottages:window_shutter_open"},
+	run_at_every_load = false,
+	action = function(pos)
+		local t = minetest.get_node_timer(pos)
+		t:start(shutter_polling_int)
+	end,
 })
-
-
--- close them at night
-minetest.register_abm({
-   nodenames = {"cottages:window_shutter_open"},
-   interval = 20, -- change this to 600 if your machine is too slow
-   chance = 2,
-   action = function(pos)
-
-        -- same time at which sleeping is allowed in beds
-        if( minetest.get_timeofday() < 0.2 or minetest.get_timeofday() > 0.805) then
-           local old_node = minetest.get_node( pos );
-           minetest.swap_node(pos, {name = "cottages:window_shutter_closed", param2 = old_node.param2})
-           cottages_window_sutter_operate( pos, "cottages:window_shutter_open", "cottages:window_shutter_closed" );
-        end
-   end
-})
-
 
 ------------------------------------------------------------------------------------------------------------------------------
 -- a half door; can be combined to a full door where the upper part can be operated seperately; usually found in barns/stables
@@ -146,17 +149,17 @@ minetest.register_node("cottages:half_door", {
 		tiles = {"cottages_minimal_wood.png"},
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{-0.5, -0.5,  0.4,  0.48, 0.5,  0.5},
+				{-0.5, -0.5, 0.4, 0.48, 0.5, 0.5},
 			},
 		},
 		selection_box = {
 			type = "fixed",
 			fixed = {
-				{-0.5, -0.5,  0.4,  0.48, 0.5,  0.5},
+				{-0.5, -0.5, 0.4, 0.48, 0.5, 0.5},
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
@@ -187,17 +190,17 @@ minetest.register_node("cottages:half_door_inverted", {
 		tiles = {"cottages_minimal_wood.png"},
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{-0.5, -0.5, -0.5,  0.48, 0.5, -0.4},
+				{-0.5, -0.5, -0.5, 0.48, 0.5, -0.4},
 			},
 		},
 		selection_box = {
 			type = "fixed",
 			fixed = {
-				{-0.5, -0.5, -0.5,  0.48, 0.5, -0.4},
+				{-0.5, -0.5, -0.5, 0.48, 0.5, -0.4},
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
@@ -231,22 +234,22 @@ minetest.register_node("cottages:gate_closed", {
 		tiles = {cottages.texture_furniture},
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{ -0.85, -0.25, -0.02,  0.85, -0.05,  0.02},
-				{ -0.85,  0.15, -0.02,  0.85,  0.35,  0.02},
+				{ -0.85, -0.25, -0.02, 0.85, -0.05, 0.02},
+				{ -0.85, 0.15, -0.02, 0.85, 0.35, 0.02},
 
-				{ -0.80, -0.05, -0.02, -0.60,  0.15,  0.02},
-				{  0.60, -0.05, -0.02,  0.80,  0.15,  0.02},
-				{ -0.15, -0.05, -0.02,  0.15,  0.15,  0.02},
+				{ -0.80, -0.05, -0.02, -0.60, 0.15, 0.02},
+				{  0.60, -0.05, -0.02, 0.80, 0.15, 0.02},
+				{ -0.15, -0.05, -0.02, 0.15, 0.15, 0.02},
 			},
 		},
 		selection_box = {
 			type = "fixed",
 			fixed = {
-				{ -0.85, -0.25, -0.1,  0.85,  0.35,  0.1},
+				{ -0.85, -0.25, -0.1, 0.85, 0.35, 0.1},
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
@@ -264,16 +267,16 @@ minetest.register_node("cottages:gate_open", {
 		paramtype = "light",
 		paramtype2 = "facedir",
 		drop = "cottages:gate_closed",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,not_in_creative_inventory=1},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, not_in_creative_inventory = 1},
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{ -0.85, -0.5, -0.25,  0.85, -0.46, -0.05},
-				{ -0.85, -0.5,  0.15,  0.85, -0.46,  0.35},
+				{ -0.85, -0.5, -0.25, 0.85, -0.46, -0.05},
+				{ -0.85, -0.5, 0.15, 0.85, -0.46, 0.35},
 
-				{ -0.80, -0.5, -0.05, -0.60, -0.46,  0.15},
-				{  0.60, -0.5, -0.05,  0.80, -0.46,  0.15},
-				{ -0.15, -0.5, -0.05,  0.15, -0.46,  0.15},
+				{ -0.80, -0.5, -0.05, -0.60, -0.46, 0.15},
+				{  0.60, -0.5, -0.05, 0.80, -0.46, 0.15},
+				{ -0.15, -0.5, -0.05, 0.15, -0.46, 0.15},
 
 			},
 		},
@@ -297,8 +300,8 @@ minetest.register_node("cottages:gate_open", {
 -----------------------------------------------------------------------------------------------------------
 
 -- hatches rotate around their axis
---  old facedir:  0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23
-new_facedirs = { 10,19, 4,13, 2,18,22,14,20,16, 0,12,11, 3, 7,21, 9,23, 5, 1, 8,15, 6,17};
+--  old facedir:  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+new_facedirs = { 10, 19, 4, 13, 2, 18, 22, 14, 20, 16, 0, 12, 11, 3, 7, 21, 9, 23, 5, 1, 8, 15, 6, 17};
 
 
 cottages.register_hatch = function( nodename, description, texture, receipe_item )
@@ -310,7 +313,7 @@ cottages.register_hatch = function( nodename, description, texture, receipe_item
 		tiles = { texture }, 
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2},
 
                 node_box = {
                         type = "fixed",
@@ -326,11 +329,11 @@ cottages.register_hatch = function( nodename, description, texture, receipe_item
                                 {-0.3, -0.55, 0.3, 0.3, -0.45, 0.45},
 
 				-- hinges
-      				{-0.45,-0.530, 0.45, -0.15,-0.470, 0.525}, 
-      				{ 0.15,-0.530, 0.45,  0.45,-0.470, 0.525}, 
+      				{-0.45, -0.530, 0.45, -0.15, -0.470, 0.525}, 
+      				{ 0.15, -0.530, 0.45, 0.45, -0.470, 0.525}, 
 
 				-- handle
-      				{-0.05,-0.60,-0.35, 0.05,-0.40,-0.45}, 
+      				{-0.05, -0.60, -0.35, 0.05, -0.40, -0.45}, 
                         },
                 },
                 selection_box = {
@@ -348,17 +351,17 @@ cottages.register_hatch = function( nodename, description, texture, receipe_item
 	minetest.register_craft({
 		output = nodename,
 		recipe = {
-			{ '',           '',              receipe_item },
-			{ receipe_item, cottages.craftitem_stick, ''           },
-			{ '',           '',              ''           },
+			{ '',			'',					receipe_item },
+			{ receipe_item,	cottages.craftitem_stick,	''           },
+			{ '',			'',					''           },
 		}
 	})
 end
 
 
 -- further alternate hatch materials: wood, tree, copper_block
-cottages.register_hatch( 'cottages:hatch_wood',  'wooden hatch', 'cottages_minimal_wood.png',  cottages.craftitem_slab_wood );
-cottages.register_hatch( 'cottages:hatch_steel', 'metal hatch',  'cottages_steel_block.png',   cottages.craftitem_steel );
+cottages.register_hatch( 'cottages:hatch_wood', 'wooden hatch', 'cottages_minimal_wood.png', cottages.craftitem_slab_wood );
+cottages.register_hatch( 'cottages:hatch_steel', 'metal hatch', 'cottages_steel_block.png', cottages.craftitem_steel );
 
 
 

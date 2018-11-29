@@ -86,6 +86,18 @@ minetest.register_node("cottages:straw", {
 	is_ground_content = false,
 })
 
+-- dark-colored straw
+minetest.register_node("cottages:straw_dark", {
+	drawtype = "normal",
+	description = S("Dark straw block"),
+	tiles = {"cottages_dark_straw.png"},
+	groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1},
+	sounds = default.node_sound_wood_defaults,
+	-- the bale is slightly smaller than a full node
+	is_ground_content = false,
+})
+
+
 
 local cottages_formspec_treshing_floor = 
 			"size[8,8]"..
@@ -578,6 +590,13 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "cottages:straw_dark 2",
+	recipe = {
+		{"cottages:straw_bale", "cottages:straw_bale"},
+	},
+})
+
+minetest.register_craft({
 	output = "cottages:straw_mat 3",
 	recipe = {
 		{"cottages:straw_bale"},
@@ -599,5 +618,11 @@ cottages.derive_blocks( "cottages",
 				"straw", 
 				"Straw block", 
 				"cottages_darkage_straw.png", 
+				{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1} )
+
+cottages.derive_blocks( "cottages", 
+				"straw_dark", 
+				"Dark straw block", 
+				"cottages_dark_straw.png", 
 				{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1} )
                                                   
