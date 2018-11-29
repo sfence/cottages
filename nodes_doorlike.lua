@@ -16,7 +16,7 @@ local S = cottages.S
 -- small window shutters for single-node-windows; they open at day and close at night if the abm is working
 -----------------------------------------------------------------------------------------------------------
 
-local shutter_polling_int = 5 -- change this to 600 if your machine is too slow
+local shutter_polling_int = 20 -- change this to 600 if your machine is too slow
 
 -- propagate shutting/closing of window shutters to window shutters below/above this one
 cottages_window_sutter_operate = function( pos, old_node_state_name, new_node_state_name )
