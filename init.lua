@@ -46,6 +46,14 @@ dofile(minetest.get_modpath("cottages").."/adaptions.lua");
 cottages.handmill_product = {};
 cottages.handmill_product[ cottages.craftitem_seed_wheat ] = 'farming:flour 1';
 cottages.handmill_product[ cottages.craftitem_seed_barley ] = 'farming:flour 1';
+
+if farming.mod and farming.mod == "redo" then
+	cottages.handmill_product[ "farming:seed_oat" ] = 'farming:flour 1';
+	cottages.handmill_product[ "farming:seed_rye" ] = 'farming:flour 1';
+	cottages.handmill_product[ "farming:seed_rice" ] = 'farming:rice_flour 1';
+	cottages.handmill_product[ "farming:rice" ] = 'farming:rice_flour 1';
+end
+
 --[[ some examples:
 cottages.handmill_product[ 'default:cobble' ] = 'default:gravel';
 cottages.handmill_product[ 'default:gravel' ] = 'default:sand';
