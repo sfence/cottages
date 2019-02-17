@@ -22,12 +22,34 @@
 
 cottages = {}
 
+-- there should be a way to distinguish this fork from others
+cottages.mod = "linuxforks"
+
 -- Boilerplate to support localized strings if intllib mod is installed.
 if minetest.get_modpath( "intllib" ) and intllib then
 	cottages.S = intllib.Getter()
 else
 	cottages.S = function(s) return s end
 end
+
+cottages.sounds = {}
+-- MineClone2 needs special treatment; default is only needed for
+-- crafting materials and sounds (less important)
+if( not( minetest.get_modpath("default"))) then
+	default = {};
+	cottages.sounds.wood   = nil
+	cottages.sounds.dirt   = nil
+	cottages.sounds.leaves = nil
+	cottages.sounds.stone  = nil
+else
+	cottages.sounds.wood   = default.node_sound_wood_defaults()
+	cottages.sounds.dirt   = default.node_sound_dirt_defaults()
+	cottages.sounds.stone  = default.node_sound_stone_defaults()
+	cottages.sounds.leaves = default.node_sound_leaves_defaults()
+end
+
+
+cottages.straw_texture = "cottages_darkage_straw.png"
 
 -- MineClone2 needs special treatment; default is only needed for
 -- crafting materials and sounds (less important)
@@ -66,45 +88,16 @@ cottages.handmill_product[ 'default:coal_lump'] = 'dye:black 6';
 cottages.handmill_max_per_turn = 20;
 cottages.handmill_min_per_turn = 0;
 
--- generalized function to register microblocks/stairs
-cottages.derive_blocks = function( modname, nodename, nodedesc, tile, groups )
-	
-	if stairs and stairs.mod and stairs.mod == "redo" then
 
-		stairs.register_all(nodename, modname .. ":" .. nodename,
-			{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
-			{tile},
-			cottages.S(nodedesc .. " stair"),
-			cottages.S(nodedesc .. " slab"),
-			default.node_sound_wood_defaults())
-									
-	elseif minetest.global_exists("stairsplus") then
-															
-		stairsplus:register_all(modname, nodename, modname .. ":" .. nodename, {
-			description = cottages.S(nodedesc),
-			tiles = {tile},
-			groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
-			sounds = default.node_sound_wood_defaults(),
-		})
-
-	else
-
-		stairs.register_stair_and_slab(nodename, modname .. ":" .. nodename,
-			{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
-			{tile},
-			cottages.S(nodedesc .. " stair"),
-			cottages.S(nodedesc .. " slab"),
-			default.node_sound_wood_defaults())
-	
-	end
-	
-end
-
+dofile(minetest.get_modpath("cottages").."/functions.lua");
 -- uncomment parts you do not want
 dofile(minetest.get_modpath("cottages").."/nodes_furniture.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_historic.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_feldweg.lua");
+-- allows to dig hay and straw fast
+dofile(minetest.get_modpath("cottages").."/nodes_pitchfork.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_straw.lua");
+dofile(minetest.get_modpath("cottages").."/nodes_hay.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_anvil.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_doorlike.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_fences.lua");
@@ -112,6 +105,7 @@ dofile(minetest.get_modpath("cottages").."/nodes_roof.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_barrel.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_mining.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_fireplace.lua");
+dofile(minetest.get_modpath("cottages").."/nodes_water.lua");
 --dofile(minetest.get_modpath("cottages").."/nodes_chests.lua");
 
 -- this is only required and useful if you run versions of the random_buildings mod where the nodes where defined inside that mod

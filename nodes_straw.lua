@@ -31,7 +31,7 @@ minetest.register_node("cottages:straw_mat", {
 	paramtype = 'light',
 	paramtype2 = "facedir",
 	walkable = false,
-	groups = { snappy = 3 },
+	groups = {hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable = 3},
 	sounds = default.node_sound_leaves_defaults,
 	node_box = {
 		type = "fixed",
@@ -57,7 +57,7 @@ minetest.register_node("cottages:straw_bale", {
 	description = S("Straw bale"),
 	tiles = {"cottages_darkage_straw_bale.png"},
 	paramtype = "light",
-	groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+	groups = {hay = 3, snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, roof = 1},
 	sounds = default.node_sound_wood_defaults,
 	-- the bale is slightly smaller than a full node
 	node_box = {
@@ -80,7 +80,7 @@ minetest.register_node("cottages:straw", {
 	drawtype = "normal",
 	description = S("Straw block"),
 	tiles = {"cottages_darkage_straw.png"},
-	groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1},
+	groups = {hay = 3, snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1},
 	sounds = default.node_sound_wood_defaults,
 	-- the bale is slightly smaller than a full node
 	is_ground_content = false,
@@ -91,21 +91,39 @@ minetest.register_node("cottages:straw_dark", {
 	drawtype = "normal",
 	description = S("Dark straw block"),
 	tiles = {"cottages_dark_straw.png"},
-	groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1},
+	groups = {hay = 3, snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1},
 	sounds = default.node_sound_wood_defaults,
 	-- the bale is slightly smaller than a full node
 	is_ground_content = false,
 })
 
 
+--
+-- -------------------- EQUIPMENT -------------------
+--
+
+-- "size[8,8]"..
+-- 			"image[3.5,2.5;1,1;"..cottages.texture_stick.."]"..
+-- 			"image[0,1;1,1;farming_wheat.png]"..
+-- 			"list[context;harvest;1,1;2,1;]"..
+-- 			"list[context;straw;6,0;2,2;]"..
+-- 			"list[context;seeds;6,2;2,2;]"..
+-- 			"label[1,0.5;"..S("Harvested wheat:").."]"..
+-- 			"label[5,0.0;"..S("Straw:").."]"..
+-- 			"label[5,2.0;"..S("Seeds:").."]"..
+-- 			"label[0,0;"..S("Threshing floor").."]"..
+-- 			"label[0,2.5;"..S("Punch threshing floor with a stick").."]"..
+-- 			"label[0,3.0;"..S("to get straw and seeds from wheat.").."]"..
+-- 			"list[current_player;main;0,4;8,4;]";
 
 local cottages_formspec_treshing_floor = 
 			"size[8,8]"..
 			"image[3.5,2.5;1,1;"..cottages.texture_stick.."]"..
 			"image[0,1;1,1;farming_wheat.png]"..
-			"list[context;harvest;1,1;2,1;]"..
-			"list[context;straw;6,0;2,2;]"..
-			"list[context;seeds;6,2;2,2;]"..
+			"button_exit[3,1;2,1;public;"..S("Public?").."]"..
+			"list[current_name;harvest;1,1;2,1;]"..
+			"list[current_name;straw;6,0;2,2;]"..
+			"list[current_name;seeds;6,2;2,2;]"..
 			"label[1,0.5;"..S("Harvested wheat:").."]"..
 			"label[5,0.0;"..S("Straw:").."]"..
 			"label[5,2.0;"..S("Seeds:").."]"..
@@ -116,12 +134,13 @@ local cottages_formspec_treshing_floor =
 
 minetest.register_node("cottages:threshing_floor", {
 	drawtype = "nodebox",
-	description = S("Threshing floor"),
+	description = S("threshing floor"),
 -- TODO: stone also looks pretty well for this
 	tiles = {"cottages_junglewood.png^farming_wheat.png","cottages_junglewood.png","cottages_junglewood.png^"..cottages.texture_stick},
 	paramtype  = "light",
 	paramtype2 = "facedir",
-	groups = {cracky = 2},
+	-- can be digged with axe and pick
+	groups = {cracky=2, choppy=2},
 	is_ground_content = false,
 	node_box = {
 		type = "fixed",
@@ -143,43 +162,48 @@ minetest.register_node("cottages:threshing_floor", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos);
-		meta:set_string("infotext", S("Threshing floor"));
+		meta:set_string("infotext", S("Public threshing floor"));
 		local inv = meta:get_inventory();
 		inv:set_size("harvest", 2);
 		inv:set_size("straw", 4);
 		inv:set_size("seeds", 4);
 		meta:set_string("formspec", cottages_formspec_treshing_floor );
+		meta:set_string("public", "public")
 	end,
 
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos);
 		meta:set_string("owner", placer:get_player_name() or "");
-		meta:set_string("infotext", S("Threshing floor (owned by %s)"):format(meta:get_string("owner") or ""));
+		meta:set_string("infotext", S("Private threshing floor (owned by %s)"):format(meta:get_string("owner") or ""));
 		meta:set_string("formspec",
 				cottages_formspec_treshing_floor..
-				"label[2.5,0t;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
-        end,
+				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
+		meta:set_string("public", "private")
+	end,
 
-        can_dig = function(pos,player)
+	on_receive_fields = function(pos, formname, fields, sender)
+		cottages.switch_public(pos, formname, fields, sender, 'threshing floor')
+	end,
 
+	can_dig = function(pos,player)
 		local meta  = minetest.get_meta(pos);
 		local inv   = meta:get_inventory();
 		local owner = meta:get_string('owner');
 
 		if(  not( inv:is_empty("harvest"))
-		or not( inv:is_empty("straw"))
-		or not( inv:is_empty("seeds"))
-		or not( player )
-		or ( owner and owner ~= ''  and player:get_player_name() ~= owner )) then
+		  or not( inv:is_empty("straw"))
+		  or not( inv:is_empty("seeds"))
+		  or not( player )
+		  or ( owner and owner ~= ''  and player:get_player_name() ~= owner )) then
 			return false;
 		end
-		return true;
-        end,
+			return true;
+	end,
 
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages_can_use( meta, player ))) then
-                        return 0
+		if( not( cottages.player_can_use( meta, player ))) then
+			return 0
 		end
 		return count;
 	end,
@@ -188,21 +212,21 @@ minetest.register_node("cottages:threshing_floor", {
 		local meta = minetest.get_meta(pos)
 		-- only accept input the threshing floor can use/process
 		if(    listname=='straw'
-		    or listname=='seeds' 
-		    or (listname=='harvest' and stack and stack:get_name() ~= 'farming:wheat' )) then
-			return 0;
+			or listname=='seeds' 
+			or (listname=='harvest' and stack and stack:get_name() ~= 'farming:wheat' )) then
+				return 0;
 		end
 
-		if( not( cottages_can_use( meta, player ))) then
-                        return 0
+		if( not( cottages.player_can_use( meta, player ))) then
+			return 0
 		end
 		return stack:get_count()
 	end,
 
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages_can_use( meta, player ))) then
-                        return 0
+		if( not( cottages.player_can_use( meta, player ))) then
+			return 0
 		end
 		return stack:get_count()
 	end,
@@ -219,21 +243,21 @@ minetest.register_node("cottages:threshing_floor", {
 		    or not( minetest.registered_items[ wielded:get_name() ])
 		    or not( minetest.registered_items[ wielded:get_name() ].groups )
 		    or not( minetest.registered_items[ wielded:get_name() ].groups.stick )) then
- 			return;
+			return;
 		end
 		local name = puncher:get_player_name();
 
-               	local meta = minetest.get_meta(pos);
-               	local inv = meta:get_inventory();
+		local meta = minetest.get_meta(pos);
+		local inv = meta:get_inventory();
 
 		local input = inv:get_list('harvest');
 		-- we have two input slots
 		local stack1 = inv:get_stack( 'harvest', 1);
 		local stack2 = inv:get_stack( 'harvest', 2);
 
-		if(       (      stack1:is_empty()  and stack2:is_empty())
-			or( not( stack1:is_empty()) and stack1:get_name() ~= 'farming:wheat')
-			or( not( stack2:is_empty()) and stack2:get_name() ~= 'farming:wheat')) then
+		if ( ( stack1:is_empty() and stack2:is_empty() )
+			or ( not( stack1:is_empty()) and stack1:get_name() ~= 'farming:wheat')
+			or ( not( stack2:is_empty()) and stack2:get_name() ~= 'farming:wheat') ) then
 
 --			minetest.chat_send_player( name, 'One of the input slots contains something else than wheat, or there is no wheat at all.');
 			-- update the formspec
@@ -254,15 +278,15 @@ minetest.register_node("cottages:threshing_floor", {
 		end
 
 		local overlay1 = "^farming_wheat.png";
-		local overlay2 = "^cottages_darkage_straw.png";
+		local overlay2 = "^"..cottages.straw_texture;
 		local overlay3 = "^"..cottages.texture_wheat_seed;
 
 		-- this can be enlarged by a multiplicator if desired
 		local anz_straw = anz_wheat;
 		local anz_seeds = anz_wheat;
 
-		if(    inv:room_for_item('straw','cottages:straw_mat '..tostring( anz_straw ))
-		   and inv:room_for_item('seeds',cottages.craftitem_seed_wheat..' '..tostring( anz_seeds ))) then
+		if (inv:room_for_item('straw','cottages:straw_mat '..tostring( anz_straw ))
+			and inv:room_for_item('seeds',cottages.craftitem_seed_wheat..' '..tostring( anz_seeds ))) then
 
 			-- the player gets two kind of output
 			inv:add_item("straw",'cottages:straw_mat '..tostring( anz_straw ));
@@ -277,7 +301,7 @@ minetest.register_node("cottages:threshing_floor", {
 --				minetest.chat_send_player( name, S('You have threshed the last %s wheat.'):format(anz_wheat));
 				overlay1 = "";
 			end
-		end	
+		end
 
 		local hud0 = puncher:hud_add({
 			hud_elem_type = "image",
@@ -357,25 +381,27 @@ minetest.register_node("cottages:threshing_floor", {
 })
 
 
+                                                  
 local cottages_handmill_formspec = "size[8,8]"..
-			"image[0,1;1,1;"..cottages.texture_wheat_seed.."]"..
-			"list[context;seeds;1,1;1,1;]"..
-			"list[context;flour;5,1;2,2;]"..
-			"label[0,0.5;"..S("Wheat seeds:").."]"..
-			"label[4,0.5;"..S("Flour:").."]"..
-			"label[0,0;"..S("Mill").."]"..
-			"label[0,2.5;"..S("Punch this hand-driven mill").."]"..
-			"label[0,3.0;"..S("to convert wheat seeds into flour.").."]"..
-			"list[current_player;main;0,4;8,4;]";
+				"image[0,1;1,1;"..cottages.texture_wheat_seed.."]"..
+				"button_exit[6.0,0.0;1.5,0.5;public;"..S("Public?").."]"..
+				"list[current_name;seeds;1,1;1,1;]"..
+				"list[current_name;flour;5,1;2,2;]"..
+				"label[0,0.5;"..S("Wheat seeds:").."]"..
+				"label[4,0.5;"..S("Flour:").."]"..
+				"label[0,0;"..S("Mill").."]"..
+				"label[0,2.5;"..S("Punch this hand-driven mill").."]"..
+				"label[0,3.0;"..S("to convert wheat seeds into flour.").."]"..
+				"list[current_player;main;0,4;8,4;]";
 
 minetest.register_node("cottages:handmill", {
-	description = S("Mill, powered by punching"),
+	description = S("mill, powered by punching"),
 	drawtype = "mesh",
 	mesh = "cottages_handmill.obj",
 	tiles = {"cottages_stone.png"},
 	paramtype  = "light",
 	paramtype2 = "facedir",
-	groups = {cracky = 2},
+	groups = {cracky=2},
 	is_ground_content = false,
 	selection_box = {
 		type = "fixed",
@@ -390,43 +416,47 @@ minetest.register_node("cottages:handmill", {
 			}
 	},
 	on_construct = function(pos)
-               	local meta = minetest.get_meta(pos);
-               	meta:set_string("infotext", S("Mill, powered by punching"));
-               	local inv = meta:get_inventory();
-               	inv:set_size("seeds", 1);
-               	inv:set_size("flour", 4);
-                meta:set_string("formspec", cottages_handmill_formspec );
-       	end,
+		local meta = minetest.get_meta(pos);
+		meta:set_string("infotext", S("Public mill, powered by punching"));
+		local inv = meta:get_inventory();
+		inv:set_size("seeds", 1);
+		inv:set_size("flour", 4);
+		meta:set_string("formspec", cottages_handmill_formspec );
+		meta:set_string("public", "public")
+	end,
 
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos);
 		meta:set_string("owner", placer:get_player_name() or "");
-		meta:set_string("infotext", S("Mill, powered by punching (owned by %s)"):format(meta:get_string("owner") or ""));
+		meta:set_string("infotext", S("Private mill, powered by punching (owned by %s)"):format(meta:get_string("owner") or ""));
 		meta:set_string("formspec",
 				cottages_handmill_formspec..
 				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]" );
-        end,
+		meta:set_string("public", "private")
+	end,
 
-        can_dig = function(pos,player)
+	on_receive_fields = function(pos, formname, fields, sender)
+		cottages.switch_public(pos, formname, fields, sender, 'mill, powered by punching')
+	end,
 
-                local meta  = minetest.get_meta(pos);
-                local inv   = meta:get_inventory();
+	can_dig = function(pos,player)
+		local meta  = minetest.get_meta(pos);
+		local inv   = meta:get_inventory();
 		local owner = meta:get_string('owner');
 
-                if(  not( inv:is_empty("flour"))
-		  or not( inv:is_empty("seeds"))
-		  or not( player )
-		  or ( owner and owner ~= ''  and player:get_player_name() ~= owner )) then
-
-		   return false;
+		if(  not( inv:is_empty("flour"))
+			or not( inv:is_empty("seeds"))
+			or not( player )
+			or ( owner and owner ~= ''  and player:get_player_name() ~= owner )) then
+				return false;
 		end
-                return true;
-        end,
+			return true;
+	end,
 
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages_can_use( meta, player ))) then
-                        return 0
+		if( not( cottages.player_can_use( meta, player ))) then
+			return 0
 		end
 		return count;
 	end,
@@ -439,37 +469,36 @@ minetest.register_node("cottages:handmill", {
 			return 0;
 		end
 
-		if( not( cottages_can_use( meta, player ))) then
-                        return 0
+		if( not( cottages.player_can_use( meta, player ))) then
+			return 0
 		end
 		return stack:get_count()
 	end,
 
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages_can_use( meta, player ))) then
-                        return 0
+		if( not( cottages.player_can_use( meta, player ))) then
+			return 0
 		end
 		return stack:get_count()
 	end,
 
-        -- this code is very similar to the threshing floor; except that it has only one input- and output-slot
- 	-- and does not require the usage of a stick
+	-- this code is very similar to the threshing floor; except that it has only one input- and output-slot
+	-- and does not require the usage of a stick
 	on_punch = function(pos, node, puncher)
 		if( not( pos ) or not( node ) or not( puncher )) then
 			return;
 		end
 		local name = puncher:get_player_name();
 
-               	local meta = minetest.get_meta(pos);
-               	local inv = meta:get_inventory();
+		local meta = minetest.get_meta(pos);
+		local inv = meta:get_inventory();
 
 		local input = inv:get_list('seeds');
 		local stack1 = inv:get_stack( 'seeds', 1);
 
-		if(       (      stack1:is_empty())
-			or( not( stack1:is_empty())
-			     and not( cottages.handmill_product[ stack1:get_name() ] ))) then
+		if ((stack1:is_empty()) or (not( stack1:is_empty())
+			and not (cottages.handmill_product[ stack1:get_name() ] ))) then
 
 			if not( stack1:is_empty() ) then
 				minetest.chat_send_player(name,"Nothing happens...")
@@ -611,7 +640,7 @@ cottages.derive_blocks( "cottages",
 				"straw_bale", 
 				"Straw bale", 
 				"cottages_darkage_straw_bale.png", 
-				{snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3} )
+				{snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, roof = 1} )
 
 				
 cottages.derive_blocks( "cottages", 
