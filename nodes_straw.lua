@@ -633,6 +633,29 @@ minetest.register_craft({
 })
 
 -----
+-- Straw as fuel
+-----
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "cottages:straw",
+	burntime = 15,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "cottages:straw_bale",
+	burntime = 20,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "cottages:straw_dark",
+	burntime = 10,
+})
+
+
+-----
 -- Derivative blocks for straw blocks (bale and regular)
 -----
 
