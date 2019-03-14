@@ -187,7 +187,6 @@ cottages.register_roof( 'slate', "Slate",
 		"cottages_slate.png", "cottages_slate.png",
 		cottages.texture_roof_sides,"cottages_slate.png"},
 		cottages.craftitem_stone, nil);
-
 cottages.register_roof( 'shingle', "Shingle",
 		{"cottages_homedecor_shingles_misc_wood.png", cottages.texture_roof_sides,
 		cottages.texture_roof_sides, cottages.texture_roof_sides,
@@ -281,7 +280,7 @@ minetest.register_node("cottages:roof_vertical_wood", {
 
 minetest.register_craft({
 	output = "cottages:roof_vertical_wood 3",
-	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, "default:tree" }}
+	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, "group:tree" }}
 });
 
 cottages.derive_blocks( "cottages", "roof_vertical_wood", "Wooden", cottages.textures_roof_wood, {cracky = 2, roof = 1} )
