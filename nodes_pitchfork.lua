@@ -44,6 +44,7 @@ minetest.register_tool("cottages:pitchfork", {
 		end
 		local pos  = minetest.get_pointed_thing_position( pointed_thing, 1 )
 		local node = minetest.get_node_or_nil( pos )
+                                            
 		if( node == nil or not(node.name) or node.name ~= "air") then
 			return nil
 		end
@@ -52,8 +53,9 @@ minetest.register_tool("cottages:pitchfork", {
 		end
 		minetest.rotate_and_place(ItemStack("cottages:pitchfork_placed"), placer, pointed_thing)
 		-- did the placing succeed?
-		local nnode = minetest.get_node(pos)
-		if( not(nnode) or not(nnode.name) or nnode.name ~= "cottages:pitchfork_placed") then
+		if not minetest.find_nodes_in_area({x=pos.x, y=pos.y-1, z=pos.z}, 
+                                               {x=pos.x, y=pos.y+1, z=pos.z}, 
+                                               {"cottages:pitchfork_placed"})[1] then
 			return nil
 		end
 		local meta = minetest.get_meta(pos)
