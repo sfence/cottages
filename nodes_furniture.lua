@@ -614,7 +614,7 @@ minetest.register_node("cottages:storage_barrel", {
 	drawtype = "mesh",
 	mesh = "cottages_barrel_closed.obj",
 	tiles = {"cottages_barrel_storage.png" },
-	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
+	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
 	drop = "cottages:storage_barrel",
 
 	on_construct = function(pos)

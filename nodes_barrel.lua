@@ -211,7 +211,7 @@ minetest.register_node("cottages:barrel", {
 	drawtype = "mesh",
 	mesh = "cottages_barrel_closed.obj",
 	tiles = {"cottages_barrel.png" },
-	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
+	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
 	drop = "cottages:barrel_open",
 
 	on_construct = function( pos )
@@ -233,7 +233,7 @@ minetest.register_node("cottages:barrel_open", {
 	drawtype = "mesh",
 	mesh = "cottages_barrel.obj",
 	tiles = {"cottages_barrel.png" },
-	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
 	drop = "cottages:barrel_open",
 
 	on_construct = function( pos )
@@ -256,7 +256,7 @@ minetest.register_node("cottages:barrel_lying", {
 	drawtype = "mesh",
 	mesh = "cottages_barrel_closed_lying.obj",
 	tiles = {"cottages_barrel.png" },
-	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
+	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
 	drop = "cottages:barrel_lying_open",
 	on_construct = function( pos )
 		return barrel.on_construct( pos );
@@ -277,7 +277,7 @@ minetest.register_node("cottages:barrel_lying_open", {
 	drawtype = "mesh",
 	mesh = "cottages_barrel_lying.obj",
 	tiles = {"cottages_barrel.png" },
-	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, },
+	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, },
 	drop = "cottages:barrel_lying_open",
 	on_construct = function( pos )
 		return barrel.on_construct( pos );
@@ -309,7 +309,7 @@ minetest.register_node("cottages:tub", {
 		fixed = {
 			{-0.5, -0.5, -0.5, 0.5,-0.1, 0.5},
 		}},
-	groups = { tree = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
+	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
 	is_ground_content = false,
 })
 
