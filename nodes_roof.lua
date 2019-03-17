@@ -35,6 +35,69 @@ cottages.register_roof = function( name, description, tiles, basic_material, hom
 		},
 		is_ground_content = false,
 	})
+   
+   
+   minetest.register_node("cottages:roof_" .. name .. "_corner_inner", {
+		description = S(description) .. " " .. S("roof (inner corner)"),
+		drawtype = "nodebox",
+		tiles = {	tiles[1], 
+				tiles[2], 
+				tiles[3],
+				tiles[2] .. "^(" .. tiles[6] .. "^cottages_corner_inner_mask.png^[transformFX^[makealpha:255,255,255)",
+				tiles[5], 
+				tiles[2] .. "^(" .. tiles[6] .. "^cottages_corner_inner_mask.png^[makealpha:255,255,255)" },
+		paramtype = "light",
+		paramtype2 = "facedir",
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, roof = 1},
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5, -0.5, 0.0, 0, 0},
+				{-0.5, 0, 0, 0.5, 0.5, 0.5},
+				{0, 0, 0, 0.5, 0.5, -0.5},
+			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5, -0.5, 0.0, 0, 0},
+				{-0.5, 0, 0, 0.5, 0.5, 0.5},
+				{0, 0, 0, 0.5, 0.5, -0.5},
+			},
+		},
+		is_ground_content = false,
+	})
+	
+	 minetest.register_node("cottages:roof_" .. name .. "_corner_outer", {
+		description = S(description) .. " " .. S("roof (outer corner)"),
+		drawtype = "nodebox",
+		tiles = {	tiles[1], 
+				tiles[2], 
+				tiles[1],
+				tiles[2],
+				tiles[2], 
+				tiles[1] },
+		paramtype = "light",
+		paramtype2 = "facedir",
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, roof = 1},
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5, -0.5, 0.5, 0, 0},
+				{-0.5, 0, 0, 0, 0.5, 0.5},
+				{0, -0.5, 0, 0.5, 0, 0.5},
+			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5, -0.5, 0.5, 0, 0},
+				{-0.5, 0, 0, 0, 0.5, 0.5},
+				{0, -0.5, 0, 0.5, 0, 0.5},
+			},
+		},
+		is_ground_content = false,
+	})
 
    -- a better roof than the normal stairs; this one is for usage directly on top of walls (it has the form of a stair)
    minetest.register_node("cottages:roof_connector_"..name, {
@@ -123,6 +186,22 @@ cottages.register_roof = function( name, description, tiles, basic_material, hom
 		{cottages.craftitem_wood },
 	}
    })
+   
+   minetest.register_craft({
+	output = "cottages:roof_"..name.."_corner_inner 3",
+	recipe = {
+		{'cottages:roof_'..name, 'cottages:roof_'..name},
+		{'cottages:roof_'..name, '' },
+	}
+   })
+   
+   minetest.register_craft({
+	output = "cottages:roof_"..name.."_corner_outer 3",
+	recipe = {
+		{'', 'cottages:roof_'..name},
+		{'cottages:roof_'..name, 'cottages:roof_'..name },
+	}
+   })
 
    minetest.register_craft({
 	output = "cottages:roof_flat_"..name..' 2',
@@ -162,6 +241,11 @@ cottages.register_roof( 'reet', "Reed",
 		"cottages_reet.png","cottages_reet.png",
 		"cottages_reet.png","cottages_reet.png"},
 		cottages.craftitem_papyrus, nil );
+cottages.register_roof( 'hay', "Hay",
+		{cottages.straw_texture.."^[multiply:#88BB88",cottages.straw_texture.."^[multiply:#88BB88",
+		cottages.straw_texture.."^[multiply:#88BB88",cottages.straw_texture.."^[multiply:#88BB88",
+		cottages.straw_texture.."^[multiply:#88BB88",cottages.straw_texture.."^[multiply:#88BB88"},
+		'cottages:hay_mat', nil );
 cottages.register_roof( 'wood', "Wooden",
 		{cottages.textures_roof_wood, cottages.texture_roof_sides,
 		cottages.texture_roof_sides,  cottages.texture_roof_sides,
