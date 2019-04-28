@@ -535,6 +535,88 @@ minetest.register_node("cottages:cabinet", {
 		is_ground_content = false,
 })
 
+-- wall-moounted cabinet
+
+minetest.register_node("cottages:wallmounted_cabinet", {
+		description = S("Wallmounted Cabinet"),
+		drawtype = "nodebox",
+                -- top, bottom, side1, side2, inner, outer
+		tiles = {"cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png^[transformFYR90",
+                     "cottages_minimal_wood.png^[transformFXR90",
+                     "cottages_minimal_wood.png",
+                     "cottages_minimal_wood.png^(cottages_minimal_wood.png^[transformR90^cottages_wallmounted_cabinet_doors_mask.png^[makealpha:255,0,0)"},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+		node_box = {
+			type = "fixed",
+			fixed = {
+				-- case
+ 				{ -0.5, -0.5, -0.1, 0.5,  0.5,  0.5},
+ 				-- doors
+ 				{ -6/16, -6/16, -0.125, -1/64,  6/16,  -0.1},
+ 				{ 1/64, -6/16, -0.125, 6/16,  6/16,  -0.1},
+ 				-- knobs
+ 				{ 0.05, -0.25, -0.15, 0.1,  -0.35,  -0.1},
+ 				{ -0.05, -0.25, -0.15, -0.1,  -0.35,  -0.1},
+			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{ -0.5, -0.5, -0.5,  0.5, 0.5,  0.5},
+			},
+		},
+		
+		
+		on_construct = function(pos)
+			local meta = minetest.get_meta(pos);
+			meta:set_string("formspec",
+						"size[8,8]"..
+						"list[context;main;0,0;8,3;]"..
+						"list[current_player;main;0,4;8,4;]")
+			meta:set_string("infotext", S("Wallmounted cabinet"))
+			local inv = meta:get_inventory();
+			inv:set_size("main", 24);
+		end,
+
+		can_dig = function(pos, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return false
+			end
+			local  meta = minetest.get_meta( pos );
+			local  inv = meta:get_inventory();
+			return inv:is_empty("main");
+		end,
+
+		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return 0
+			end
+			return stack:get_count()
+		end,
+		allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+			if minetest.is_protected(pos, player:get_player_name()) then
+				return 0
+			end
+			return stack:get_count()
+		end,
+                                          
+		on_metadata_inventory_put  = function(pos, listname, index, stack, player)
+			local  meta = minetest.get_meta( pos );
+			meta:set_string('infotext', S('Wallmounted cabinet (in use)'));
+		end,
+		on_metadata_inventory_take = function(pos, listname, index, stack, player)
+			local  meta = minetest.get_meta( pos );
+			local  inv = meta:get_inventory();
+			if( inv:is_empty("main")) then
+				meta:set_string('infotext', S('Wallmounted abinet (empty)'));
+			end
+		end,
+		is_ground_content = false,
+})
                                                 
 -- so that the smoke from a furnace can get out of a building
 minetest.register_node("cottages:stovepipe", {
@@ -937,6 +1019,15 @@ minetest.register_craft({
 	output = "cottages:cabinet",
 	recipe = {
 		{cottages.craftitem_wood,  cottages.craftitem_wood,  cottages.craftitem_wood, },
+		{cottages.craftitem_wood,  cottages.craftitem_chest, cottages.craftitem_wood, },
+		{cottages.craftitem_stick, "",                       cottages.craftitem_stick }
+	}
+})
+
+minetest.register_craft({
+	output = "cottages:wallmounted_cabinet",
+	recipe = {
+		{cottages.craftitem_stick, cottages.craftitem_wood,  cottages.craftitem_stick, },
 		{cottages.craftitem_wood,  cottages.craftitem_chest, cottages.craftitem_wood, },
 		{cottages.craftitem_stick, "",                       cottages.craftitem_stick }
 	}
