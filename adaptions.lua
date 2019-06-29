@@ -47,6 +47,13 @@ cottages.craftitem_chest        = "default:chest";
 -- used for: hatch, table
 cottages.craftitem_slab_wood    = "stairs:slab_wood";
 
+-- use moreblocks slab only as a last-resort measure
+if( not minetest.get_modpath("stairs") 
+    and minetest.get_modpath("moreblocks")
+    and minetest.registered_nodes[ "moreblocks:slab_wood" ]) then
+	cottages.craftitem_slab_wood = "moreblocks:slab_wood";
+end
+
 -- texture used for fence gate and bed posts
 cottages.texture_furniture  = "default_wood.png";
 -- texture for the side of roof nodes
@@ -100,11 +107,6 @@ if( not( minetest.registered_nodes["default:tree"])) then
 		-- does not look so well in this case as it's no bark; but what else shall we do?
 		cottages.textures_roof_wood = "cottages_minimal_wood.png";
 	end
-end
-
-if( minetest.get_modpath("moreblocks")
-  and minetest.registered_nodes[ "moreblocks:slab_wood" ]) then
-	cottages.craftitem_slab_wood = "moreblocks:slab_wood";
 end
 
 if( not( minetest.registered_nodes["wool:white"])) then
