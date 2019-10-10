@@ -82,7 +82,7 @@ cottages.threshing_product[ "farming:barley" ] = cottages.craftitem_seed_barley;
 if farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
 	cottages.threshing_product[ "farming:oat" ] = 'farming:seed_oat';
 	cottages.threshing_product[ "farming:rye" ] = 'farming:seed_rye';
-	cottages.threshing_product[ "farming:rice" ] = 'farming:seed_rice';
+-- 	cottages.threshing_product[ "farming:rice" ] = 'farming:seed_rice';
 end
 
 

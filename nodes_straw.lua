@@ -6,13 +6,13 @@
 
 local S = cottages.S
 
-local cottages_can_use = function( meta, player )
-	if( not( player) or not( meta )) then
+local cottages_can_use = function(meta, player)
+	if(not(player) or not(meta)) then
 		return false;
 	end
 	local pname = player:get_player_name();
-	local owner = meta:get_string('owner' );
-	if( not(owner) or owner=="" or owner==pname ) then
+	local owner = meta:get_string('owner');
+	if(not(owner) or owner=="" or owner==pname) then
 		return true;
 	end
 	return false;
@@ -47,7 +47,7 @@ minetest.register_node("cottages:straw_mat", {
 	},
 	is_ground_content = false,
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-		return cottages.sleep_in_bed( pos, node, clicker, itemstack, pointed_thing );
+		return cottages.sleep_in_bed(pos, node, clicker, itemstack, pointed_thing);
 	end
 })
 
@@ -139,7 +139,7 @@ minetest.register_node("cottages:threshing_floor", {
 	tiles = {"cottages_junglewood.png^farming_wheat.png","cottages_junglewood.png","cottages_junglewood.png^"..cottages.texture_stick},
 	paramtype  = "light",
 	paramtype2 = "facedir",
-	-- can be digged with axe and pick
+	-- can be dug with axe and pick
 	groups = {cracky=2, choppy=2},
 	is_ground_content = false,
 	node_box = {
@@ -167,7 +167,7 @@ minetest.register_node("cottages:threshing_floor", {
 		inv:set_size("harvest", 2);
 		inv:set_size("straw", 4);
 		inv:set_size("seeds", 4);
-		meta:set_string("formspec", cottages_formspec_treshing_floor );
+		meta:set_string("formspec", cottages_formspec_treshing_floor);
 		meta:set_string("public", "public")
 	end,
 
@@ -177,7 +177,7 @@ minetest.register_node("cottages:threshing_floor", {
 		meta:set_string("infotext", S("Private threshing floor (owned by %s)"):format(meta:get_string("owner") or ""));
 		meta:set_string("formspec",
 				cottages_formspec_treshing_floor..
-				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
+				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]");
 		meta:set_string("public", "private")
 	end,
 
@@ -190,11 +190,11 @@ minetest.register_node("cottages:threshing_floor", {
 		local inv   = meta:get_inventory();
 		local owner = meta:get_string('owner');
 
-		if(  not( inv:is_empty("harvest"))
-		  or not( inv:is_empty("straw"))
-		  or not( inv:is_empty("seeds"))
-		  or not( player )
-		  or ( owner and owner ~= ''  and player:get_player_name() ~= owner )) then
+		if( not(inv:is_empty("harvest"))
+		  or not(inv:is_empty("straw"))
+		  or not(inv:is_empty("seeds"))
+		  or not(player)
+		  or (owner and owner ~= ''  and player:get_player_name() ~= owner)) then
 			return false;
 		end
 			return true;
@@ -202,7 +202,7 @@ minetest.register_node("cottages:threshing_floor", {
 
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages.player_can_use( meta, player ))) then
+		if(not(cottages.player_can_use(meta, player))) then
 			return 0
 		end
 		return count;
@@ -211,13 +211,13 @@ minetest.register_node("cottages:threshing_floor", {
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
 		-- only accept input the threshing floor can use/process
-		if(    listname=='straw'
+		if(   listname=='straw'
 			or listname=='seeds' 
-			or (listname=='harvest' and stack and stack:get_name() ~= 'farming:wheat' )) then
+			or (listname=='harvest' and stack and not cottages.threshing_product[ stack:get_name() ])) then
 				return 0;
 		end
 
-		if( not( cottages.player_can_use( meta, player ))) then
+		if(not(cottages.player_can_use(meta, player))) then
 			return 0
 		end
 		return stack:get_count()
@@ -225,7 +225,7 @@ minetest.register_node("cottages:threshing_floor", {
 
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages.player_can_use( meta, player ))) then
+		if(not(cottages.player_can_use(meta, player))) then
 			return 0
 		end
 		return stack:get_count()
@@ -233,16 +233,16 @@ minetest.register_node("cottages:threshing_floor", {
 
 
 	on_punch = function(pos, node, puncher)
-		if( not( pos ) or not( node ) or not( puncher )) then
+		if(not(pos) or not(node) or not(puncher)) then
 			return;
 		end
 		-- only punching with a normal stick is supposed to work
 		local wielded = puncher:get_wielded_item();
-		if(    not( wielded )
-		    or not( wielded:get_name() )
-		    or not( minetest.registered_items[ wielded:get_name() ])
-		    or not( minetest.registered_items[ wielded:get_name() ].groups )
-		    or not( minetest.registered_items[ wielded:get_name() ].groups.stick )) then
+		if(   not(wielded)
+		    or not(wielded:get_name())
+		    or not(minetest.registered_items[ wielded:get_name() ])
+		    or not(minetest.registered_items[ wielded:get_name() ].groups)
+		    or not(minetest.registered_items[ wielded:get_name() ].groups.stick)) then
 			return;
 		end
 		local name = puncher:get_player_name();
@@ -252,29 +252,48 @@ minetest.register_node("cottages:threshing_floor", {
 
 		local input = inv:get_list('harvest');
 		-- we have two input slots
-		local stack1 = inv:get_stack( 'harvest', 1);
-		local stack2 = inv:get_stack( 'harvest', 2);
+		local stack1 = inv:get_stack('harvest', 1);
+		local stack2 = inv:get_stack('harvest', 2);
 
-		if ( ( stack1:is_empty() and stack2:is_empty() )
-			or ( not( stack1:is_empty()) and stack1:get_name() ~= 'farming:wheat')
-			or ( not( stack2:is_empty()) and stack2:get_name() ~= 'farming:wheat') ) then
-
---			minetest.chat_send_player( name, 'One of the input slots contains something else than wheat, or there is no wheat at all.');
+		-- Check for empty or wrong content
+		if ((stack1:is_empty() and stack2:is_empty())
+			or (not(stack1:is_empty()) and not cottages.threshing_product[ stack1:get_name() ])
+			or (not(stack2:is_empty()) and not cottages.threshing_product[ stack2:get_name() ])) then
+			
+			minetest.chat_send_player(name, S("Threshing floor is empty or cannot process the contents"));
 			-- update the formspec
 			meta:set_string("formspec",
 				cottages_formspec_treshing_floor..
-				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
-			return;
+				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]");
+			return
 		end
-
-		-- on average, process 25 wheat at each punch (10..40 are possible)
-		local anz_wheat = 10 + math.random( 0, 30 );
-		-- we already made sure there is only wheat inside
-		local found_wheat = stack1:get_count() + stack2:get_count();
 		
-		-- do not process more wheat than present in the input slots
-		if( found_wheat < anz_wheat ) then
-			anz_wheat = found_wheat;
+		-- Check for content mismatch
+		if (not stack1:is_empty() and not stack2:is_empty() and 
+			cottages.threshing_product[ stack1:get_name() ] ~= cottages.threshing_product[ stack2:get_name() ]) then
+			
+				minetest.chat_send_player(name, S("Threshing floor must be loaded with one type of grain"));
+				meta:set_string("formspec",
+					cottages_formspec_treshing_floor..
+					"label[2.5,0;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]");
+			return
+		end
+		
+		local input_material = stack1:get_name() or stack2:get_name()
+		
+		-- should not be possible, but better safe than sorry
+		if not input_material then
+			return
+		end
+		
+		-- on average, process 25 wheat (or compatible equivalent) at each punch (10..40 are possible)
+		local grain_to_process = 10 + math.random(0, 30);
+		-- we already made sure there is only wheat (or compatible equivalent) inside
+		local grain_found = stack1:get_count() + stack2:get_count();
+		
+		-- do not process more grain than present in the input slots
+		if(grain_found < grain_to_process) then
+			grain_to_process = grain_found;
 		end
 
 		local overlay1 = "^farming_wheat.png";
@@ -282,23 +301,24 @@ minetest.register_node("cottages:threshing_floor", {
 		local overlay3 = "^"..cottages.texture_wheat_seed;
 
 		-- this can be enlarged by a multiplicator if desired
-		local anz_straw = anz_wheat;
-		local anz_seeds = anz_wheat;
+		local output_straw = grain_to_process;
+		local output_seeds = grain_to_process;
 
-		if (inv:room_for_item('straw','cottages:straw_mat '..tostring( anz_straw ))
-			and inv:room_for_item('seeds',cottages.craftitem_seed_wheat..' '..tostring( anz_seeds ))) then
+		if (inv:room_for_item('straw','cottages:straw_mat '..tostring(output_straw))
+			and inv:room_for_item('seeds',cottages.craftitem_seed_wheat..' '..tostring(output_seeds))) then
 
-			-- the player gets two kind of output
-			inv:add_item("straw",'cottages:straw_mat '..tostring( anz_straw ));
-			inv:add_item("seeds",cottages.craftitem_seed_wheat..' '..tostring( anz_seeds ));
-			-- consume the wheat
-			inv:remove_item("harvest", 'farming:wheat '..tostring( anz_wheat ));
+			-- the player gets two kind of output, straw...
+			inv:add_item("straw", 'cottages:straw_mat '..tostring(output_straw));
+			-- add seeds depending on what was loaded in the threshing floor
+			inv:add_item("seeds", cottages.threshing_product[input_material]..' '..tostring(output_seeds));
+			-- consume the wheat (or whatever is being processed)
+			inv:remove_item("harvest", input_material..' '..tostring(grain_to_process));
 
-			local anz_left = found_wheat - anz_wheat;
-			if( anz_left > 0 ) then
---				minetest.chat_send_player( name, S('You have threshed %s wheat (%s are left).'):format(anz_wheat,anz_left));
+			local grain_left = grain_found - grain_to_process;
+			if(grain_left > 0) then
+--				minetest.chat_send_player(name, S('You have threshed %s wheat (%s are left).'):format(grain_to_process,grain_left));
 			else
---				minetest.chat_send_player( name, S('You have threshed the last %s wheat.'):format(anz_wheat));
+--				minetest.chat_send_player(name, S('You have threshed the last %s wheat.'):format(grain_to_process));
 				overlay1 = "";
 			end
 		end
@@ -335,21 +355,21 @@ minetest.register_node("cottages:threshing_floor", {
 
 		local hud4 = puncher:hud_add({
 			hud_elem_type = "text",
-			text = tostring( found_wheat-anz_wheat ),
+			text = tostring(grain_found-grain_to_process),
 			number = 0x00CC00,
 			alignment = {x = 0, y = 0},
 			scale = {x = 100, y = 100}, -- bounding rectangle of the text
 			position = {x = 0.4, y = 0.5},
 		});
-		if( not( anz_straw )) then
-			anz_straw = "0";
+		if(not(output_straw)) then
+			output_straw = "0";
 		end
-		if( not( anz_seed )) then
-			anz_seed = "0";
+		if(not(output_seeds)) then
+			output_seeds = "0";
 		end
 		local hud5 = puncher:hud_add({
 			hud_elem_type = "text",
-			text = '+ '..tostring( anz_straw )..' straw',
+			text = '+ '..tostring(output_straw)..' straw',
 			number = 0x00CC00,
 			alignment = {x = 0, y = 0},
 			scale = {x = 100, y = 100}, -- bounding rectangle of the text
@@ -357,7 +377,7 @@ minetest.register_node("cottages:threshing_floor", {
 		});
 		local hud6 = puncher:hud_add({
 			hud_elem_type = "text",
-			text = '+ '..tostring( anz_seed )..' seeds',
+			text = '+ '..tostring(output_seeds)..' seeds',
 			number = 0x00CC00,
 			alignment = {x = 0, y = 0},
 			scale = {x = 100, y = 100}, -- bounding rectangle of the text
@@ -367,7 +387,7 @@ minetest.register_node("cottages:threshing_floor", {
 
 
 		minetest.after(2, function()
-			if( puncher ) then
+			if(puncher) then
 				puncher:hud_remove(hud1);
 				puncher:hud_remove(hud2);
 				puncher:hud_remove(hud3);
@@ -421,7 +441,7 @@ minetest.register_node("cottages:handmill", {
 		local inv = meta:get_inventory();
 		inv:set_size("seeds", 1);
 		inv:set_size("flour", 4);
-		meta:set_string("formspec", cottages_handmill_formspec );
+		meta:set_string("formspec", cottages_handmill_formspec);
 		meta:set_string("public", "public")
 	end,
 
@@ -431,7 +451,7 @@ minetest.register_node("cottages:handmill", {
 		meta:set_string("infotext", S("Private mill, powered by punching (owned by %s)"):format(meta:get_string("owner") or ""));
 		meta:set_string("formspec",
 				cottages_handmill_formspec..
-				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]" );
+				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]");
 		meta:set_string("public", "private")
 	end,
 
@@ -444,10 +464,10 @@ minetest.register_node("cottages:handmill", {
 		local inv   = meta:get_inventory();
 		local owner = meta:get_string('owner');
 
-		if(  not( inv:is_empty("flour"))
-			or not( inv:is_empty("seeds"))
-			or not( player )
-			or ( owner and owner ~= ''  and player:get_player_name() ~= owner )) then
+		if( not(inv:is_empty("flour"))
+			or not(inv:is_empty("seeds"))
+			or not(player)
+			or (owner and owner ~= ''  and player:get_player_name() ~= owner)) then
 				return false;
 		end
 			return true;
@@ -455,7 +475,7 @@ minetest.register_node("cottages:handmill", {
 
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages.player_can_use( meta, player ))) then
+		if(not(cottages.player_can_use(meta, player))) then
 			return 0
 		end
 		return count;
@@ -464,12 +484,12 @@ minetest.register_node("cottages:handmill", {
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
 		-- only accept input the threshing floor can use/process
-		if(    listname=='flour'
-		    or (listname=='seeds' and stack and not( cottages.handmill_product[ stack:get_name()] ))) then
+		if(   listname=='flour'
+		    or (listname=='seeds' and stack and not(cottages.handmill_product[ stack:get_name()]))) then
 			return 0;
 		end
 
-		if( not( cottages.player_can_use( meta, player ))) then
+		if(not(cottages.player_can_use(meta, player))) then
 			return 0
 		end
 		return stack:get_count()
@@ -477,7 +497,7 @@ minetest.register_node("cottages:handmill", {
 
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages.player_can_use( meta, player ))) then
+		if(not(cottages.player_can_use(meta, player))) then
 			return 0
 		end
 		return stack:get_count()
@@ -486,7 +506,7 @@ minetest.register_node("cottages:handmill", {
 	-- this code is very similar to the threshing floor; except that it has only one input- and output-slot
 	-- and does not require the usage of a stick
 	on_punch = function(pos, node, puncher)
-		if( not( pos ) or not( node ) or not( puncher )) then
+		if(not(pos) or not(node) or not(puncher)) then
 			return;
 		end
 		local name = puncher:get_player_name();
@@ -495,57 +515,57 @@ minetest.register_node("cottages:handmill", {
 		local inv = meta:get_inventory();
 
 		local input = inv:get_list('seeds');
-		local stack1 = inv:get_stack( 'seeds', 1);
+		local stack1 = inv:get_stack('seeds', 1);
 
-		if ((stack1:is_empty()) or (not( stack1:is_empty())
-			and not (cottages.handmill_product[ stack1:get_name() ] ))) then
+		if ((stack1:is_empty()) or (not(stack1:is_empty())
+			and not (cottages.handmill_product[ stack1:get_name() ]))) then
 
-			if not( stack1:is_empty() ) then
+			if not(stack1:is_empty()) then
 				minetest.chat_send_player(name,"Nothing happens...")
 			end
 			-- update the formspec
 			meta:set_string("formspec",
 				cottages_handmill_formspec..
-				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]" );
+				"label[2.5,0;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]");
 			return;
 		end
 
 		-- turning the mill is a slow process; 1-21 flour are generated per turn
-		local anz = 1 + math.random( cottages.handmill_min_per_turn, cottages.handmill_max_per_turn );
+		local output = 1 + math.random(cottages.handmill_min_per_turn, cottages.handmill_max_per_turn);
 		-- we already made sure there is only wheat inside
 		local found = stack1:get_count();
 		
 		-- do not process more wheat than present in the input slots
-		if( found < anz ) then
-			anz = found;
+		if(found < output) then
+			output = found;
 		end
 
-		local product_stack = ItemStack( cottages.handmill_product[ stack1:get_name() ]);
-		local anz_result = anz;
+		local product_stack = ItemStack(cottages.handmill_product[ stack1:get_name() ]);
+		local output_result = output;
 		-- items that produce more
-		if( product_stack:get_count()> 1 ) then
-			anz_result = anz * product_stack:get_count();
+		if(product_stack:get_count()> 1) then
+			output_result = output * product_stack:get_count();
 		end
 
-		if(    inv:room_for_item('flour', product_stack:get_name()..' '..tostring( anz_result ))) then
+		if(   inv:room_for_item('flour', product_stack:get_name()..' '..tostring(output_result))) then
 
-			inv:add_item(    'flour', product_stack:get_name()..' '..tostring( anz_result ));
-			inv:remove_item( 'seeds', stack1:get_name()..' '..tostring( anz ));
+			inv:add_item('flour', product_stack:get_name()..' '..tostring(output_result));
+			inv:remove_item('seeds', stack1:get_name()..' '..tostring(output));
 
-			local anz_left = found - anz;
-			if( anz_left > 0 ) then
-				minetest.chat_send_player( name, S('You have ground a %s (%s are left).'):format(stack1:get_definition().description,(anz_left)));
+			local grain_left = found - output;
+			if(grain_left > 0) then
+				minetest.chat_send_player(name, S('You have ground a %s (%s are left).'):format(stack1:get_definition().description,(grain_left)));
 			else
-				minetest.chat_send_player( name, S('You have ground the last %s.'):format(stack1:get_definition().description));
+				minetest.chat_send_player(name, S('You have ground the last %s.'):format(stack1:get_definition().description));
 			end
 
 			-- if the version of MT is recent enough, rotate the mill a bit
-			if( minetest.swap_node ) then
+			if(minetest.swap_node) then
 				node.param2 = node.param2 + 1;
-				if( node.param2 > 3 ) then
+				if(node.param2 > 3) then
 					node.param2 = 0;
 				end
-				minetest.swap_node( pos, node );
+				minetest.swap_node(pos, node);
 			end
 		end	
 	end,
@@ -659,22 +679,22 @@ minetest.register_craft({
 -- Derivative blocks for straw blocks (bale and regular)
 -----
 
-cottages.derive_blocks( "cottages", 
+cottages.derive_blocks("cottages", 
 				"straw_bale", 
 				"Straw bale", 
 				"cottages_darkage_straw_bale.png", 
-				{snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, roof = 1} )
+				{snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, roof = 1})
 
 				
-cottages.derive_blocks( "cottages", 
+cottages.derive_blocks("cottages", 
 				"straw", 
 				"Straw block", 
 				"cottages_darkage_straw.png", 
-				{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1} )
+				{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1})
 
-cottages.derive_blocks( "cottages", 
+cottages.derive_blocks("cottages", 
 				"straw_dark", 
 				"Dark straw block", 
 				"cottages_dark_straw.png", 
-				{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1} )
+				{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1})
                                                   
