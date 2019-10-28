@@ -310,7 +310,26 @@ minetest.register_node("cottages:threshing_floor", {
 			-- the player gets two kind of output, straw...
 			inv:add_item("straw", 'cottages:straw_mat '..tostring(output_straw));
 			-- add seeds depending on what was loaded in the threshing floor
-			inv:add_item("seeds", cottages.threshing_product[input_material]..' '..tostring(output_seeds));
+			local out=cottages.threshing_product[input_material]
+			if type(out)=="table" then
+				local o1={}
+				local k1, n1 
+				for n1=1,output_seeds do
+					k1=math.random(1,#out)
+					if type(o1[k1])=="number" then
+						o1[k1]=o1[k1]+1
+					else
+						o1[k1]=1
+					end
+				end
+				for n1=1,#out do
+					if type(o1[n1])=="number" then
+						inv:add_item("seeds", out[n1]..' '..tostring(o1[n1]));
+					end
+				end
+			else
+				inv:add_item("seeds", out..' '..tostring(output_seeds));
+			end
 			-- consume the wheat (or whatever is being processed)
 			inv:remove_item("harvest", input_material..' '..tostring(grain_to_process));
 
