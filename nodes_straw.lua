@@ -270,7 +270,7 @@ minetest.register_node("cottages:threshing_floor", {
 		
 		-- Check for content mismatch
 		if (not stack1:is_empty() and not stack2:is_empty() and 
-			cottages.threshing_product[ stack1:get_name() ] ~= cottages.threshing_product[ stack2:get_name() ]) then
+			stack1:get_name() ~= stack2:get_name() ) then
 			
 				minetest.chat_send_player(name, S("Threshing floor must be loaded with one type of grain"));
 				meta:set_string("formspec",
@@ -279,10 +279,13 @@ minetest.register_node("cottages:threshing_floor", {
 			return
 		end
 		
-		local input_material = stack1:get_name() or stack2:get_name()
+		local input_material = stack1:get_name()
+		if not input_material or input_material == '' then 
+			input_material = stack2:get_name()
+		end
 		
 		-- should not be possible, but better safe than sorry
-		if not input_material then
+		if not input_material or input_material == '' then
 			return
 		end
 		
@@ -305,12 +308,12 @@ minetest.register_node("cottages:threshing_floor", {
 		local output_seeds = grain_to_process;
 
 		if (inv:room_for_item('straw','cottages:straw_mat '..tostring(output_straw))
-			and inv:room_for_item('seeds',cottages.craftitem_seed_wheat..' '..tostring(output_seeds))) then
+			and inv:room_for_item('seeds', cottages.craftitem_seed_wheat..' '..tostring(output_seeds))) then
 
 			-- the player gets two kind of output, straw...
 			inv:add_item("straw", 'cottages:straw_mat '..tostring(output_straw));
 			-- add seeds depending on what was loaded in the threshing floor
-			local out=cottages.threshing_product[input_material]
+			local out = cottages.threshing_product[input_material]
 			if type(out)=="table" then
 				local o1={}
 				local k1, n1 
@@ -340,82 +343,83 @@ minetest.register_node("cottages:threshing_floor", {
 --				minetest.chat_send_player(name, S('You have threshed the last %s wheat.'):format(grain_to_process));
 				overlay1 = "";
 			end
-		end
+		
+			-- Now we can show the changes in the hud
+			local hud0 = puncher:hud_add({
+				hud_elem_type = "image",
+				scale = {x = 38, y = 38},
+				text = "cottages_junglewood.png^[colorize:#888888:128",
+				position = {x = 0.5, y = 0.5},
+				alignment = {x = 0, y = 0}
+			});
 
-		local hud0 = puncher:hud_add({
-			hud_elem_type = "image",
-			scale = {x = 38, y = 38},
-			text = "cottages_junglewood.png^[colorize:#888888:128",
-			position = {x = 0.5, y = 0.5},
-			alignment = {x = 0, y = 0}
-		});
+			local hud1 = puncher:hud_add({
+				hud_elem_type = "image",
+				scale = {x = 15, y = 15},
+				text = "cottages_junglewood.png"..overlay1,
+				position = {x = 0.4, y = 0.5},
+				alignment = {x = 0, y = 0}
+			});
+			local hud2 = puncher:hud_add({
+				hud_elem_type = "image",
+				scale = {x = 15, y = 15},
+				text = "cottages_junglewood.png"..overlay2,
+				position = {x = 0.6, y = 0.35},
+				alignment = {x = 0, y = 0}
+			});
+			local hud3 = puncher:hud_add({
+				hud_elem_type = "image",
+				scale = {x = 15, y = 15},
+				text = "cottages_junglewood.png"..overlay3,
+				position = {x = 0.6, y = 0.65},
+				alignment = {x = 0, y = 0}
+			});
 
-		local hud1 = puncher:hud_add({
-			hud_elem_type = "image",
-			scale = {x = 15, y = 15},
-			text = "cottages_junglewood.png"..overlay1,
-			position = {x = 0.4, y = 0.5},
-			alignment = {x = 0, y = 0}
-		});
-		local hud2 = puncher:hud_add({
-			hud_elem_type = "image",
-			scale = {x = 15, y = 15},
-			text = "cottages_junglewood.png"..overlay2,
-			position = {x = 0.6, y = 0.35},
-			alignment = {x = 0, y = 0}
-		});
-		local hud3 = puncher:hud_add({
-			hud_elem_type = "image",
-			scale = {x = 15, y = 15},
-			text = "cottages_junglewood.png"..overlay3,
-			position = {x = 0.6, y = 0.65},
-			alignment = {x = 0, y = 0}
-		});
-
-		local hud4 = puncher:hud_add({
-			hud_elem_type = "text",
-			text = tostring(grain_found-grain_to_process),
-			number = 0x00CC00,
-			alignment = {x = 0, y = 0},
-			scale = {x = 100, y = 100}, -- bounding rectangle of the text
-			position = {x = 0.4, y = 0.5},
-		});
-		if(not(output_straw)) then
-			output_straw = "0";
-		end
-		if(not(output_seeds)) then
-			output_seeds = "0";
-		end
-		local hud5 = puncher:hud_add({
-			hud_elem_type = "text",
-			text = '+ '..tostring(output_straw)..' straw',
-			number = 0x00CC00,
-			alignment = {x = 0, y = 0},
-			scale = {x = 100, y = 100}, -- bounding rectangle of the text
-			position = {x = 0.6, y = 0.35},
-		});
-		local hud6 = puncher:hud_add({
-			hud_elem_type = "text",
-			text = '+ '..tostring(output_seeds)..' seeds',
-			number = 0x00CC00,
-			alignment = {x = 0, y = 0},
-			scale = {x = 100, y = 100}, -- bounding rectangle of the text
-			position = {x = 0.6, y = 0.65},
-		});
-
-
-
-		minetest.after(2, function()
-			if(puncher) then
-				puncher:hud_remove(hud1);
-				puncher:hud_remove(hud2);
-				puncher:hud_remove(hud3);
-				puncher:hud_remove(hud4);
-				puncher:hud_remove(hud5);
-				puncher:hud_remove(hud6);
-				puncher:hud_remove(hud0);
+			local hud4 = puncher:hud_add({
+				hud_elem_type = "text",
+				text = tostring(grain_found-grain_to_process),
+				number = 0x00CC00,
+				alignment = {x = 0, y = 0},
+				scale = {x = 100, y = 100}, -- bounding rectangle of the text
+				position = {x = 0.4, y = 0.5},
+			});
+			if(not(output_straw)) then
+				output_straw = "0";
 			end
-		end)
+			if(not(output_seeds)) then
+				output_seeds = "0";
+			end
+			local hud5 = puncher:hud_add({
+				hud_elem_type = "text",
+				text = '+ '..tostring(output_straw)..' straw',
+				number = 0x00CC00,
+				alignment = {x = 0, y = 0},
+				scale = {x = 100, y = 100}, -- bounding rectangle of the text
+				position = {x = 0.6, y = 0.35},
+			});
+			local hud6 = puncher:hud_add({
+				hud_elem_type = "text",
+				text = '+ '..tostring(output_seeds)..' seeds',
+				number = 0x00CC00,
+				alignment = {x = 0, y = 0},
+				scale = {x = 100, y = 100}, -- bounding rectangle of the text
+				position = {x = 0.6, y = 0.65},
+			});
+
+			minetest.after(2, function()
+				if(puncher) then
+					puncher:hud_remove(hud1);
+					puncher:hud_remove(hud2);
+					puncher:hud_remove(hud3);
+					puncher:hud_remove(hud4);
+					puncher:hud_remove(hud5);
+					puncher:hud_remove(hud6);
+					puncher:hud_remove(hud0);
+				end
+			end)
+		
+		end
+		
 	end,
 })
 

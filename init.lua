@@ -76,6 +76,15 @@ if farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
 	cottages.handmill_product[ "farming:rice" ] = 'farming:rice_flour 1';
 end
 
+--[[ some examples:
+cottages.handmill_product[ 'default:cobble' ] = 'default:gravel';
+cottages.handmill_product[ 'default:gravel' ] = 'default:sand';
+cottages.handmill_product[ 'default:sand'   ] = 'default:dirt 2';
+cottages.handmill_product[ 'flowers:rose'   ] = 'dye:red 6';
+cottages.handmill_product[ 'default:cactus' ] = 'dye:green 6';
+cottages.handmill_product[ 'default:coal_lump'] = 'dye:black 6';
+--]]
+
 -- same for the threshing floor
 cottages.threshing_product = {};
 cottages.threshing_product[ "default:grass_1" ] = cottages.craftitem_seed_wheat;
@@ -87,6 +96,8 @@ if farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
 -- 	cottages.threshing_product[ "farming:rice" ] = 'farming:seed_rice';
 end
 
+-- API to add items to the handmill and threshing floor
+
 function cottages:add_threshing_product(input, output)
 --Probably pretty obvious, but, for instance, 
 --	cottages:add_threshing_product("default:grass_1",{"farming:seed_wheat", "farming:seed_oat"})
@@ -95,15 +106,11 @@ function cottages:add_threshing_product(input, output)
 	cottages.threshing_product[input] = output
 end
 
+function cottages:add_handmill_product(input, output)
+	cottages.handmill_product[input] = output
+end
 
---[[ some examples:
-cottages.handmill_product[ 'default:cobble' ] = 'default:gravel';
-cottages.handmill_product[ 'default:gravel' ] = 'default:sand';
-cottages.handmill_product[ 'default:sand'   ] = 'default:dirt 2';
-cottages.handmill_product[ 'flowers:rose'   ] = 'dye:red 6';
-cottages.handmill_product[ 'default:cactus' ] = 'dye:green 6';
-cottages.handmill_product[ 'default:coal_lump'] = 'dye:black 6';
---]]
+
 -- process that many inputs per turn
 cottages.handmill_max_per_turn = 20;
 cottages.handmill_min_per_turn = 0;
