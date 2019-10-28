@@ -22,6 +22,7 @@
 
 cottages = {}
 
+
 -- there should be a way to distinguish this fork from others
 cottages.mod = "linuxforks"
 
@@ -77,12 +78,21 @@ end
 
 -- same for the threshing floor
 cottages.threshing_product = {};
+cottages.threshing_product[ "default:grass_1" ] = cottages.craftitem_seed_wheat;
 cottages.threshing_product[ "farming:wheat" ] = cottages.craftitem_seed_wheat;
 cottages.threshing_product[ "farming:barley" ] = cottages.craftitem_seed_barley;
 if farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
 	cottages.threshing_product[ "farming:oat" ] = 'farming:seed_oat';
 	cottages.threshing_product[ "farming:rye" ] = 'farming:seed_rye';
 -- 	cottages.threshing_product[ "farming:rice" ] = 'farming:seed_rice';
+end
+
+function cottages:add_threshing_product(input, output)
+--Probably pretty obvious, but, for instance, 
+--	cottages:add_threshing_product("default:grass_1",{"farming:seed_wheat", "farming:seed_oat"})
+--	supports the two possible grains that can come from grass_1, 50/50 chance  of each
+--maybe should add some error checking sometime...
+	cottages.threshing_product[input] = output
 end
 
 
