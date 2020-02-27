@@ -998,6 +998,14 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "cottages:table",
+	recipe = {
+		{"", cottages.craftitem_slab_wood_fallback, "", },
+		{"", cottages.craftitem_stick, "" }
+	}
+})
+
+minetest.register_craft({
 	output = "cottages:bench",
 	recipe = {
 		{"",              cottages.craftitem_wood, "", },
@@ -1039,6 +1047,15 @@ minetest.register_craft({
 		{cottages.craftitem_wood,      cottages.craftitem_wood,  cottages.craftitem_wood, },
 		{cottages.craftitem_wood,      cottages.craftitem_chest, cottages.craftitem_wood, },
 		{cottages.craftitem_slab_wood, "",                       cottages.craftitem_slab_wood  }
+	}
+})
+
+minetest.register_craft({
+	output = "cottages:bedside_table",
+	recipe = {
+		{cottages.craftitem_wood,      cottages.craftitem_wood,  cottages.craftitem_wood, },
+		{cottages.craftitem_wood,      cottages.craftitem_chest, cottages.craftitem_wood, },
+		{cottages.craftitem_slab_wood_fallback, "",                       cottages.craftitem_slab_wood_fallback  }
 	}
 })
 

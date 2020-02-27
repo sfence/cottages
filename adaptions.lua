@@ -45,13 +45,12 @@ cottages.craftitem_junglewood   = "default:junglewood";
 cottages.craftitem_chest_locked = "default:chest_locked";
 cottages.craftitem_chest        = "default:chest";
 -- used for: hatch, table
-cottages.craftitem_slab_wood    = "stairs:slab_wood";
-
--- use moreblocks slab only as a last-resort measure
-if( not minetest.get_modpath("stairs") 
-    and minetest.get_modpath("moreblocks")
-    and minetest.registered_nodes[ "moreblocks:slab_wood" ]) then
-	cottages.craftitem_slab_wood = "moreblocks:slab_wood";
+cottages.craftitem_slab_wood = "moreblocks:slab_wood";
+-- use moreblocks slab > stairs slab > cottage planks
+if (minetest.get_modpath("stairs")) then
+	cottages.craftitem_slab_wood_fallback = "stairs:slab_wood";
+else 
+	cottages.craftitem_slab_wood_fallback = "cottages:wood_flat";
 end
 
 -- texture used for fence gate and bed posts

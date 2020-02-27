@@ -82,7 +82,7 @@ cottages.handmill_product[ 'default:gravel' ] = 'default:sand';
 cottages.handmill_product[ 'default:sand'   ] = 'default:dirt 2';
 cottages.handmill_product[ 'flowers:rose'   ] = 'dye:red 6';
 cottages.handmill_product[ 'default:cactus' ] = 'dye:green 6';
-cottages.handmill_product[ 'default:coal_lump'] = 'dye:black 6';
+cottages.handmill_product[ 'default:coal_lump' ] = 'dye:black 6';
 --]]
 
 -- same for the threshing floor
