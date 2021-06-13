@@ -24,6 +24,10 @@
 
 cottages = {}
 
+
+-- there should be a way to distinguish this fork from others
+cottages.mod = "linuxforks"
+
 -- Boilerplate to support localized strings if intllib mod is installed.
 if minetest.get_modpath( "intllib" ) and intllib then
 	cottages.S = intllib.Getter()
@@ -32,6 +36,25 @@ else
 end
 
 cottages.sounds = {}
+-- MineClone2 needs special treatment; default is only needed for
+-- crafting materials and sounds (less important)
+if( not( minetest.get_modpath("default"))) then
+	default = {};
+	cottages.sounds.wood   = nil
+	cottages.sounds.dirt   = nil
+	cottages.sounds.leaves = nil
+	cottages.sounds.stone  = nil
+else
+	cottages.sounds.wood   = default.node_sound_wood_defaults()
+	cottages.sounds.dirt   = default.node_sound_dirt_defaults()
+	cottages.sounds.stone  = default.node_sound_stone_defaults()
+	cottages.sounds.leaves = default.node_sound_leaves_defaults()
+	cottages.sounds.metal = default.node_sound_metal_defaults()
+end
+
+
+cottages.straw_texture = "cottages_darkage_straw.png"
+
 -- MineClone2 needs special treatment; default is only needed for
 -- crafting materials and sounds (less important)
 if( not( minetest.get_modpath("default"))) then
@@ -67,20 +90,56 @@ dofile(minetest.get_modpath("cottages").."/adaptions.lua");
 -- add a stack size if you want a higher yield
 cottages.handmill_product = {};
 cottages.handmill_product[ cottages.craftitem_seed_wheat ] = 'farming:flour 1';
+if farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
+  cottages.handmill_product[ cottages.craftitem_seed_barley ] = 'farming:flour 1';
+	cottages.handmill_product[ "farming:seed_oat" ] = 'farming:flour 1';
+	cottages.handmill_product[ "farming:seed_rye" ] = 'farming:flour 1';
+	cottages.handmill_product[ "farming:seed_rice" ] = 'farming:rice_flour 1';
+	cottages.handmill_product[ "farming:rice" ] = 'farming:rice_flour 1';
+end
+
 --[[ some examples:
 cottages.handmill_product[ 'default:cobble' ] = 'default:gravel';
 cottages.handmill_product[ 'default:gravel' ] = 'default:sand';
 cottages.handmill_product[ 'default:sand'   ] = 'default:dirt 2';
 cottages.handmill_product[ 'flowers:rose'   ] = 'dye:red 6';
 cottages.handmill_product[ 'default:cactus' ] = 'dye:green 6';
-cottages.handmill_product[ 'default:coal_lump'] = 'dye:black 6';
+cottages.handmill_product[ 'default:coal_lump' ] = 'dye:black 6';
 --]]
+
+-- same for the threshing floor
+cottages.threshing_product = {};
+cottages.threshing_product[ "default:grass_1" ] = cottages.craftitem_seed_wheat;
+cottages.threshing_product[ "farming:wheat" ] = cottages.craftitem_seed_wheat;
+cottages.threshing_product[ "farming:barley" ] = cottages.craftitem_seed_barley;
+if farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
+	cottages.threshing_product[ "farming:oat" ] = 'farming:seed_oat';
+	cottages.threshing_product[ "farming:rye" ] = 'farming:seed_rye';
+-- 	cottages.threshing_product[ "farming:rice" ] = 'farming:seed_rice';
+end
+
+-- API to add items to the handmill and threshing floor
+
+function cottages:add_threshing_product(input, output)
+--Probably pretty obvious, but, for instance, 
+--	cottages:add_threshing_product("default:grass_1",{"farming:seed_wheat", "farming:seed_oat"})
+--	supports the two possible grains that can come from grass_1, 50/50 chance  of each
+--maybe should add some error checking sometime...
+	cottages.threshing_product[input] = output
+end
+
+function cottages:add_handmill_product(input, output)
+	cottages.handmill_product[input] = output
+end
+
+
 -- process that many inputs per turn
 cottages.handmill_max_per_turn = 20;
 cottages.handmill_min_per_turn = 0;
 
 dofile(minetest.get_modpath("cottages").."/functions.lua");
 
+dofile(minetest.get_modpath("cottages").."/functions.lua");
 -- uncomment parts you do not want
 dofile(minetest.get_modpath("cottages").."/nodes_furniture.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_historic.lua");
@@ -95,6 +154,7 @@ dofile(minetest.get_modpath("cottages").."/nodes_fences.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_roof.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_barrel.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_mining.lua");
+dofile(minetest.get_modpath("cottages").."/nodes_fireplace.lua");
 dofile(minetest.get_modpath("cottages").."/nodes_water.lua");
 --dofile(minetest.get_modpath("cottages").."/nodes_chests.lua");
 

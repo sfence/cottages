@@ -30,10 +30,10 @@ minetest.register_tool("cottages:hammer", {
 local cottages_anvil_formspec =
                                "size[8,8]"..
 				"image[7,3;1,1;glooptest_tool_steelhammer.png]"..
---                                "list[current_name;sample;0,0.5;1,1;]"..
-                                "list[current_name;input;2.5,1.5;1,1;]"..
---                                "list[current_name;material;5,0;3,3;]"..
-                                "list[current_name;hammer;5,3;1,1;]"..
+--                                "list[context;sample;0,0.5;1,1;]"..
+                                "list[context;input;2.5,1.5;1,1;]"..
+--                                "list[context;material;5,0;3,3;]"..
+                                "list[context;hammer;5,3;1,1;]"..
 --					"label[0.0,0.0;Sample:]"..
 --					"label[0.0,1.0;(Receipe)]"..
 					"label[2.5,1.0;"..S("Workpiece:").."]"..
@@ -42,7 +42,7 @@ local cottages_anvil_formspec =
 					"label[6.0,3.0;"..S("storage for").."]"..
 					"label[6.0,3.3;"..S("your hammer").."]"..
 
-					"label[0,-0.5;"..S("Anvil").."]"..
+					"label[0,0;"..S("Anvil").."]"..
 					"label[0,3.0;"..S("Punch anvil with hammer to").."]"..
 					"label[0,3.3;"..S("repair tool in workpiece-slot.").."]"..
                                 "list[current_player;main;0,4;8,4;]";
@@ -50,7 +50,7 @@ local cottages_anvil_formspec =
 
 minetest.register_node("cottages:anvil", {
 	drawtype = "nodebox",
-	description = S("anvil"),
+	description = S("Anvil"),
 	tiles = {"cottages_stone.png"}, -- TODO default_steel_block.png,  default_obsidian.png are also nice
 	paramtype  = "light",
         paramtype2 = "facedir",
@@ -129,8 +129,9 @@ minetest.register_node("cottages:anvil", {
 		if( listname=='hammer' and stack and stack:get_name() ~= 'cottages:hammer') then
 			return 0;
 		end
+                                         
 		if(   listname=='input'
-		 and( stack:get_wear() == 0
+		and( stack:get_wear() == 0
                    or stack:get_name() == "technic:water_can" 
                    or stack:get_name() == "technic:lava_can" )) then
 
@@ -138,6 +139,14 @@ minetest.register_node("cottages:anvil", {
 				S('The workpiece slot is for damaged tools only.'));
 			return 0;
 		end
+                                         
+		local itemdef = minetest.registered_items[stack:get_name()]
+		if itemdef.wear_represents and itemdef.wear_represents == "technic_RE_charge" then
+			minetest.chat_send_player( player:get_player_name(),
+				S('The workpiece slot is for mechanical tools only.'));
+			return 0;
+		end
+                                         
 		return stack:get_count()
 	end,
 
@@ -166,15 +175,23 @@ minetest.register_node("cottages:anvil", {
 
 		local input = inv:get_stack('input',1);
 
+		                                        
 		-- only tools can be repaired
-		if( not( input ) 
-		   or input:is_empty()
-                   or input:get_name() == "technic:water_can" 
-                   or input:get_name() == "technic:lava_can" ) then
-
+		if 	(not( input ) 
+			or input:is_empty()
+			or input:get_name() == "technic:water_can" 
+			or input:get_name() == "technic:lava_can" ) then
 			meta:set_string("formspec",
 					cottages_anvil_formspec,
 					"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]");
+			return;
+		end
+                                         
+		local itemdef = minetest.registered_items[input:get_name()]
+		if itemdef.wear_represents and itemdef.wear_represents == "technic_RE_charge" then
+			meta:set_string("formspec",
+				cottages_anvil_formspec,
+				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]");  
 			return;
 		end
 
@@ -228,10 +245,16 @@ minetest.register_node("cottages:anvil", {
 			});
 		end
 		minetest.after(2, function()
-			if( puncher ) then
-				if(hud1) then puncher:hud_remove(hud1); end
-				if(hud2) then puncher:hud_remove(hud2); end
-				if(hud3) then puncher:hud_remove(hud3); end
+			if (puncher) then
+				if (hud1) then 
+					puncher:hud_remove(hud1)
+				end
+				if (hud2) then 
+					puncher:hud_remove(hud2)
+				end
+				if (hud3) then 
+					puncher:hud_remove(hud3)
+				end
 			end
 		end)
 

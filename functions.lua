@@ -3,7 +3,15 @@ local S = cottages.S
 
 --- if no owner is set, all players may use the node; else only the owner
 cottages.player_can_use = function( meta, player )
-	if( not( player) or not( meta )) then
+	if not (player) then
+		minetest.chat_send_all("kek")
+	end
+	
+	if not (meta) then
+		minetest.chat_send_all("lel")
+	end
+
+	if( not( player ) or not( meta )) then
 		return false;
 	end
 	local pname = player:get_player_name();
@@ -39,4 +47,38 @@ cottages.switch_public = function(pos, formname, fields, sender, name_of_the_thi
 		end
 		return true
 	end
+end
+
+-- generalized function to register microblocks/stairs
+cottages.derive_blocks = function( modname, nodename, nodedesc, tile, groups )
+	
+	if stairs and stairs.mod and stairs.mod == "redo" then
+
+		stairs.register_all(nodename, modname .. ":" .. nodename,
+			{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+			{tile},
+			cottages.S(nodedesc .. " stair"),
+			cottages.S(nodedesc .. " slab"),
+			cottages.sounds.wood)
+									
+	elseif minetest.global_exists("stairsplus") then
+															
+		stairsplus:register_all(modname, nodename, modname .. ":" .. nodename, {
+			description = cottages.S(nodedesc),
+			tiles = {tile},
+			groups = {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+			sounds = cottages.sounds.wood,
+		})
+
+	else
+
+		stairs.register_stair_and_slab(nodename, modname .. ":" .. nodename,
+			{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
+			{tile},
+			cottages.S(nodedesc .. " stair"),
+			cottages.S(nodedesc .. " slab"),
+			cottages.sounds.wood)
+	
+	end
+	
 end

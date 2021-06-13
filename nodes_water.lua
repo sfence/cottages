@@ -12,11 +12,10 @@
 --   * full (water or river water) buckets can be emptied
 --   * by default public; but can also be made private
 
+local S = cottages.S
 
 -- how many seconds does it take to fill a bucket?
 cottages.water_fill_time = 10
-
-local S = cottages.S
 
 -- code taken from the itemframes mod in homedecor
 -- (the relevant functions are sadly private there and thus cannot be reused)
@@ -117,7 +116,7 @@ minetest.register_node("cottages:water_gen", {
 	paramtype  = "light",
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	groups = {wooden = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
 	sounds = cottages.sounds.wood,
 	node_box = {
 		type = "fixed",

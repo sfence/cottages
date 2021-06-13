@@ -47,7 +47,7 @@ minetest.register_node("cottages:hay_mat", {
 	paramtype2 = "leveled",
 	description = S("Some hay"),
 	tiles = {cottages.straw_texture.."^[multiply:#88BB88"},
-	groups = {hay=3, snappy=2, oddly_breakable_by_hand=2, flammable=3},
+	groups = {hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable = 3},
 	sounds = cottages.sounds.leaves,
         -- the bale is slightly smaller than a full node
 	is_ground_content = false,
@@ -74,7 +74,7 @@ minetest.register_node("cottages:hay_mat", {
 minetest.register_node("cottages:hay", {
 	description = S("Hay"),
 	tiles = {cottages.straw_texture.."^[multiply:#88BB88"},
-	groups = {hay=3, snappy=2, oddly_breakable_by_hand=2, flammable=3},
+	groups = {hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable = 3, roof = 1},
 	sounds = cottages.sounds.leaves,
 	is_ground_content = false,
 })
@@ -86,7 +86,7 @@ minetest.register_node("cottages:hay_bale", {
 	description = S("Hay bale"),
 	tiles = {"cottages_darkage_straw_bale.png^[multiply:#88BB88"},
 	paramtype = "light",
-	groups = {hay=3, snappy=2, oddly_breakable_by_hand=2, flammable=3},
+	groups = {hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable = 3, roof = 1},
 	sounds = cottages.sounds.leaves,
         -- the bale is slightly smaller than a full node
 	node_box = {
@@ -133,3 +133,17 @@ minetest.register_craft({
 	output = "cottages:hay_bale",
 	recipe = {{"cottages:hay"}},
 })
+
+-- derivative blocks
+
+cottages.derive_blocks( "cottages", 
+				"hay", 
+				S("Hay"), 
+				cottages.straw_texture.."^[multiply:#88BB88", 
+				{hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable = 3, roof = 1} )
+                                                
+cottages.derive_blocks( "cottages", 
+				"hay_bale", 
+				S("Hay bale"), 
+				"cottages_darkage_straw_bale.png^[multiply:#88BB88", 
+				{hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable = 3, roof = 1} )

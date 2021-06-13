@@ -30,9 +30,9 @@ minetest.register_tool("cottages:pitchfork", {
 		full_punch_interval = 1.0,
 		max_drop_level=1,
 		groupcaps={
-			fleshy={times={[2]=0.80, [3]=0.40}, maxlevel=1, uses=1/0.002 },
-			snappy={times={[2]=0.80, [3]=0.40}, maxlevel=1, uses=1/0.002 },
-			hay   ={times={[2]=0.10, [3]=0.10}, maxlevel=1, uses=1/0.002 },
+			fleshy={times={[2]=0.80, [3]=0.40}, maxwear=0.05, maxlevel=1, uses=40},
+			snappy={times={[2]=0.80, [3]=0.40}, maxwear=0.05, maxlevel=1, uses=40},
+			hay   ={times={[2]=0.10, [3]=0.10}, maxwear=0.05, maxlevel=1, uses=40},
 		},
                 damage_groups = {fleshy=5}, -- slightly stronger than a stone sword
 	},
@@ -44,6 +44,7 @@ minetest.register_tool("cottages:pitchfork", {
 		end
 		local pos  = minetest.get_pointed_thing_position( pointed_thing, 1 )
 		local node = minetest.get_node_or_nil( pos )
+                                            
 		if( node == nil or not(node.name) or node.name ~= "air") then
 			return nil
 		end
@@ -52,8 +53,9 @@ minetest.register_tool("cottages:pitchfork", {
 		end
 		minetest.rotate_and_place(ItemStack("cottages:pitchfork_placed"), placer, pointed_thing)
 		-- did the placing succeed?
-		local nnode = minetest.get_node(pos)
-		if( not(nnode) or not(nnode.name) or nnode.name ~= "cottages:pitchfork_placed") then
+		if not minetest.find_nodes_in_area({x=pos.x, y=pos.y-1, z=pos.z}, 
+                                               {x=pos.x, y=pos.y+1, z=pos.z}, 
+                                               {"cottages:pitchfork_placed"})[1] then
 			return nil
 		end
 		local meta = minetest.get_meta(pos)
@@ -73,7 +75,7 @@ minetest.register_node("cottages:pitchfork_placed", {
 	paramtype  = "light",
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {snappy = 2, dig_immediate = 3, falling_node = 1, attached_node = 1, not_in_creative_inventory=1},
+	groups = {snappy = 2, dig_immediate = 3, falling_node = 1, attached_node = 1},
 	sounds = cottages.sounds.wood,
 	node_box = {
 		type = "fixed",

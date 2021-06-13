@@ -9,6 +9,7 @@ cottages.craftitem_steel = "default:steel_ingot";
 cottages.craftitem_stick = "group:stick";
 -- used for: treshing floor, handmill, slate roof, vertical slate
 cottages.craftitem_stone = "default:stone";
+cottages.craftitem_cobble = "default:cobble";
 -- used for: window shutter, half door, half door inverted, fence gate,
 --           bed, bench, shelf, roof connector, vertical slate
 cottages.craftitem_wood  = "group:wood";
@@ -16,6 +17,11 @@ cottages.craftitem_wood  = "group:wood";
 cottages.craftitem_door  = "doors:door_wood";
 -- used for: small fence
 cottages.craftitem_fence = "default:fence_wood";
+
+if minetest.get_modpath("ethereal") then
+	cottages.craftitem_fence = "group:fence";
+end
+
 -- used for: bed (head+foot), wool for tents
 cottages.craftitem_wool  = "wool:white";
 -- used for: washing place, loam
@@ -37,8 +43,15 @@ cottages.craftitem_clay_brick   = "default:clay_brick";
 -- used for: treshing floor
 cottages.craftitem_junglewood   = "default:junglewood";
 cottages.craftitem_chest_locked = "default:chest_locked";
+cottages.craftitem_chest        = "default:chest";
 -- used for: hatch, table
-cottages.craftitem_slab_wood    = "stairs:slab_wood";
+cottages.craftitem_slab_wood = "moreblocks:slab_wood";
+-- use moreblocks slab > stairs slab > cottage planks
+if (minetest.get_modpath("stairs")) then
+	cottages.craftitem_slab_wood_fallback = "stairs:slab_wood";
+else 
+	cottages.craftitem_slab_wood_fallback = "cottages:wood_flat";
+end
 
 -- texture used for fence gate and bed posts
 cottages.texture_furniture  = "default_wood.png";
@@ -70,7 +83,7 @@ if( not( minetest.registered_nodes["default:tree"])) then
 		cottages.craftitem_steel = "metals:pig_iron_ingot";
 		-- stone exists, but is hard to obtain; chiseled stone is more suitable
 		cottages.craftitem_stone = "default:stone_flat";
-		-- there are far more diffrent wood tpyes
+		-- there are far more diffrent wood types
 		cottages.craftitem_wood  = "group:planks";
 		cottages.craftitem_door  = "doors:door_birch";
 		cottages.craftitem_fence = "group:fence";
@@ -91,11 +104,6 @@ if( not( minetest.registered_nodes["default:tree"])) then
 		-- does not look so well in this case as it's no bark; but what else shall we do?
 		cottages.textures_roof_wood = "cottages_minimal_wood.png";
 	end
-end
-
-if( minetest.get_modpath("moreblocks")
-  and minetest.registered_nodes[ "moreblocks:slab_wood" ]) then
-	cottages.craftitem_slab_wood = "moreblocks:slab_wood";
 end
 
 if( not( minetest.registered_nodes["wool:white"])) then
