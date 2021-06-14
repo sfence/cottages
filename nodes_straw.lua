@@ -20,7 +20,7 @@ end
 
 -- an even simpler from of bed - usually for animals 
 -- it is a nodebox and not wallmounted because that makes it easier to replace beds with straw mats
-minetest.register_node("cottages:straw_mat", {
+minetest.register_node("hades_cottages:straw_mat", {
 	description = S("Layer of straw"),
 	drawtype = 'nodebox',
 	tiles = { cottages.straw_texture }, -- done by VanessaE
@@ -51,7 +51,7 @@ minetest.register_node("cottages:straw_mat", {
 })
 
 -- straw bales are a must for farming environments; if you for some reason do not have the darkage mod installed, this here gets you a straw bale
-minetest.register_node("cottages:straw_bale", {
+minetest.register_node("hades_cottages:straw_bale", {
 	drawtype = "nodebox",
 	description = S("Straw bale"),
 	tiles = {"cottages_darkage_straw_bale.png"},
@@ -75,8 +75,7 @@ minetest.register_node("cottages:straw_bale", {
 })
 
 -- just straw
-if( not(minetest.registered_nodes["farming:straw"])) then
-   minetest.register_node("cottages:straw", {
+minetest.register_node("hades_cottages:straw", {
 	drawtype = "normal",
 	description = S("Straw block"),
 	tiles = {"cottages_darkage_straw.png"},
@@ -87,7 +86,7 @@ if( not(minetest.registered_nodes["farming:straw"])) then
 })
 
 -- dark-colored straw
-minetest.register_node("cottages:straw_dark", {
+minetest.register_node("hades_cottages:straw_dark", {
 	drawtype = "normal",
 	description = S("Dark straw block"),
 	tiles = {"cottages_dark_straw.png"},
@@ -95,10 +94,7 @@ minetest.register_node("cottages:straw_dark", {
 	sounds = cottages.sounds.wood,
 	-- the bale is slightly smaller than a full node
 	is_ground_content = false,
-   })
-else
-	minetest.register_alias("cottages:straw", "farming:straw")
-end
+})
 
 
 --
@@ -135,7 +131,7 @@ local cottages_formspec_treshing_floor =
 			"label[0,3.0;"..S("to get straw and seeds from wheat.").."]"..
 			"list[current_player;main;0,4;8,4;]";
 
-minetest.register_node("cottages:threshing_floor", {
+minetest.register_node("hades_cottages:threshing_floor", {
 	drawtype = "nodebox",
 	description = S("threshing floor"),
 -- TODO: stone also looks pretty well for this
@@ -310,11 +306,11 @@ minetest.register_node("cottages:threshing_floor", {
 		local output_straw = grain_to_process;
 		local output_seeds = grain_to_process;
 
-		if (inv:room_for_item('straw','cottages:straw_mat '..tostring(output_straw))
+		if (inv:room_for_item('straw','hades_cottages:straw_mat '..tostring(output_straw))
 			and inv:room_for_item('seeds', cottages.craftitem_seed_wheat..' '..tostring(output_seeds))) then
 
 			-- the player gets two kind of output, straw...
-			inv:add_item("straw", 'cottages:straw_mat '..tostring(output_straw));
+			inv:add_item("straw", 'hades_cottages:straw_mat '..tostring(output_straw));
 			-- add seeds depending on what was loaded in the threshing floor
 			local out = cottages.threshing_product[input_material]
 			if type(out)=="table" then
@@ -440,7 +436,7 @@ local cottages_handmill_formspec = "size[8,8]"..
 				"label[0,3.0;"..S("to convert wheat seeds into flour.").."]"..
 				"list[current_player;main;0,4;8,4;]";
 
-minetest.register_node("cottages:handmill", {
+minetest.register_node("hades_cottages:handmill", {
 	description = S("mill, powered by punching"),
 	drawtype = "mesh",
 	mesh = "cottages_handmill.obj",
@@ -567,7 +563,8 @@ minetest.register_node("cottages:handmill", {
 		end
 
 		local product_stack = ItemStack(cottages.handmill_product[ stack1:get_name() ]);
-		local output_result = output;
+		local output_result = math.floor(output/6);
+    output = output_result * 6
 		-- items that produce more
 		if(product_stack:get_count()> 1) then
 			output_result = output * product_stack:get_count();
@@ -606,17 +603,17 @@ minetest.register_node("cottages:handmill", {
 -- this returns corn as well
 -- the replacements work only if the replaced slot gets empty...
 minetest.register_craft({
-	output = "cottages:straw_mat 6",
+	output = "hades_cottages:straw_mat 6",
 	recipe = {
                 {cottages.craftitem_stone,'',''},
-		{"farming:wheat", "farming:wheat", "farming:wheat", },
+		{cottages.craftitem_wheat, cottages.craftitem_wheat, cottages.craftitem_wheat, },
 	},
         replacements = {{ cottages.craftitem_stone, cottages.craftitem_seed_wheat.." 3" }},  
 })
 
 -- this is a better way to get straw mats
 minetest.register_craft({
-	output = "cottages:threshing_floor",
+	output = "hades_cottages:threshing_floor",
 	recipe = {
 		{cottages.craftitem_junglewood, cottages.craftitem_chest_locked, cottages.craftitem_junglewood, },
 		{cottages.craftitem_junglewood, cottages.craftitem_stone,        cottages.craftitem_junglewood, },
@@ -625,7 +622,7 @@ minetest.register_craft({
 
 -- and a way to turn wheat seeds into flour
 minetest.register_craft({
-	output = "cottages:handmill",
+	output = "hades_cottages:handmill",
 	recipe = {
 		{cottages.craftitem_stick,     cottages.craftitem_stone,    "", },
 		{"",               cottages.craftitem_steel, "", },
@@ -634,47 +631,47 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:straw_bale",
+	output = "hades_cottages:straw_bale",
 	recipe = {
-		{"cottages:straw_mat"},
-		{"cottages:straw_mat"},
-		{"cottages:straw_mat"},
+		{"hades_cottages:straw_mat"},
+		{"hades_cottages:straw_mat"},
+		{"hades_cottages:straw_mat"},
 	},
 })
 
 minetest.register_craft({
-	output = "cottages:straw",
+	output = "hades_cottages:straw",
 	recipe = {
-		{"cottages:straw_mat", "cottages:straw_mat", "cottages:straw_mat"}
+		{"hades_cottages:straw_mat", "hades_cottages:straw_mat", "hades_cottages:straw_mat"}
 	},
 })
 
 
 minetest.register_craft({
-	output = "cottages:straw",
+	output = "hades_cottages:straw",
 	recipe = {
-		{"cottages:straw_bale"},
+		{"hades_cottages:straw_bale"},
 	},
 })
 
 minetest.register_craft({
-	output = "cottages:straw_bale",
+	output = "hades_cottages:straw_bale",
 	recipe = {
-		{"cottages:straw"},
+		{"hades_cottages:straw"},
 	},
 })
 
 minetest.register_craft({
-	output = "cottages:straw_dark 2",
+	output = "hades_cottages:straw_dark 2",
 	recipe = {
-		{"cottages:straw_bale", "cottages:straw_bale"},
+		{"hades_cottages:straw_bale", "hades_cottages:straw_bale"},
 	},
 })
 
 minetest.register_craft({
-	output = "cottages:straw_mat 3",
+	output = "hades_cottages:straw_mat 3",
 	recipe = {
-		{"cottages:straw_bale"},
+		{"hades_cottages:straw_bale"},
 	},
 })
 
@@ -684,19 +681,19 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "fuel",
-	recipe = "cottages:straw",
+	recipe = "hades_cottages:straw",
 	burntime = 15,
 })
 
 minetest.register_craft({
 	type = "fuel",
-	recipe = "cottages:straw_bale",
+	recipe = "hades_cottages:straw_bale",
 	burntime = 20,
 })
 
 minetest.register_craft({
 	type = "fuel",
-	recipe = "cottages:straw_dark",
+	recipe = "hades_cottages:straw_dark",
 	burntime = 10,
 })
 

@@ -28,39 +28,39 @@ end
 local function register_recipes(include_end)
 	
 	minetest.register_craft({
-		output = "cottages:feldweg_crossing 5",
+		output = "hades_cottages:feldweg_crossing 5",
 		recipe = {
-			{"", "cottages:feldweg", "" },
-			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"},
-			{"", "cottages:feldweg", "" },
+			{"", "hades_cottages:feldweg", "" },
+			{"hades_cottages:feldweg", "hades_cottages:feldweg", "hades_cottages:feldweg"},
+			{"", "hades_cottages:feldweg", "" },
 		},
 	})
 	                                          
 	minetest.register_craft({
-		output = "cottages:feldweg_t_junction 5",
+		output = "hades_cottages:feldweg_t_junction 5",
 		recipe = {
-			{"", "cottages:feldweg", "" },
-			{"", "cottages:feldweg", "" },
-			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+			{"", "hades_cottages:feldweg", "" },
+			{"", "hades_cottages:feldweg", "" },
+			{"hades_cottages:feldweg", "hades_cottages:feldweg", "hades_cottages:feldweg"}
 			
 		},
 	})										
 	             
 	minetest.register_craft({
-		output = "cottages:feldweg_curve 5",
+		output = "hades_cottages:feldweg_curve 5",
 		recipe = {
-			{"cottages:feldweg", "", "" },
-			{"cottages:feldweg", "", ""},
-			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+			{"hades_cottages:feldweg", "", "" },
+			{"hades_cottages:feldweg", "", ""},
+			{"hades_cottages:feldweg", "hades_cottages:feldweg", "hades_cottages:feldweg"}
 		},
 	})									                                       
 	               
 	if include_end then
 		minetest.register_craft({
-			output = "cottages:feldweg_end 5",
+			output = "hades_cottages:feldweg_end 5",
 			recipe = {
-				{"cottages:feldweg", "", "cottages:feldweg" },
-				{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+				{"hades_cottages:feldweg", "", "hades_cottages:feldweg" },
+				{"hades_cottages:feldweg", "hades_cottages:feldweg", "hades_cottages:feldweg"}
 			},
 		})	
 	end
@@ -68,7 +68,7 @@ end
 
 --- a nice Dirt road for small villages or paths to fields
 if( cottages_feldweg_mode == "simple" or cottages_feldweg_mode == "flat" ) then
-	minetest.register_node("cottages:feldweg", {
+	minetest.register_node("hades_cottages:feldweg", {
 		description = S("Dirt road"),
 		tiles = {"cottages_feldweg.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
@@ -86,7 +86,7 @@ end
 --
 if( cottages_feldweg_mode == "flat" ) then
 
-	minetest.register_node("cottages:feldweg_crossing", {
+	minetest.register_node("hades_cottages:feldweg_crossing", {
 		description = S("Dirt road crossing"),
 		tiles = {"cottages_feldweg_kreuzung.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
@@ -96,7 +96,7 @@ if( cottages_feldweg_mode == "flat" ) then
 		is_ground_content = false,
 	})
 
-	minetest.register_node("cottages:feldweg_t_junction", {
+	minetest.register_node("hades_cottages:feldweg_t_junction", {
 		description = S("Dirt road t junction"),
 		tiles = {"cottages_feldweg_t-kreuzung.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
@@ -106,7 +106,7 @@ if( cottages_feldweg_mode == "flat" ) then
 		is_ground_content = false,
 	})
 
-	minetest.register_node("cottages:feldweg_curve", {
+	minetest.register_node("hades_cottages:feldweg_curve", {
 		description = S("Dirt road curve"),
 		tiles = {"cottages_feldweg_ecke.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
@@ -121,7 +121,7 @@ if( cottages_feldweg_mode == "flat" ) then
 -- cube-style nodebox version
 --
 elseif( cottages_feldweg_mode == "nodebox" ) then
-	minetest.register_node("cottages:feldweg", {
+	minetest.register_node("hades_cottages:feldweg", {
 	        description = S("Dirt road"),
 		tiles = {"cottages_feldweg_orig.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
@@ -152,7 +152,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		},
 	})
 
-	minetest.register_node("cottages:feldweg_crossing", {
+	minetest.register_node("hades_cottages:feldweg_crossing", {
 		description = S("Dirt road crossing"),
 		tiles = {"cottages_feldweg_kreuzung.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
@@ -196,7 +196,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		},
 	})
 
-	minetest.register_node("cottages:feldweg_t_junction", {
+	minetest.register_node("hades_cottages:feldweg_t_junction", {
 		description = S("Dirt road t junction"),
 		tiles = {"cottages_feldweg_t-kreuzung.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
@@ -238,7 +238,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		},
 	})
 
-	minetest.register_node("cottages:feldweg_curve", {
+	minetest.register_node("hades_cottages:feldweg_curve", {
 		description = S("Dirt road curve"),
 		tiles = {"cottages_feldweg_ecke.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
 		paramtype2 = "facedir",
@@ -289,7 +289,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 elseif( cottages_feldweg_mode == "mesh" ) then
 
 	-- a nice Dirt road for small villages or paths to fields
-	minetest.register_node("cottages:feldweg", {
+	minetest.register_node("hades_cottages:feldweg", {
 		description = S("Dirt road"),
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
@@ -306,7 +306,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 	})
 
 
-	minetest.register_node("cottages:feldweg_crossing", {
+	minetest.register_node("hades_cottages:feldweg_crossing", {
 		description = S("Dirt road crossing"),
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
@@ -323,7 +323,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 
 
 	                                          
-	minetest.register_node("cottages:feldweg_t_junction", {
+	minetest.register_node("hades_cottages:feldweg_t_junction", {
 		description = S("Dirt road t junction"),
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
@@ -340,7 +340,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 	                                          
 
 
-	minetest.register_node("cottages:feldweg_curve", {
+	minetest.register_node("hades_cottages:feldweg_curve", {
 		description = S("Dirt road curve"),
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
@@ -357,7 +357,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 
 
 							
-	minetest.register_node("cottages:feldweg_end", {
+	minetest.register_node("hades_cottages:feldweg_end", {
 		description = S("Dirt road end"),
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
@@ -382,10 +382,12 @@ end
 
 -- create stairs if possible
 if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab) then
-   stairs.register_stair_and_slab("feldweg", "cottages:feldweg",
+   stairs.register_stair_and_slab("feldweg", "hades_cottages:feldweg",
 		{crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
 		{"cottages_feldweg.png","default_dirt.png", "default_grass.png","default_grass.png","cottages_feldweg.png","cottages_feldweg.png"},
 		S("Dirt Road Stairs"),
+		S("Outer Dirt Road Stairs"),
+		S("Inner Dirt Road Stairs"),
 		S("Dirt Road, half height"),
 		cottages.sounds.dirt)
 end
@@ -410,7 +412,7 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 				{-0.5,  0.25,     0, 0.5,   0.5, 0.5}
 			}};
 
-	minetest.register_node("cottages:feldweg_slope", {
+	minetest.register_node("hades_cottages:feldweg_slope", {
 		description = S("Dirt road slope"),
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
@@ -431,7 +433,7 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 
                                  
 	                                          
-	minetest.register_node("cottages:feldweg_slope_long", {
+	minetest.register_node("hades_cottages:feldweg_slope_long", {
 		description = S("Dirt road slope long"),
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
@@ -451,18 +453,18 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 	        
 	                                          
 	minetest.register_craft({
-		output = "cottages:feldweg_slope 3",
+		output = "hades_cottages:feldweg_slope 3",
 		recipe = {
-			{"cottages:feldweg", "", "" },
-			{"cottages:feldweg", "cottages:feldweg", ""}
+			{"hades_cottages:feldweg", "", "" },
+			{"hades_cottages:feldweg", "hades_cottages:feldweg", ""}
 		},
 	})	     
 	                                          
 	minetest.register_craft({
-		output = "cottages:feldweg_slope_long 4",
+		output = "hades_cottages:feldweg_slope_long 4",
 		recipe = {
-			{"cottages:feldweg", "", "" },
-			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+			{"hades_cottages:feldweg", "", "" },
+			{"hades_cottages:feldweg", "hades_cottages:feldweg", "hades_cottages:feldweg"}
 		},
 	})
 end

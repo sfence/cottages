@@ -17,7 +17,7 @@ end
 -- creates hay when digging dirt_with_grass (thanks to the override above);
 -- useful for digging hay and straw
 -- can be placed as a node
-minetest.register_tool("cottages:pitchfork", {
+minetest.register_tool("hades_cottages:pitchfork", {
 	description = S("pitchfork (dig dirt with grass to get hay, place with right-click)"),
 	groups = {},
 	inventory_image = "cottages_pitchfork.png",
@@ -51,11 +51,11 @@ minetest.register_tool("cottages:pitchfork", {
 		if minetest.is_protected(pos, placer:get_player_name()) then
 			return nil
 		end
-		minetest.rotate_and_place(ItemStack("cottages:pitchfork_placed"), placer, pointed_thing)
+		minetest.rotate_and_place(ItemStack("hades_cottages:pitchfork_placed"), placer, pointed_thing)
 		-- did the placing succeed?
 		if not minetest.find_nodes_in_area({x=pos.x, y=pos.y-1, z=pos.z}, 
                                                {x=pos.x, y=pos.y+1, z=pos.z}, 
-                                               {"cottages:pitchfork_placed"})[1] then
+                                               {"hades_cottages:pitchfork_placed"})[1] then
 			return nil
 		end
 		local meta = minetest.get_meta(pos)
@@ -68,7 +68,7 @@ minetest.register_tool("cottages:pitchfork", {
 
 
 -- a ptichfork placed somewhere
-minetest.register_node("cottages:pitchfork_placed", {
+minetest.register_node("hades_cottages:pitchfork_placed", {
 	description = S("pitchfork (for hay and straw)"),
 	tiles = {"default_wood.png^[transformR90"}, --default_tree.png"},
 	drawtype = "nodebox",
@@ -93,7 +93,7 @@ minetest.register_node("cottages:pitchfork_placed", {
 		type = "fixed",
 		fixed = { -0.3, -0.5, -0.1, 0.3, 1.0, 0.1 }
 	},
-	drop = "cottages:pitchfork",
+	drop = "hades_cottages:pitchfork",
 	-- perserve wear
 	preserve_metadata = function(pos, oldnode, oldmeta, drops)
 		if(oldmeta["wear"]) then
@@ -107,10 +107,10 @@ minetest.register_node("cottages:pitchfork_placed", {
 -- craft recipes
 --
 minetest.register_craft({
-        output = 'cottages:pitchfork',
+        output = 'hades_cottages:pitchfork',
         recipe = {
-                { 'default:stick','default:stick','default:stick' },
-                { '','default:stick', '' },
-                { '','default:stick','' },
+                { 'hades_core:stick','hades_core:stick','hades_core:stick' },
+                { '','hades_core:stick', '' },
+                { '','hades_core:stick','' },
         }
 })

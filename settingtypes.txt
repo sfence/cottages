@@ -1,0 +1,3 @@
+
+# Enable anvil
+cottage_enable_anvil (Enable Anvil) bool false

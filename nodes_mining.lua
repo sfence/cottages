@@ -6,7 +6,7 @@ local S = cottages.S
 ---------------------------------------------------------------------------------------
 -- the rope can only be digged if there is no further rope above it;
 -- Note: This rope also counts as a rail node; thus, carts can move through it
-minetest.register_node("cottages:rope", {
+minetest.register_node("hades_cottages:rope", {
 	description = S("Rope for climbing"),
 	tiles = {"cottages_rope.png"},
 	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,rail=1,connect_to_raillike=1},--connect_to_raillike=minetest.raillike_group("rail")},
@@ -18,7 +18,7 @@ minetest.register_node("cottages:rope", {
 	is_ground_content = false,
 	can_dig = function(pos, player)
 		local below = minetest.get_node( {x=pos.x, y=pos.y-1, z=pos.z});
-		if( below and below.name and below.name == "cottages:rope" ) then
+		if( below and below.name and below.name == "hades_cottages:rope" ) then
 			if( player ) then
 				minetest.chat_send_player( player:get_player_name(),
 					'The entire rope would be too heavy. Start digging at its lowest end!');
@@ -30,16 +30,17 @@ minetest.register_node("cottages:rope", {
 })
 
 minetest.register_craft({
-	output = "cottages:rope 4",
+	output = "hades_cottages:rope 4",
 	recipe = {
-		{"farming:cotton","farming:string","farming:cotton"},
-		{"farming:string","farming:cotton","farming:string"}
+		{cottages.craftitem_cotton,cottages.craftitem_string,cottages.craftitem_cotton},
+		{cottages.craftitem_string,cottages.craftitem_cotton,cottages.craftitem_string}
   }
 })
 
 
 -- Note: This rope also counts as a rail node; thus, carts can move through it
-minetest.register_node("cottages:ladder_with_rope_and_rail", {
+--[[
+minetest.register_node("hades_cottages:ladder_with_rope_and_rail", {
 	description = S("Ladder with rail support"),
 	drawtype = "signlike",
 	tiles = {"default_ladder_wood.png^carts_rail_straight.png^cottages_rope.png"},
@@ -63,8 +64,9 @@ minetest.register_node("cottages:ladder_with_rope_and_rail", {
 
 
 minetest.register_craft({
-	output = "cottages:ladder_with_rope_and_rail 3",
+	output = "hades_cottages:ladder_with_rope_and_rail 3",
 	recipe = {
-		{"default:ladder","cottages:rope", "default:rail"}
+		{"hades_core:ladder","hades_cottages:rope", "hades_core:rail"}
         }
 })
+--]]

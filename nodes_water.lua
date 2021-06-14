@@ -20,7 +20,7 @@ cottages.water_fill_time = 10
 -- code taken from the itemframes mod in homedecor
 -- (the relevant functions are sadly private there and thus cannot be reused)
 local tmp = {}
-minetest.register_entity("cottages:bucket_entity",{
+minetest.register_entity("hades_cottages:bucket_entity",{
 	hp_max = 1,
 	visual="wielditem",
 	visual_size={x = 0.33, y = 0.33},
@@ -52,7 +52,7 @@ minetest.register_entity("cottages:bucket_entity",{
 			for _, obj in ipairs(objs) do
 				if obj ~= self.object and
 				   obj:get_luaentity() and
-				   obj:get_luaentity().name == "cottages:bucket_entity" and
+				   obj:get_luaentity().name == "hades_cottages:bucket_entity" and
 				   obj:get_luaentity().nodename == self.nodename and
 				   obj:get_properties() and
 				   obj:get_properties().textures and
@@ -81,7 +81,7 @@ cottages.water_gen_fill_bucket = function(pos)
 	local meta = minetest.get_meta(pos)
 	local bucket = meta:get_string("bucket")
 	-- nothing to do
-	if( not(bucket) or bucket ~= "bucket:bucket_empty") then
+	if( not(bucket) or bucket ~= "hades_bucket:bucket_empty") then
 		return
 	end
 	-- abort if the water has not been running long enough
@@ -92,24 +92,24 @@ cottages.water_gen_fill_bucket = function(pos)
 	end
 
 	-- the bucket has been filled
-	meta:set_string("bucket", "bucket:bucket_river_water")
+	meta:set_string("bucket", "hades_bucket:bucket_river_water")
 
 	-- change the texture of the bucket to that of one filled with river water
 	local objs = nil
 	objs = minetest.get_objects_inside_radius(pos, .5)
 	if objs then
 		for _, obj in ipairs(objs) do
-			if obj and obj:get_luaentity() and obj:get_luaentity().name == "cottages:bucket_entity" then
-				obj:set_properties( { textures = { "bucket:bucket_river_water" }})
-				obj:get_luaentity().nodename = "bucket:bucket_river_water"
-				obj:get_luaentity().texture = "bucket:bucket_river_water"
+			if obj and obj:get_luaentity() and obj:get_luaentity().name == "hades_cottages:bucket_entity" then
+				obj:set_properties( { textures = { "hades_bucket:bucket_river_water" }})
+				obj:get_luaentity().nodename = "hades_bucket:bucket_river_water"
+				obj:get_luaentity().texture = "hades_bucket:bucket_river_water"
 			end
 		end
 	end
 end
 
 
-minetest.register_node("cottages:water_gen", {
+minetest.register_node("hades_cottages:water_gen", {
 	description = "Tree Trunk Well",
 	tiles = {"default_tree_top.png", "default_tree.png^[transformR90", "default_tree.png^[transformR90"},
 	drawtype = "nodebox",
@@ -153,8 +153,8 @@ minetest.register_node("cottages:water_gen", {
 			"label[1.5,1.0;Your bucket will slowly be filled with river water.]"..
 			"label[1.5,1.3;Punch again to get the bucket back when it is full.]"..
 			"label[1.0,2.9;Internal bucket storage (passive storage only):]"..
-			"item_image[0.2,0.7;1.0,1.0;bucket:bucket_empty]"..
-			"item_image[0.2,1.7;1.0,1.0;bucket:bucket_river_water]"..
+			"item_image[0.2,0.7;1.0,1.0;hades_bucket:bucket_empty]"..
+			"item_image[0.2,1.7;1.0,1.0;hades_bucket:bucket_river_water]"..
 			"label[1.5,1.9;Punch well with full water bucket in order to empty bucket.]"..
 			"button_exit[6.0,0.0;2,0.5;public;"..S("Public?").."]"..
 			"list[nodemeta:" .. spos .. ";main;1,3.3;8,1;]" ..
@@ -193,9 +193,9 @@ minetest.register_node("cottages:water_gen", {
 		local inv = meta:get_inventory()
 		-- only for buckets
 		local sname = stack:get_name()
-		if(   sname ~= "bucket:bucket_empty"
-		  and sname ~= "bucket:bucket_water"
-		  and sname ~= "bucket:bucket_river_water") then
+		if(   sname ~= "hades_bucket:bucket_empty"
+		  and sname ~= "hades_bucket:bucket_water"
+		  and sname ~= "hades_bucket:bucket_river_water") then
 			return 0
 		end
 		return stack:get_count()
@@ -246,7 +246,7 @@ minetest.register_node("cottages:water_gen", {
 		objs = minetest.get_objects_inside_radius(pos, .5)
 		if objs then
 			for _, obj in ipairs(objs) do
-				if obj and obj:get_luaentity() and obj:get_luaentity().name == "cottages:bucket_entity" then
+				if obj and obj:get_luaentity() and obj:get_luaentity().name == "hades_cottages:bucket_entity" then
 					obj:remove()
 				end
 			end
@@ -265,16 +265,16 @@ minetest.register_node("cottages:water_gen", {
 		local wielded = puncher:get_wielded_item()
 		if(    wielded
 		    and wielded:get_name()
-		    and wielded:get_name() == "bucket:bucket_empty") then
+		    and wielded:get_name() == "hades_bucket:bucket_empty") then
 			-- remove the bucket from the players inventory
-			pinv:remove_item( "main", "bucket:bucket_empty")
+			pinv:remove_item( "main", "hades_bucket:bucket_empty")
 			-- remember that we got a bucket loaded
-			meta:set_string("bucket", "bucket:bucket_empty")
+			meta:set_string("bucket", "hades_bucket:bucket_empty")
 			-- create the entity
-			tmp.nodename = "bucket:bucket_empty"
+			tmp.nodename = "hades_bucket:bucket_empty"
 			-- TODO: add a special texture with a handle for the bucket here
-			tmp.texture = "bucket:bucket_empty"
-			local e = minetest.add_entity({x=pos.x,y=pos.y+(4/16),z=pos.z},"cottages:bucket_entity")
+			tmp.texture = "hades_bucket:bucket_empty"
+			local e = minetest.add_entity({x=pos.x,y=pos.y+(4/16),z=pos.z},"hades_cottages:bucket_entity")
 			-- fill the bucket with water
 			minetest.after(cottages.water_fill_time, cottages.water_gen_fill_bucket, pos)
 			-- the bucket will only be filled if the water ran long enough
@@ -284,13 +284,13 @@ minetest.register_node("cottages:water_gen", {
 		-- buckets can also be emptied here
 		if(    wielded
 		    and wielded:get_name()
-		    and (wielded:get_name() == "bucket:bucket_water"
-		      or wielded:get_name() == "bucket:bucket_river_water")
-		    and (pinv:room_for_item("main", "bucket:bucket_empty"))) then
+		    and (wielded:get_name() == "hades_bucket:bucket_water"
+		      or wielded:get_name() == "hades_bucket:bucket_river_water")
+		    and (pinv:room_for_item("main", "hades_bucket:bucket_empty"))) then
 			-- remove the full bucket from the players inventory
 			pinv:remove_item( "main", wielded:get_name())
 			-- add empty bucket
-			pinv:add_item("main", "bucket:bucket_empty")
+			pinv:add_item("main", "hades_bucket:bucket_empty")
 			-- TODO: play diffrent sound when pouring a bucket
  			return;
 		end
@@ -303,11 +303,11 @@ minetest.register_node("cottages:water_gen", {
 
 -- a well (will fill water buckets) crafted from wooden materials
 minetest.register_craft({
-	output = 'cottages:water_gen',
+	output = 'hades_cottages:water_gen',
 	recipe = {
-		{'default:stick', '', ''},
-		{'default:tree', 'bucket:bucket_empty',  'bucket:bucket_empty'},
-		{'default:tree', 'default:tree', 'default:tree'},
+		{'group:stick', '', ''},
+		{'group:tree', 'hades_bucket:bucket_empty',  'hades_bucket:bucket_empty'},
+		{'group:tree', 'group:tree', 'group:tree'},
 	}
 })
 

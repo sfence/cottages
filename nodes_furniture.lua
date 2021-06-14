@@ -16,7 +16,7 @@
 local S = cottages.S
 
 -- a bed without functionality - just decoration
-minetest.register_node("cottages:bed_foot", {
+minetest.register_node("hades_cottages:bed_foot", {
 	description = S("Bed (foot region)"),
 	drawtype = "nodebox",
 	tiles = {"cottages_beds_bed_top_bottom.png", cottages.texture_furniture,  "cottages_beds_bed_side.png",  "cottages_beds_bed_side.png",  "cottages_beds_bed_side.png",  "cottages_beds_bed_side.png"},
@@ -51,7 +51,7 @@ minetest.register_node("cottages:bed_foot", {
 })
 
 -- the bed is split up in two parts to avoid destruction of blocks on placement
-minetest.register_node("cottages:bed_head", {
+minetest.register_node("hades_cottages:bed_head", {
 	description = S("Bed (head region)"),
 	drawtype = "nodebox",
 	tiles = {"cottages_beds_bed_top_top.png", cottages.texture_furniture,  "cottages_beds_bed_side_top_r.png",  "cottages_beds_bed_side_top_l.png",  cottages.texture_furniture,  "cottages_beds_bed_side.png"},
@@ -88,7 +88,7 @@ minetest.register_node("cottages:bed_head", {
 
 -- the basic version of a bed - a sleeping mat
 -- to facilitate upgrade path straw mat -> sleeping mat -> bed, this uses a nodebox
-minetest.register_node("cottages:sleeping_mat", {
+minetest.register_node("hades_cottages:sleeping_mat", {
         description = S("Sleeping mat"),
         drawtype = 'nodebox',
         tiles = { 'cottages_sleepingmat.png' }, -- done by VanessaE
@@ -123,7 +123,7 @@ minetest.register_node("cottages:sleeping_mat", {
 
 
 -- this one has a pillow for the head; thus, param2 becomes visible to the builder, and mobs may use it as a bed
-minetest.register_node("cottages:sleeping_mat_head", {
+minetest.register_node("hades_cottages:sleeping_mat_head", {
         description = S("Sleeping mat with pillow"),
         drawtype = 'nodebox',
         tiles = { 'cottages_sleepingmat.png' }, -- done by VanessaE
@@ -155,7 +155,7 @@ minetest.register_node("cottages:sleeping_mat_head", {
 
 
 -- furniture; possible replacement: 3dforniture:chair
-minetest.register_node("cottages:bench", {
+minetest.register_node("hades_cottages:bench", {
 	drawtype = "nodebox",
 	description = S("Simple wooden bench"),
 	tiles = {"cottages_minimal_wood.png", "cottages_minimal_wood.png",  "cottages_minimal_wood.png",  "cottages_minimal_wood.png",  "cottages_minimal_wood.png",  "cottages_minimal_wood.png"},
@@ -235,11 +235,11 @@ if( workbench ) then
 	cottages_table_def.on_metadata_inventory_put  = workbench.on_metadata_inventory_put;
 end
 
-minetest.register_node("cottages:table", cottages_table_def );
+minetest.register_node("hades_cottages:table", cottages_table_def );
 
 -- looks better than two slabs impersonating a shelf; also more 3d than a bookshelf 
 -- the infotext shows if it's empty or not
-minetest.register_node("cottages:shelf", {
+minetest.register_node("hades_cottages:shelf", {
 		description = S("Open storage shelf"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -320,7 +320,7 @@ minetest.register_node("cottages:shelf", {
 
 -- bedside stand
 
-minetest.register_node("cottages:bedside_table", {
+minetest.register_node("hades_cottages:bedside_table", {
 		description = S("Bedside table"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -407,7 +407,7 @@ minetest.register_node("cottages:bedside_table", {
 
 -- 4-legged table
 
-minetest.register_node("cottages:sturdy_table", {
+minetest.register_node("hades_cottages:sturdy_table", {
 		description = S("Sturdy table"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -449,7 +449,7 @@ minetest.register_node("cottages:sturdy_table", {
 
 -- cabinet
 
-minetest.register_node("cottages:cabinet", {
+minetest.register_node("hades_cottages:cabinet", {
 		description = S("Cabinet"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -537,7 +537,7 @@ minetest.register_node("cottages:cabinet", {
 
 -- wall-moounted cabinet
 
-minetest.register_node("cottages:wallmounted_cabinet", {
+minetest.register_node("hades_cottages:wallmounted_cabinet", {
 		description = S("Wallmounted Cabinet"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -619,7 +619,7 @@ minetest.register_node("cottages:wallmounted_cabinet", {
 })
                                                 
 -- so that the smoke from a furnace can get out of a building
-minetest.register_node("cottages:stovepipe", {
+minetest.register_node("hades_cottages:stovepipe", {
 		description = S("Stovepipe"),
 		drawtype = "nodebox",
 		tiles = {"cottages_steel_block.png"},
@@ -646,7 +646,7 @@ minetest.register_node("cottages:stovepipe", {
 
 
 -- this washing place can be put over a water source (it is open at the bottom)
-minetest.register_node("cottages:washing", {
+minetest.register_node("hades_cottages:washing", {
 		description = S("Washing place"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -676,7 +676,7 @@ minetest.register_node("cottages:washing", {
                 on_rightclick = function(pos, node, player)
                    -- works only with water beneath
                    local node_under = minetest.get_node( {x=pos.x, y=(pos.y-1), z=pos.z} );
-		   if( not( node_under ) or node_under.name == "ignore" or (node_under.name ~= 'default:water_source' and node_under.name ~= 'default:water_flowing')) then
+		   if( not( node_under ) or node_under.name == "ignore" or (node_under.name ~= 'hades_core:water_source' and node_under.name ~= 'hades_core:water_flowing')) then
                       minetest.chat_send_player( player:get_player_name(), S("Sorry. This washing place is out of water. Please place it above water!"));
 		   else
                       minetest.chat_send_player( player:get_player_name(), S("You feel much cleaner after some washing."));
@@ -689,7 +689,7 @@ minetest.register_node("cottages:washing", {
 
 -- barrel for dry storage (think apples etc)
 
-minetest.register_node("cottages:storage_barrel", {
+minetest.register_node("hades_cottages:storage_barrel", {
 	description = S("Storage barrel"),
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -697,7 +697,7 @@ minetest.register_node("cottages:storage_barrel", {
 	mesh = "cottages_barrel_closed.obj",
 	tiles = {"cottages_barrel_storage.png" },
 	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
-	drop = "cottages:storage_barrel",
+	drop = "hades_cottages:storage_barrel",
 
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos);
@@ -843,7 +843,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 	-- the player's head is pointing in this direction
 	local dir = node.param2;
 	-- it would be odd to sleep in half a bed
-	if(     node.name=='cottages:bed_head' ) then
+	if(     node.name=='hades_cottages:bed_head' ) then
 		if(     node.param2==0 ) then
 			second_node_pos.z = pos.z-1;
 		elseif( node.param2==1) then
@@ -855,7 +855,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		end
 		local node2 = minetest.get_node( second_node_pos );
 		if( not( node2 ) or not( node2.param2 ) or not( node.param2 )
-		   or node2.name   ~= 'cottages:bed_foot'
+		   or node2.name   ~= 'hades_cottages:bed_foot'
 		   or node2.param2 ~= node.param2 ) then
 			allow_sleep = false;
 		else
@@ -864,7 +864,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		place_name = 'bed';
 
 	-- if the player clicked on the foot of the bed, locate the head
-	elseif( node.name=='cottages:bed_foot' ) then
+	elseif( node.name=='hades_cottages:bed_foot' ) then
 		if(     node.param2==2 ) then
 			second_node_pos.z = pos.z-1;
 		elseif( node.param2==3) then
@@ -876,7 +876,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		end
 		local node2 = minetest.get_node( second_node_pos );
 		if( not( node2 ) or not( node2.param2 ) or not( node.param2 )
-		   or node2.name   ~= 'cottages:bed_head'
+		   or node2.name   ~= 'hades_cottages:bed_head'
 		   or node2.param2 ~= node.param2 ) then
 			allow_sleep = false;
 		else
@@ -887,7 +887,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		end
 		place_name = 'bed';
 
-	elseif( node.name=='cottages:sleeping_mat' or node.name=='cottages:straw_mat' or node.name=='cottages:sleeping_mat_head') then
+	elseif( node.name=='hades_cottages:sleeping_mat' or node.name=='hades_cottages:straw_mat' or node.name=='hades_cottages:sleeping_mat_head') then
 		place_name = 'mat';
 		dir = node.param2;
 		allow_sleep = false;
@@ -895,7 +895,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		local offset = {{x=0,z=-1}, {x=-1,z=0}, {x=0,z=1}, {x=1,z=0}};
 		for i,off in ipairs( offset ) do
 			node2 = minetest.get_node( {x=pos.x+off.x, y=pos.y, z=pos.z+off.z} );
-			if( node2.name == 'cottages:sleeping_mat' or node2.name=='cottages:straw_mat' or node.name=='cottages:sleeping_mat_head' ) then
+			if( node2.name == 'hades_cottages:sleeping_mat' or node2.name=='hades_cottages:straw_mat' or node.name=='hades_cottages:sleeping_mat_head' ) then
 				-- if a second mat is found, sleeping is possible
 				allow_sleep = true;
 				dir = i-1;
@@ -957,7 +957,7 @@ end
 -- crafting receipes
 ---------------------------------------------------------------------------------------
 minetest.register_craft({
-	output = "cottages:bed_foot",
+	output = "hades_cottages:bed_foot",
 	recipe = {
 		{cottages.craftitem_wool,    "", "", },
 		{cottages.craftitem_wood,  "", "", },
@@ -966,7 +966,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:bed_head",
+	output = "hades_cottages:bed_head",
 	recipe = {
 		{"", "",              cottages.craftitem_wool, },
 		{"", cottages.craftitem_stick, cottages.craftitem_wood, },
@@ -975,22 +975,22 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:sleeping_mat 3",
+	output = "hades_cottages:sleeping_mat 3",
 	recipe = {
-		{"cottages:wool_tent", "cottages:straw_mat","cottages:straw_mat" }
+		{"hades_cottages:wool_tent", "hades_cottages:straw_mat","hades_cottages:straw_mat" }
 	}
 })
 
 
 minetest.register_craft({
-	output = "cottages:sleeping_mat_head",
+	output = "hades_cottages:sleeping_mat_head",
 	recipe = {
-		{"cottages:sleeping_mat","cottages:straw_mat" }
+		{"hades_cottages:sleeping_mat","hades_cottages:straw_mat" }
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:table",
+	output = "hades_cottages:table",
 	recipe = {
 		{"", cottages.craftitem_slab_wood, "", },
 		{"", cottages.craftitem_stick, "" }
@@ -998,7 +998,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:table",
+	output = "hades_cottages:table",
 	recipe = {
 		{"", cottages.craftitem_slab_wood_fallback, "", },
 		{"", cottages.craftitem_stick, "" }
@@ -1006,7 +1006,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:bench",
+	output = "hades_cottages:bench",
 	recipe = {
 		{"",              cottages.craftitem_wood, "", },
 		{cottages.craftitem_stick, "",             cottages.craftitem_stick, }
@@ -1015,7 +1015,7 @@ minetest.register_craft({
 
 
 minetest.register_craft({
-	output = "cottages:shelf",
+	output = "hades_cottages:shelf",
 	recipe = {
 		{cottages.craftitem_stick, cottages.craftitem_wood,  cottages.craftitem_stick, },
 		{cottages.craftitem_stick, cottages.craftitem_chest, cottages.craftitem_stick, },
@@ -1024,7 +1024,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:cabinet",
+	output = "hades_cottages:cabinet",
 	recipe = {
 		{cottages.craftitem_wood,  cottages.craftitem_wood,  cottages.craftitem_wood, },
 		{cottages.craftitem_wood,  cottages.craftitem_chest, cottages.craftitem_wood, },
@@ -1033,7 +1033,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:wallmounted_cabinet",
+	output = "hades_cottages:wallmounted_cabinet",
 	recipe = {
 		{cottages.craftitem_stick, cottages.craftitem_wood,  cottages.craftitem_stick, },
 		{cottages.craftitem_wood,  cottages.craftitem_chest, cottages.craftitem_wood, },
@@ -1042,7 +1042,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:bedside_table",
+	output = "hades_cottages:bedside_table",
 	recipe = {
 		{cottages.craftitem_wood,      cottages.craftitem_wood,  cottages.craftitem_wood, },
 		{cottages.craftitem_wood,      cottages.craftitem_chest, cottages.craftitem_wood, },
@@ -1051,7 +1051,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:bedside_table",
+	output = "hades_cottages:bedside_table",
 	recipe = {
 		{cottages.craftitem_wood,      cottages.craftitem_wood,  cottages.craftitem_wood, },
 		{cottages.craftitem_wood,      cottages.craftitem_chest, cottages.craftitem_wood, },
@@ -1060,7 +1060,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:sturdy_table",
+	output = "hades_cottages:sturdy_table",
 	recipe = {
 		{cottages.craftitem_wood,  cottages.craftitem_wood, cottages.craftitem_wood,  },
 		{cottages.craftitem_stick, "",                      cottages.craftitem_stick, },
@@ -1069,7 +1069,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:washing 2",
+	output = "hades_cottages:washing 2",
 	recipe = {
 		{cottages.craftitem_stick, },
 		{cottages.craftitem_clay,  },
@@ -1077,14 +1077,14 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:stovepipe 2",
+	output = "hades_cottages:stovepipe 2",
 	recipe = {
 		{cottages.craftitem_steel, '', cottages.craftitem_steel},
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:storage_barrel",
+	output = "hades_cottages:storage_barrel",
 	recipe = {
 		{ cottages.craftitem_wood,	"",					cottages.craftitem_wood },
 		{ cottages.craftitem_steel,	cottages.craftitem_chest,	cottages.craftitem_steel},

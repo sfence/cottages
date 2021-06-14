@@ -11,7 +11,7 @@
 local S = cottages.S
 
 -- can be used to buid real stationary wagons or attached to walls as decoration
-minetest.register_node("cottages:wagon_wheel", {
+minetest.register_node("hades_cottages:wagon_wheel", {
 	description = S("Wagon wheel"),
 	drawtype = "signlike",
 	tiles = {"cottages_wagonwheel.png"}, -- done by VanessaE!
@@ -33,7 +33,7 @@ minetest.register_node("cottages:wagon_wheel", {
 
 
 -- people didn't use clay for houses; they did build with loam
-minetest.register_node("cottages:loam", {
+minetest.register_node("hades_cottages:loam", {
 	description = S("Loam"),
 	tiles = {"cottages_loam.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -49,7 +49,7 @@ cottages.derive_blocks( "cottages", "loam", "Loam", "cottages_loam.png", {snappy
 
 -- straw is a common material for places where animals are kept indoors
 -- right now, this block mostly serves as a placeholder
-minetest.register_node("cottages:straw_ground", {
+minetest.register_node("hades_cottages:straw_ground", {
 	description = S("Straw ground for animals"),
 	tiles = {"cottages_darkage_straw.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png"},
 	groups = {snappy=2,crumbly=3,choppy=2,oddly_breakable_by_hand=2},
@@ -59,7 +59,7 @@ minetest.register_node("cottages:straw_ground", {
 
 
 -- note: these houses look good with a single fence pile as window! the glass pane is the version for 'richer' inhabitants
-minetest.register_node("cottages:glass_pane", {
+minetest.register_node("hades_cottages:glass_pane", {
 		description = S("Simple glass pane (centered)"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -83,7 +83,7 @@ minetest.register_node("cottages:glass_pane", {
 })
 
 
-minetest.register_node("cottages:glass_pane_side", {
+minetest.register_node("hades_cottages:glass_pane_side", {
 		description = S("Simple glass pane"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -110,7 +110,7 @@ minetest.register_node("cottages:glass_pane_side", {
 ---------------------------------------------------------------------------------------
 -- a very small wooden slab
 ---------------------------------------------------------------------------------------
-minetest.register_node("cottages:wood_flat", {
+minetest.register_node("hades_cottages:wood_flat", {
 		description = S("Flat wooden planks"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -137,7 +137,7 @@ minetest.register_node("cottages:wood_flat", {
 ---------------------------------------------------------------------------------------
 -- useful for building tents
 ---------------------------------------------------------------------------------------
-minetest.register_node("cottages:wool_tent", {
+minetest.register_node("hades_cottages:wool_tent", {
 		description = S("Wool for tents"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -163,14 +163,14 @@ minetest.register_node("cottages:wool_tent", {
 
 -- a fallback for cases in which there is no wool
 if not minetest.get_modpath("wool") then
-	minetest.register_node("cottages:wool", {
+	minetest.register_node("hades_cottages:wool", {
 			description = S("Wool"),
 			tiles = {"cottages_wool.png"},
 			is_ground_content = false,
 			groups = {snappy=2,choppy=2,oddly_breakable_by_hand=3,flammable=3,wool=1},
 	})
 else
-	minetest.register_alias("cottages:wool", "wool:white")
+	minetest.register_alias("hades_cottages:wool", "wool:white")
 end
 
 
@@ -178,7 +178,7 @@ end
 -- crafting receipes
 ---------------------------------------------------------------------------------------
 minetest.register_craft({
-	output = "cottages:wagon_wheel 4",
+	output = "hades_cottages:wagon_wheel 4",
 	recipe = {
 		{cottages.craftitem_iron, cottages.craftitem_stick,       cottages.craftitem_iron },
 		{cottages.craftitem_stick,     cottages.craftitem_steel, cottages.craftitem_stick },
@@ -188,16 +188,16 @@ minetest.register_craft({
 
 -- run a wagon wheel over dirt :-)
 minetest.register_craft({
-	output = "cottages:feldweg 12",
+	output = "hades_cottages:feldweg 12",
 	recipe = {
-		{"",            "cottages:wagon_wheel", "" },
+		{"",            "hades_cottages:wagon_wheel", "" },
 		{cottages.craftitem_dirt,cottages.craftitem_dirt,cottages.craftitem_dirt }
 	},
-	replacements = { {'cottages:wagon_wheel', 'cottages:wagon_wheel'}, }
+	replacements = { {'hades_cottages:wagon_wheel', 'hades_cottages:wagon_wheel'}, }
 })
 
 minetest.register_craft({
-	output = "cottages:loam 4",
+	output = "hades_cottages:loam 4",
 	recipe = {
 		{cottages.craftitem_sand},
 		{cottages.craftitem_clay}
@@ -205,15 +205,15 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:straw_ground 2",
+	output = "hades_cottages:straw_ground 2",
 	recipe = {
-		{"cottages:straw_mat" },
-		{"cottages:loam"}
+		{"hades_cottages:straw_mat" },
+		{"hades_cottages:loam"}
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:glass_pane 4",
+	output = "hades_cottages:glass_pane 4",
 	recipe = {
 		{cottages.craftitem_stick, cottages.craftitem_stick, cottages.craftitem_stick },
 		{cottages.craftitem_stick, cottages.craftitem_glass, cottages.craftitem_stick },
@@ -222,38 +222,40 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:glass_pane_side",
+	output = "hades_cottages:glass_pane_side",
 	recipe = {
-		{"cottages:glass_pane"},
+		{"hades_cottages:glass_pane"},
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:glass_pane",
+	output = "hades_cottages:glass_pane",
 	recipe = {
-		{"cottages:glass_pane_side"},
+		{"hades_cottages:glass_pane_side"},
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:wood_flat 16",
+	output = "hades_cottages:wood_flat 16",
 	recipe = {
-		{cottages.craftitem_stick, "farming:string",cottages.craftitem_stick },
+		{cottages.craftitem_stick, cottages.craftitem_string,cottages.craftitem_stick },
 		{cottages.craftitem_stick, "",              cottages.craftitem_stick },
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:wool_tent 2",
+	output = "hades_cottages:wool_tent 2",
 	recipe = {
-		{"farming:string", "farming:string"},
+		{cottages.craftitem_string, cottages.craftitem_string},
 		{"",cottages.craftitem_stick}
 	}
 })
 
+--[[
 minetest.register_craft({
-	output = "cottages:wool",
+	output = "hades_cottages:wool",
 	recipe = {
-		{"cottages:wool_tent", "cottages:wool_tent"}
+		{"hades_cottages:wool_tent", "hades_cottages:wool_tent"}
 	}
 })
+--]]

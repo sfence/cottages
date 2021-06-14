@@ -76,6 +76,8 @@ cottages.derive_blocks = function( modname, nodename, nodedesc, tile, groups )
 			{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
 			{tile},
 			cottages.S(nodedesc .. " stair"),
+			cottages.S("Outer" .. nodedesc .. " stair"),
+			cottages.S("Inner" .. nodedesc .. " stair"),
 			cottages.S(nodedesc .. " slab"),
 			cottages.sounds.wood)
 	

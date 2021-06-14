@@ -24,6 +24,7 @@
 
 cottages = {}
 
+local modpath = minetest.get_modpath(minetest.get_current_modname())
 
 -- there should be a way to distinguish this fork from others
 cottages.mod = "linuxforks"
@@ -38,7 +39,7 @@ end
 cottages.sounds = {}
 -- MineClone2 needs special treatment; default is only needed for
 -- crafting materials and sounds (less important)
-if( not( minetest.get_modpath("default"))) then
+if( not( minetest.get_modpath("hades_sounds"))) then
 	default = {};
 	cottages.sounds.wood   = nil
 	cottages.sounds.dirt   = nil
@@ -46,15 +47,15 @@ if( not( minetest.get_modpath("default"))) then
 	cottages.sounds.stone  = nil
 	cottages.sounds.metal  = nil
 else
-	cottages.sounds.wood   = default.node_sound_wood_defaults()
-	cottages.sounds.dirt   = default.node_sound_dirt_defaults()
-	cottages.sounds.stone  = default.node_sound_stone_defaults()
-	cottages.sounds.leaves = default.node_sound_leaves_defaults()
-	cottages.sounds.metal = default.node_sound_metal_defaults()
+	cottages.sounds.wood   = hades_sounds.node_sound_wood_defaults()
+	cottages.sounds.dirt   = hades_sounds.node_sound_dirt_defaults()
+	cottages.sounds.stone  = hades_sounds.node_sound_stone_defaults()
+	cottages.sounds.leaves = hades_sounds.node_sound_leaves_defaults()
+	cottages.sounds.metal = hades_sounds.node_sound_metal_defaults()
 end
 
 -- the straw from default comes with stairs as well and might replace
--- cottages:roof_connector_straw and cottages:roof_flat_straw
+-- hades_cottages:roof_connector_straw and hades_cottages:roof_flat_straw
 -- however, that does not look very good
 if( false and minetest.registered_nodes["farming:straw"]) then
 	cottages.straw_texture = "farming_straw.png"
@@ -67,45 +68,45 @@ end
 
 -- set alternate crafting materials and textures where needed
 -- (i.e. in combination with realtest)
-dofile(minetest.get_modpath("cottages").."/adaptions.lua");
+dofile(modpath.."/adaptions.lua");
 
 -- add to this table what you want the handmill to convert;
 -- add a stack size if you want a higher yield
 cottages.handmill_product = {};
-cottages.handmill_product[ cottages.craftitem_seed_wheat ] = 'farming:flour 1';
-if farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
-  cottages.handmill_product[ cottages.craftitem_seed_barley ] = 'farming:flour 1';
-	cottages.handmill_product[ "farming:seed_oat" ] = 'farming:flour 1';
-	cottages.handmill_product[ "farming:seed_rye" ] = 'farming:flour 1';
-	cottages.handmill_product[ "farming:seed_rice" ] = 'farming:rice_flour 1';
-	cottages.handmill_product[ "farming:rice" ] = 'farming:rice_flour 1';
+cottages.handmill_product[ cottages.craftitem_seed_wheat ] = 'hades_farming:flour 1';
+if minetest.get_modpath("hades_extrafarming") then
+  cottages.handmill_product[ cottages.craftitem_seed_barley ] = 'hades_farming:flour 1';
+	cottages.handmill_product[ "hades_extrafarming:seed_oat" ] = 'hades_farming:flour 1';
+	cottages.handmill_product[ "hades_extrafarming:seed_rye" ] = 'hades_farming:flour 1';
+	cottages.handmill_product[ "hades_extrafarming:seed_rice" ] = 'hades_extrafarming:rice_flour 1';
+	cottages.handmill_product[ "hades_extrafarming:rice" ] = 'hades_extrafarming:rice_flour 1';
 end
 
 --[[ some examples:
-cottages.handmill_product[ 'default:cobble' ] = 'default:gravel';
-cottages.handmill_product[ 'default:gravel' ] = 'default:sand';
-cottages.handmill_product[ 'default:sand'   ] = 'default:dirt 2';
+cottages.handmill_product[ 'hades_core:cobble' ] = 'hades_core:gravel';
+cottages.handmill_product[ 'hades_core:gravel' ] = 'hades_core:sand';
+cottages.handmill_product[ 'hades_core:sand'   ] = 'hades_core:dirt 2';
 cottages.handmill_product[ 'flowers:rose'   ] = 'dye:red 6';
-cottages.handmill_product[ 'default:cactus' ] = 'dye:green 6';
-cottages.handmill_product[ 'default:coal_lump' ] = 'dye:black 6';
+cottages.handmill_product[ 'hades_core:cactus' ] = 'dye:green 6';
+cottages.handmill_product[ 'hades_core:coal_lump' ] = 'dye:black 6';
 --]]
 
 -- same for the threshing floor
 cottages.threshing_product = {};
-cottages.threshing_product[ "default:grass_1" ] = cottages.craftitem_seed_wheat;
-cottages.threshing_product[ "farming:wheat" ] = cottages.craftitem_seed_wheat;
-cottages.threshing_product[ "farming:barley" ] = cottages.craftitem_seed_barley;
-if farming.mod and (farming.mod == "redo" or farming.mod == "undo") then
-	cottages.threshing_product[ "farming:oat" ] = 'farming:seed_oat';
-	cottages.threshing_product[ "farming:rye" ] = 'farming:seed_rye';
--- 	cottages.threshing_product[ "farming:rice" ] = 'farming:seed_rice';
+cottages.threshing_product[ "hades_core:grass_1" ] = cottages.craftitem_seed_wheat;
+cottages.threshing_product[ "hades_farming:wheat" ] = cottages.craftitem_seed_wheat;
+if minetest.get_modpath("hades_extrafarming") then
+	cottages.threshing_product[ "hades_extrafarming:barley" ] = cottages.craftitem_seed_barley;
+	cottages.threshing_product[ "hades_extrafarming:oat" ] = 'hades_extrafarming:seed_oat';
+	cottages.threshing_product[ "hades_extrafarming:rye" ] = 'hades_extrafarming:seed_rye';
+-- 	cottages.threshing_product[ "hades_extrafarming:rice" ] = 'hades_extrafarming:seed_rice';
 end
 
 -- API to add items to the handmill and threshing floor
 
 function cottages:add_threshing_product(input, output)
 --Probably pretty obvious, but, for instance, 
---	cottages:add_threshing_product("default:grass_1",{"farming:seed_wheat", "farming:seed_oat"})
+--	hades_cottages:add_threshing_product("hades_core:grass_1",{"farming:seed_wheat", "farming:seed_oat"})
 --	supports the two possible grains that can come from grass_1, 50/50 chance  of each
 --maybe should add some error checking sometime...
 	cottages.threshing_product[input] = output
@@ -120,27 +121,27 @@ end
 cottages.handmill_max_per_turn = 20;
 cottages.handmill_min_per_turn = 0;
 
-dofile(minetest.get_modpath("cottages").."/functions.lua");
+dofile(modpath.."/functions.lua");
 -- uncomment parts you do not want
-dofile(minetest.get_modpath("cottages").."/nodes_furniture.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_historic.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_feldweg.lua");
+dofile(modpath.."/nodes_furniture.lua");
+dofile(modpath.."/nodes_historic.lua");
+dofile(modpath.."/nodes_feldweg.lua");
 -- allows to dig hay and straw fast
-dofile(minetest.get_modpath("cottages").."/nodes_pitchfork.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_straw.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_hay.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_anvil.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_doorlike.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_fences.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_roof.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_barrel.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_mining.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_fireplace.lua");
-dofile(minetest.get_modpath("cottages").."/nodes_water.lua");
---dofile(minetest.get_modpath("cottages").."/nodes_chests.lua");
+dofile(modpath.."/nodes_pitchfork.lua");
+dofile(modpath.."/nodes_straw.lua");
+dofile(modpath.."/nodes_hay.lua");
+dofile(modpath.."/nodes_anvil.lua");
+dofile(modpath.."/nodes_doorlike.lua");
+dofile(modpath.."/nodes_fences.lua");
+dofile(modpath.."/nodes_roof.lua");
+dofile(modpath.."/nodes_barrel.lua");
+dofile(modpath.."/nodes_mining.lua");
+dofile(modpath.."/nodes_fireplace.lua");
+dofile(modpath.."/nodes_water.lua");
+--dofile(modpath.."/nodes_chests.lua");
 
 -- this is only required and useful if you run versions of the random_buildings mod where the nodes where defined inside that mod
-dofile(minetest.get_modpath("cottages").."/alias.lua");
+dofile(modpath.."/alias.lua");
 
 -- variable no longer needed
 cottages.S = nil;

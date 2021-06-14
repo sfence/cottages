@@ -30,9 +30,9 @@ barrel = {};
 local barrel_max = 50
 
 local liquids = {
-	lava = { name = "Lava", bucket = "bucket:bucket_lava" },
-	water = { name = "Water", bucket = "bucket:bucket_water" },
-	rwater = { name = "River water", bucket = "bucket:bucket_river_water" },
+	lava = { name = "Lava", bucket = "hades_bucket:bucket_lava" },
+	water = { name = "Water", bucket = "hades_bucket:bucket_water" },
+	rwater = { name = "River water", bucket = "hades_bucket:bucket_river_water" },
 	cactus = { name = "Cactus pulp", bucket = "ethereal:bucket_cactus" },
 	milk = { name = "Milk", bucket = "mobs:bucket_milk" },
 }
@@ -135,7 +135,7 @@ barrel.allow_metadata_inventory_put = function(pos, listname, index, stack, play
 	end
                                       
 	if listname == "output" then
-		if iname == "bucket:bucket_empty" and meta:get_int('liquid_level') > 0 then
+		if iname == "hades_bucket:bucket_empty" and meta:get_int('liquid_level') > 0 then
 			return 1
 		else
 			return 0
@@ -165,7 +165,7 @@ barrel.on_metadata_inventory_put = function( pos, listname, index, stack, player
 		for l,d in pairs(liquids) do
 			if d.bucket == iname then
 				liquid = d.bucket
-				inv:set_stack("input", 1, {name = "bucket:bucket_empty"})
+				inv:set_stack("input", 1, {name = "hades_bucket:bucket_empty"})
 				local level = meta:get_int("liquid_level") + 1
 				meta:set_int("liquid_level", level)
 				meta:set_string("liquid_type", l)
@@ -205,14 +205,14 @@ end
 -- Barrels: default = open = empty // closed = has contents
 
 -- this barrel is closed
-minetest.register_node("cottages:barrel", {
+minetest.register_node("hades_cottages:barrel", {
 	description = S("Barrel (closed)"),
 	paramtype = "light",
 	drawtype = "mesh",
 	mesh = "cottages_barrel_closed.obj",
 	tiles = {"cottages_barrel.png" },
 	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
-	drop = "cottages:barrel_open",
+	drop = "hades_cottages:barrel_open",
 
 	on_construct = function( pos )
 		return barrel.on_construct( pos );
@@ -227,14 +227,14 @@ minetest.register_node("cottages:barrel", {
 })
 
 -- this barrel is opened at the top
-minetest.register_node("cottages:barrel_open", {
+minetest.register_node("hades_cottages:barrel_open", {
 	description = S("Barrel (open)"),
 	paramtype = "light",
 	drawtype = "mesh",
 	mesh = "cottages_barrel.obj",
 	tiles = {"cottages_barrel.png" },
 	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
-	drop = "cottages:barrel_open",
+	drop = "hades_cottages:barrel_open",
 
 	on_construct = function( pos )
 		return barrel.on_construct( pos );
@@ -249,7 +249,7 @@ minetest.register_node("cottages:barrel_open", {
 })
 
 -- horizontal barrel
-minetest.register_node("cottages:barrel_lying", {
+minetest.register_node("hades_cottages:barrel_lying", {
 	description = S("Barrel (closed), lying on its side"),
 	paramtype = "light",
 	paramtype2 = "wallmounted",
@@ -257,7 +257,7 @@ minetest.register_node("cottages:barrel_lying", {
 	mesh = "cottages_barrel_closed_lying.obj",
 	tiles = {"cottages_barrel.png" },
 	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, not_in_creative_inventory = 1 },
-	drop = "cottages:barrel_lying_open",
+	drop = "hades_cottages:barrel_lying_open",
 	on_construct = function( pos )
 		return barrel.on_construct( pos );
 	end,
@@ -270,7 +270,7 @@ minetest.register_node("cottages:barrel_lying", {
 })
 
 -- horizontal barrel, open
-minetest.register_node("cottages:barrel_lying_open", {
+minetest.register_node("hades_cottages:barrel_lying_open", {
 	description = S("Barrel (opened), lying on its side"),
 	paramtype = "light",
 	paramtype2 = "wallmounted",
@@ -278,7 +278,7 @@ minetest.register_node("cottages:barrel_lying_open", {
 	mesh = "cottages_barrel_lying.obj",
 	tiles = {"cottages_barrel.png" },
 	groups = { wooden = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2, },
-	drop = "cottages:barrel_lying_open",
+	drop = "hades_cottages:barrel_lying_open",
 	on_construct = function( pos )
 		return barrel.on_construct( pos );
 	end,
@@ -293,7 +293,7 @@ minetest.register_node("cottages:barrel_lying_open", {
         
         
 -- let's hope "tub" is the correct english word for "bottich"
-minetest.register_node("cottages:tub", {
+minetest.register_node("hades_cottages:tub", {
 	description = S("Tub"),
 	paramtype = "light",
 	drawtype = "mesh",
@@ -315,7 +315,7 @@ minetest.register_node("cottages:tub", {
 
 
 minetest.register_craft({
-	output = "cottages:barrel_open",
+	output = "hades_cottages:barrel_open",
 	recipe = {
 		{ cottages.craftitem_wood,	"",					cottages.craftitem_wood },
 		{ cottages.craftitem_steel,	"",					cottages.craftitem_steel},
@@ -325,7 +325,7 @@ minetest.register_craft({
 
 
 minetest.register_craft({
-	output = "cottages:barrel_lying_open",
+	output = "hades_cottages:barrel_lying_open",
 	recipe = {
 		{ cottages.craftitem_wood,	cottages.craftitem_steel,	cottages.craftitem_wood },
 		{ cottages.craftitem_wood,	"",          			"" },
@@ -334,16 +334,16 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "cottages:tub 2",
+	output = "hades_cottages:tub 2",
 	recipe = {
-		{"cottages:barrel_open"},
+		{"hades_cottages:barrel_open"},
 	},
 })
 
 minetest.register_craft({
-	output = "cottages:barrel_open",
+	output = "hades_cottages:barrel_open",
 	recipe = {
-		{"cottages:tub"},
-		{"cottages:tub"},
+		{"hades_cottages:tub"},
+		{"hades_cottages:tub"},
 	},
 })

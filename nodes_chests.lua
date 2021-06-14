@@ -23,7 +23,7 @@ end
 
 -- the chests do not need receipes since they are only placeholders and not intended to be built by players
 -- (they are later on supposed to be filled with diffrent items by fill_chest.lua)
-minetest.register_node("cottages:chest_private", {
+minetest.register_node("hades_cottages:chest_private", {
 	description = S("Private NPC chest"),
 	infotext = "chest containing the possesions of one of the inhabitants",
 	tiles = cottages.texture_chest,
@@ -35,7 +35,7 @@ minetest.register_node("cottages:chest_private", {
 	is_ground_content = false,
 })
 
-minetest.register_node("cottages:chest_work", {
+minetest.register_node("hades_cottages:chest_work", {
 	description = S("Chest for work utils and kitchens"),
 	infotext = "everything the inhabitant needs for his work",
 	tiles = cottages.texture_chest,
@@ -47,7 +47,7 @@ minetest.register_node("cottages:chest_work", {
 	is_ground_content = false,
 })
 
-minetest.register_node("cottages:chest_storage", {
+minetest.register_node("hades_cottages:chest_storage", {
 	description = S("Storage chest"),
 	infotext = "stored food reserves",
 	tiles = cottages.texture_chest,

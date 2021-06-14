@@ -224,14 +224,14 @@ local function furnace_node_timer(pos, elapsed)
 		local fuel_percent = math.floor(fuel_time / fuel_totaltime * 100)
 		fuel_state = fuel_percent .. "%"
 		formspec = active_formspec(fuel_percent, item_percent)
-		swap_node(pos, "cottages:furnace_active")
+		swap_node(pos, "hades_cottages:furnace_active")
 		-- make sure timer restarts automatically
 		result = true
 	else
 		if not fuellist[1]:is_empty() then
 			fuel_state = "0%"
 		end
-		swap_node(pos, "cottages:furnace")
+		swap_node(pos, "hades_cottages:furnace")
 		-- stop timer on the inactive furnace
 		minetest.get_node_timer(pos):stop()
 	end
@@ -254,7 +254,7 @@ end
 -- Node definitions
 --
 
-minetest.register_node("cottages:furnace", {
+minetest.register_node("hades_cottages:furnace", {
 	description = "Fireplace",
 	tiles = {
 		"cottages_furnace_top.png", "cottages_furnace_bottom.png",
@@ -292,7 +292,7 @@ minetest.register_node("cottages:furnace", {
 		default.get_inventory_drops(pos, "src", drops)
 		default.get_inventory_drops(pos, "fuel", drops)
 		default.get_inventory_drops(pos, "dst", drops)
-		drops[#drops+1] = "cottages:furnace"
+		drops[#drops+1] = "hades_cottages:furnace"
 		minetest.remove_node(pos)
 		return drops
 	end,
@@ -302,7 +302,7 @@ minetest.register_node("cottages:furnace", {
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 })
 
-minetest.register_node("cottages:furnace_active", {
+minetest.register_node("hades_cottages:furnace_active", {
 	description = "Fireplace",
 	tiles = {
 		"cottages_furnace_top.png",  "cottages_furnace_bottom.png",
@@ -321,7 +321,7 @@ minetest.register_node("cottages:furnace_active", {
 	},
 	paramtype2 = "facedir",
 	light_source = 8,
-	drop = "cottages:furnace",
+	drop = "hades_cottages:furnace",
 	groups = {cracky=2, not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	is_ground_content = false,
@@ -338,7 +338,7 @@ minetest.register_node("cottages:furnace_active", {
 
 	      
 minetest.register_craft({
-	output = "cottages:furnace",
+	output = "hades_cottages:furnace",
 	recipe = {
 			{ cottages.craftitem_cobble, cottages.craftitem_cobble, cottages.craftitem_cobble },
 			{ cottages.craftitem_cobble, '',                        cottages.craftitem_cobble },

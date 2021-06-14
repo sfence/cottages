@@ -45,7 +45,7 @@ cottages_window_sutter_operate = function( pos, old_node_state_name, new_node_st
 end
 
 -- window shutters - they cover half a node to each side
-minetest.register_node("cottages:window_shutter_open", {
+minetest.register_node("hades_cottages:window_shutter_open", {
 		description = S("Opened window shutters"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -68,8 +68,8 @@ minetest.register_node("cottages:window_shutter_open", {
 			},
 		},
 		on_rightclick = function(pos, node, puncher)
-			minetest.swap_node(pos, {name = "cottages:window_shutter_closed", param2 = node.param2})
-			cottages_window_sutter_operate( pos, "cottages:window_shutter_open", "cottages:window_shutter_closed" );
+			minetest.swap_node(pos, {name = "hades_cottages:window_shutter_closed", param2 = node.param2})
+			cottages_window_sutter_operate( pos, "hades_cottages:window_shutter_open", "hades_cottages:window_shutter_closed" );
 		end,
 		-- close shutters in the evening
 		on_construct = function(pos)
@@ -80,8 +80,8 @@ minetest.register_node("cottages:window_shutter_open", {
 			-- same time at which sleeping is allowed in beds, 50% chance
 			if (minetest.get_timeofday() < 0.2 or minetest.get_timeofday() > 0.805) and math.random() > 0.5 then
 				local old_node = minetest.get_node(pos);
-				minetest.swap_node(pos, {name = "cottages:window_shutter_closed", param2 = old_node.param2})
-				cottages_window_sutter_operate(pos, "cottages:window_shutter_open", "cottages:window_shutter_closed");
+				minetest.swap_node(pos, {name = "hades_cottages:window_shutter_closed", param2 = old_node.param2})
+				cottages_window_sutter_operate(pos, "hades_cottages:window_shutter_open", "hades_cottages:window_shutter_closed");
 			end
 			return true
 			
@@ -89,7 +89,7 @@ minetest.register_node("cottages:window_shutter_open", {
 		is_ground_content = false,
 })
 
-minetest.register_node("cottages:window_shutter_closed", {
+minetest.register_node("hades_cottages:window_shutter_closed", {
 		description = S("Closed window shutters"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -111,18 +111,18 @@ minetest.register_node("cottages:window_shutter_closed", {
 			},
 		},
 		on_rightclick = function(pos, node, puncher)
-			minetest.swap_node(pos, {name = "cottages:window_shutter_open", param2 = node.param2})
-			cottages_window_sutter_operate(pos, "cottages:window_shutter_closed", "cottages:window_shutter_open");
+			minetest.swap_node(pos, {name = "hades_cottages:window_shutter_open", param2 = node.param2})
+			cottages_window_sutter_operate(pos, "hades_cottages:window_shutter_closed", "hades_cottages:window_shutter_open");
 		end,
 		is_ground_content = false,
-		drop = "cottages:window_shutter_open",
+		drop = "hades_cottages:window_shutter_open",
 		-- open shutters in the morning
 		on_timer = function(pos)
 			-- at this time, sleeping in a bed is not possible, 50% chance
 			if (not (minetest.get_timeofday() < 0.2 or minetest.get_timeofday() > 0.805)) and math.random() > 0.5 then
 				local old_node = minetest.get_node(pos);
-				minetest.swap_node(pos, {name = "cottages:window_shutter_open", param2 = old_node.param2})
-				cottages_window_sutter_operate(pos, "cottages:window_shutter_closed", "cottages:window_shutter_open");
+				minetest.swap_node(pos, {name = "hades_cottages:window_shutter_open", param2 = old_node.param2})
+				cottages_window_sutter_operate(pos, "hades_cottages:window_shutter_closed", "hades_cottages:window_shutter_open");
 			end
 			return true
 		end,
@@ -130,8 +130,8 @@ minetest.register_node("cottages:window_shutter_closed", {
 
 -- LBM to start timers on existing, ABM-driven nodes
 minetest.register_lbm({
-	name = "cottages:timer_init",
-	nodenames = {"cottages:window_shutter_closed", "cottages:window_shutter_open"},
+	name = "hades_cottages:timer_init",
+	nodenames = {"hades_cottages:window_shutter_closed", "hades_cottages:window_shutter_open"},
 	run_at_every_load = false,
 	action = function(pos)
 		local t = minetest.get_node_timer(pos)
@@ -142,7 +142,7 @@ minetest.register_lbm({
 ------------------------------------------------------------------------------------------------------------------------------
 -- a half door; can be combined to a full door where the upper part can be operated seperately; usually found in barns/stables
 ------------------------------------------------------------------------------------------------------------------------------
-minetest.register_node("cottages:half_door", {
+minetest.register_node("hades_cottages:half_door", {
 		description = S("Half door"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -171,11 +171,11 @@ minetest.register_node("cottages:half_door", {
                     elseif( param2%4 == 3) then param2 = param2-3; --0;
                     elseif( param2%4 == 0) then param2 = param2+3; --3;
                     end;
-                    minetest.swap_node(pos, {name = "cottages:half_door", param2 = param2})
+                    minetest.swap_node(pos, {name = "hades_cottages:half_door", param2 = param2})
                     -- if the node above consists of a door of the same type, open it as well
                     -- Note: doors beneath this one are not opened! It is a special feature of these doors that they can be opend partly
                     if( node2 ~= nil and node2.name == node.name and node2.param2==node.param2) then
-                       minetest.swap_node( {x=pos.x,y=(pos.y+1),z=pos.z}, {name = "cottages:half_door", param2 = param2})
+                       minetest.swap_node( {x=pos.x,y=(pos.y+1),z=pos.z}, {name = "hades_cottages:half_door", param2 = param2})
                     end
                 end,
 		is_ground_content = false,
@@ -183,7 +183,7 @@ minetest.register_node("cottages:half_door", {
 
 
 
-minetest.register_node("cottages:half_door_inverted", {
+minetest.register_node("hades_cottages:half_door_inverted", {
 		description = S("Half door inverted"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -212,10 +212,10 @@ minetest.register_node("cottages:half_door_inverted", {
                     elseif( param2%4 == 2) then param2 = param2+1; --3;
                     elseif( param2%4 == 3) then param2 = param2-1; --2;
                     end;
-                    minetest.swap_node(pos, {name = "cottages:half_door_inverted", param2 = param2})
+                    minetest.swap_node(pos, {name = "hades_cottages:half_door_inverted", param2 = param2})
                     -- open upper parts of this door (if there are any)
                     if( node2 ~= nil and node2.name == node.name and node2.param2==node.param2) then
-                       minetest.swap_node( {x=pos.x,y=(pos.y+1),z=pos.z}, {name = "cottages:half_door_inverted", param2 = param2})
+                       minetest.swap_node( {x=pos.x,y=(pos.y+1),z=pos.z}, {name = "hades_cottages:half_door_inverted", param2 = param2})
                     end
                 end,
 		is_ground_content = false,
@@ -227,7 +227,7 @@ minetest.register_node("cottages:half_door_inverted", {
 ------------------------------------------------------------------------------------------------------------------------------
 -- this gate for fences solves the "where to store the opened gate" problem by dropping it to the floor in opened state
 ------------------------------------------------------------------------------------------------------------------------------
-minetest.register_node("cottages:gate_closed", {
+minetest.register_node("hades_cottages:gate_closed", {
 		description = S("Closed fence gate"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -253,20 +253,20 @@ minetest.register_node("cottages:gate_closed", {
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
-                    minetest.swap_node(pos, {name = "cottages:gate_open", param2 = node.param2})
+                    minetest.swap_node(pos, {name = "hades_cottages:gate_open", param2 = node.param2})
                 end,
 		is_ground_content = false,
 })
 
 
-minetest.register_node("cottages:gate_open", {
+minetest.register_node("hades_cottages:gate_open", {
 		description = S("Opened fence gate"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = {cottages.texture_furniture},
 		paramtype = "light",
 		paramtype2 = "facedir",
-		drop = "cottages:gate_closed",
+		drop = "hades_cottages:gate_closed",
 		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, not_in_creative_inventory = 1},
 		node_box = {
 			type = "fixed",
@@ -287,10 +287,10 @@ minetest.register_node("cottages:gate_open", {
 			},
 		},
                 on_rightclick = function(pos, node, puncher)
-                    minetest.swap_node(pos, {name = "cottages:gate_closed", param2 = node.param2})
+                    minetest.swap_node(pos, {name = "hades_cottages:gate_closed", param2 = node.param2})
                 end,
 		is_ground_content = false,
-		drop = "cottages:gate_closed",
+		drop = "hades_cottages:gate_closed",
 })
 
 
@@ -360,9 +360,9 @@ end
 
 
 -- further alternate hatch materials: wood, tree, copper_block
-cottages.register_hatch( 'cottages:hatch_wood', 'wooden hatch', 'cottages_minimal_wood.png', cottages.craftitem_slab_wood );
-cottages.register_hatch( 'cottages:hatch_wood', 'wooden hatch', 'cottages_minimal_wood.png', cottages.craftitem_slab_wood_fallback );
-cottages.register_hatch( 'cottages:hatch_steel', 'metal hatch', 'cottages_steel_block.png', cottages.craftitem_steel );
+cottages.register_hatch( 'hades_cottages:hatch_wood', 'wooden hatch', 'cottages_minimal_wood.png', cottages.craftitem_slab_wood );
+cottages.register_hatch( 'hades_cottages:hatch_wood', 'wooden hatch', 'cottages_minimal_wood.png', cottages.craftitem_slab_wood_fallback );
+cottages.register_hatch( 'hades_cottages:hatch_steel', 'metal hatch', 'cottages_steel_block.png', cottages.craftitem_steel );
 
 
 
@@ -373,21 +373,21 @@ cottages.register_hatch( 'cottages:hatch_steel', 'metal hatch', 'cottages_steel_
 
 -- transform opend and closed shutters into each other for convenience
 minetest.register_craft({
-	output = "cottages:window_shutter_open",
+	output = "hades_cottages:window_shutter_open",
 	recipe = {
-		{"cottages:window_shutter_closed" },
+		{"hades_cottages:window_shutter_closed" },
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:window_shutter_closed",
+	output = "hades_cottages:window_shutter_closed",
 	recipe = {
-		{"cottages:window_shutter_open" },
+		{"hades_cottages:window_shutter_open" },
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:window_shutter_open",
+	output = "hades_cottages:window_shutter_open",
 	recipe = {
 		{cottages.craftitem_wood, "", cottages.craftitem_wood },
 	}
@@ -395,21 +395,21 @@ minetest.register_craft({
 
 -- transform one half door into another
 minetest.register_craft({
-	output = "cottages:half_door",
+	output = "hades_cottages:half_door",
 	recipe = {
-		{"cottages:half_door_inverted" },
+		{"hades_cottages:half_door_inverted" },
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:half_door_inverted",
+	output = "hades_cottages:half_door_inverted",
 	recipe = {
-		{"cottages:half_door" },
+		{"hades_cottages:half_door" },
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:half_door 2",
+	output = "hades_cottages:half_door 2",
 	recipe = {
 		{"", cottages.craftitem_wood, "" },
 		{"", cottages.craftitem_door, "" },
@@ -419,21 +419,21 @@ minetest.register_craft({
 
 -- transform open and closed versions into into another for convenience
 minetest.register_craft({
-	output = "cottages:gate_closed",
+	output = "hades_cottages:gate_closed",
 	recipe = {
-		{"cottages:gate_open" },
+		{"hades_cottages:gate_open" },
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:gate_open",
+	output = "hades_cottages:gate_open",
 	recipe = {
-		{"cottages:gate_closed"},
+		{"hades_cottages:gate_closed"},
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:gate_closed",
+	output = "hades_cottages:gate_closed",
 	recipe = {
 		{cottages.craftitem_stick, cottages.craftitem_stick, cottages.craftitem_wood },
 	}

@@ -2,7 +2,7 @@
 
 local S = cottages.S
 
-minetest.register_node("cottages:fence_small", {
+minetest.register_node("hades_cottages:fence_small", {
 		description = S("Small fence"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -36,7 +36,7 @@ minetest.register_node("cottages:fence_small", {
 })
 
 
-minetest.register_node("cottages:fence_corner", {
+minetest.register_node("hades_cottages:fence_corner", {
 		description = S("Small fence (corner)"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -84,7 +84,7 @@ minetest.register_node("cottages:fence_corner", {
 })
 
 
-minetest.register_node("cottages:fence_end", {
+minetest.register_node("hades_cottages:fence_end", {
 		description = S("Small fence (end)"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -145,7 +145,7 @@ minetest.register_node("cottages:fence_end", {
 		is_ground_content = false,
 })
 
-minetest.register_node("cottages:fence_double", {
+minetest.register_node("hades_cottages:fence_double", {
 		description = S("Small fence (double)"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -207,7 +207,7 @@ minetest.register_node("cottages:fence_double", {
 })
 
 minetest.register_craft({
-	output = "cottages:fence_small 4",
+	output = "hades_cottages:fence_small 4",
 	recipe = {
 		{cottages.craftitem_fence, cottages.craftitem_fence},
 	}
@@ -216,7 +216,7 @@ minetest.register_craft({
 -- xfences can be configured to replace normal fences - which makes them uncraftable
 if ( minetest.get_modpath("xfences") ~= nil ) then
    minetest.register_craft({
-	output = "cottages:fence_small 3",
+	output = "hades_cottages:fence_small 3",
 	recipe = {
 		{"xfences:fence", "xfences:fence"},
 	}
@@ -224,44 +224,44 @@ if ( minetest.get_modpath("xfences") ~= nil ) then
 end
 
 minetest.register_craft({
-	output = "cottages:fence_corner",
+	output = "hades_cottages:fence_corner",
 	recipe = {
-		{"cottages:fence_small", "cottages:fence_small"},
+		{"hades_cottages:fence_small", "hades_cottages:fence_small"},
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:fence_small 2",
+	output = "hades_cottages:fence_small 2",
 	recipe = {
-		{"cottages:fence_corner"},
+		{"hades_cottages:fence_corner"},
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:fence_end",
+	output = "hades_cottages:fence_end",
 	recipe = {
-		{"cottages:fence_small", "cottages:fence_small", "cottages:fence_small"}
+		{"hades_cottages:fence_small", "hades_cottages:fence_small", "hades_cottages:fence_small"}
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:fence_small 3",
+	output = "hades_cottages:fence_small 3",
 	recipe = {
-		{"cottages:fence_end"},
+		{"hades_cottages:fence_end"},
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:fence_double",
+	output = "hades_cottages:fence_double",
 	recipe = {
-		{"cottages:fence_small", "", "cottages:fence_small" },
+		{"hades_cottages:fence_small", "", "hades_cottages:fence_small" },
 	}
 })
 
 minetest.register_craft({
-	output = "cottages:fence_small 2",
+	output = "hades_cottages:fence_small 2",
 	recipe = {
-		{"cottages:fence_double"},
+		{"hades_cottages:fence_double"},
 	}
 })
 
