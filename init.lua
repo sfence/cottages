@@ -44,30 +44,13 @@ if( not( minetest.get_modpath("default"))) then
 	cottages.sounds.dirt   = nil
 	cottages.sounds.leaves = nil
 	cottages.sounds.stone  = nil
+	cottages.sounds.metal  = nil
 else
 	cottages.sounds.wood   = default.node_sound_wood_defaults()
 	cottages.sounds.dirt   = default.node_sound_dirt_defaults()
 	cottages.sounds.stone  = default.node_sound_stone_defaults()
 	cottages.sounds.leaves = default.node_sound_leaves_defaults()
 	cottages.sounds.metal = default.node_sound_metal_defaults()
-end
-
-
-cottages.straw_texture = "cottages_darkage_straw.png"
-
--- MineClone2 needs special treatment; default is only needed for
--- crafting materials and sounds (less important)
-if( not( minetest.get_modpath("default"))) then
-	default = {};
-	cottages.sounds.wood   = nil
-	cottages.sounds.dirt   = nil
-	cottages.sounds.leaves = nil
-	cottages.sounds.stone  = nil
-else
-	cottages.sounds.wood   = default.node_sound_wood_defaults()
-	cottages.sounds.dirt   = default.node_sound_dirt_defaults()
-	cottages.sounds.stone  = default.node_sound_stone_defaults()
-	cottages.sounds.leaves = default.node_sound_leaves_defaults()
 end
 
 -- the straw from default comes with stairs as well and might replace
