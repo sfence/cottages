@@ -137,7 +137,7 @@ dofile(modpath.."/nodes_roof.lua");
 dofile(modpath.."/nodes_barrel.lua");
 dofile(modpath.."/nodes_mining.lua");
 dofile(modpath.."/nodes_fireplace.lua");
-dofile(modpath.."/nodes_water.lua");
+--dofile(modpath.."/nodes_water.lua");
 --dofile(modpath.."/nodes_chests.lua");
 
 -- this is only required and useful if you run versions of the random_buildings mod where the nodes where defined inside that mod
