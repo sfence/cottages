@@ -64,6 +64,7 @@ minetest.register_node("hades_cottages:glass_pane", {
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = {"cottages_glass_pane.png"},
+    use_texture_alpha = "opaque",
 		paramtype = "light",
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -90,6 +91,7 @@ minetest.register_node("hades_cottages:glass_pane_side", {
 		tiles = {"cottages_glass_pane.png"},
 		paramtype = "light",
 		paramtype2 = "facedir",
+    use_texture_alpha = "opaque",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		node_box = {
 			type = "fixed",

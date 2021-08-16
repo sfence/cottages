@@ -70,7 +70,7 @@ end
 if( cottages_feldweg_mode == "simple" or cottages_feldweg_mode == "flat" ) then
 	minetest.register_node("hades_cottages:feldweg", {
 		description = S("Dirt road"),
-		tiles = {"cottages_feldweg.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
+		tiles = {"cottages_feldweg.png","default_dirt.png", "default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)"},
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly=1},
 		legacy_facedir_simple = true,
@@ -88,7 +88,7 @@ if( cottages_feldweg_mode == "flat" ) then
 
 	minetest.register_node("hades_cottages:feldweg_crossing", {
 		description = S("Dirt road crossing"),
-		tiles = {"cottages_feldweg_kreuzung.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
+		tiles = {"cottages_feldweg_kreuzung.png","default_dirt.png", "default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)"},
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
 		legacy_facedir_simple = true,
@@ -98,7 +98,7 @@ if( cottages_feldweg_mode == "flat" ) then
 
 	minetest.register_node("hades_cottages:feldweg_t_junction", {
 		description = S("Dirt road t junction"),
-		tiles = {"cottages_feldweg_t-kreuzung.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
+		tiles = {"cottages_feldweg_t-kreuzung.png^[transform2","default_dirt.png", "default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)"},
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
 		legacy_facedir_simple = true,
@@ -108,7 +108,7 @@ if( cottages_feldweg_mode == "flat" ) then
 
 	minetest.register_node("hades_cottages:feldweg_curve", {
 		description = S("Dirt road curve"),
-		tiles = {"cottages_feldweg_ecke.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
+		tiles = {"cottages_feldweg_ecke.png^[transform2","default_dirt.png", "default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)"},
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
 		legacy_facedir_simple = true,
@@ -123,7 +123,7 @@ if( cottages_feldweg_mode == "flat" ) then
 elseif( cottages_feldweg_mode == "nodebox" ) then
 	minetest.register_node("hades_cottages:feldweg", {
 	        description = S("Dirt road"),
-		tiles = {"cottages_feldweg_orig.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
+		tiles = {"cottages_feldweg_orig.png","default_dirt.png", "default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)"},
 		paramtype2 = "facedir",
 		roups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
 		legacy_facedir_simple = true,
@@ -154,7 +154,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 
 	minetest.register_node("hades_cottages:feldweg_crossing", {
 		description = S("Dirt road crossing"),
-		tiles = {"cottages_feldweg_kreuzung.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
+		tiles = {"cottages_feldweg_kreuzung.png","default_dirt.png", "default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)"},
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
 		legacy_facedir_simple = true,
@@ -198,7 +198,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 
 	minetest.register_node("hades_cottages:feldweg_t_junction", {
 		description = S("Dirt road t junction"),
-		tiles = {"cottages_feldweg_t-kreuzung.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
+		tiles = {"cottages_feldweg_t-kreuzung.png^[transform2","default_dirt.png", "default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)"},
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
 		legacy_facedir_simple = true,
@@ -240,7 +240,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 
 	minetest.register_node("hades_cottages:feldweg_curve", {
 		description = S("Dirt road curve"),
-		tiles = {"cottages_feldweg_ecke.png^[transform2","default_dirt.png", "default_dirt.png^default_grass_side.png"},
+		tiles = {"cottages_feldweg_ecke.png^[transform2","default_dirt.png", "default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)"},
 		paramtype2 = "facedir",
 		groups = {crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
 		legacy_facedir_simple = true,
@@ -296,8 +296,8 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		legacy_facedir_simple = true,
 		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
-		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
-			"default_dirt.png", "default_grass.png",
+		tiles = {"cottages_feldweg_end.png","default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)",
+			"default_dirt.png", "hades_core_grass_cover_colorable.png^[multiply:#acef6a",
 			"cottages_feldweg_surface.png",
 			"cottages_feldweg_surface.png^cottages_feldweg_edges.png"},
 		paramtype = "light",
@@ -314,7 +314,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png",
-			"default_grass.png","cottages_feldweg_surface.png",
+			"hades_core_grass_cover_colorable.png^[multiply:#acef6a","cottages_feldweg_surface.png",
 			"cottages_feldweg_surface.png^cottages_feldweg_edges.png"},
 		paramtype = "light",
 		drawtype = "mesh",
@@ -330,8 +330,8 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		legacy_facedir_simple = true,
 		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
-		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png", "default_dirt.png",
-			"default_grass.png","cottages_feldweg_surface.png",
+		tiles = {"cottages_feldweg_end.png","default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)", "default_dirt.png",
+			"hades_core_grass_cover_colorable.png^[multiply:#acef6a","cottages_feldweg_surface.png",
 			"cottages_feldweg_surface.png^cottages_feldweg_edges.png"},
 		paramtype = "light",
 		drawtype = "mesh",
@@ -347,8 +347,8 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		legacy_facedir_simple = true,
 		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
-		tiles = {"default_dirt.png^default_grass_side.png","default_grass.png",
-			"default_dirt.png^default_grass_side.png","cottages_feldweg_surface.png",
+		tiles = {"default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)","hades_core_grass_cover_colorable.png^[multiply:#acef6a",
+			"default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)","cottages_feldweg_surface.png",
 			"default_dirt.png","cottages_feldweg_surface.png^cottages_feldweg_edges.png"},
 		paramtype = "light",
 		drawtype = "mesh",
@@ -364,8 +364,8 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		legacy_facedir_simple = true,
 		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
-		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
-			"default_dirt.png", "default_grass.png",
+		tiles = {"cottages_feldweg_end.png","default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)",
+			"default_dirt.png", "hades_core_grass_cover_colorable.png^[multiply:#acef6a",
 			"cottages_feldweg_surface.png^cottages_feldweg_edges.png",
 			"cottages_feldweg_surface.png"},
 		paramtype = "light",
@@ -384,7 +384,7 @@ end
 if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab) then
    stairs.register_stair_and_slab("feldweg", "hades_cottages:feldweg",
 		{crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
-		{"cottages_feldweg.png","default_dirt.png", "default_grass.png","default_grass.png","cottages_feldweg.png","cottages_feldweg.png"},
+		{"cottages_feldweg.png","default_dirt.png", "hades_core_grass_cover_colorable.png^[multiply:#acef6a","hades_core_grass_cover_colorable.png^[multiply:#acef6a","cottages_feldweg.png","cottages_feldweg.png"},
 		S("Dirt Road Stairs"),
 		S("Outer Dirt Road Stairs"),
 		S("Inner Dirt Road Stairs"),
@@ -419,8 +419,8 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 		legacy_facedir_simple = true,
 		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
-		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
-			"default_dirt.png", "default_grass.png",
+		tiles = {"cottages_feldweg_end.png","default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)",
+			"default_dirt.png", "hades_core_grass_cover_colorable.png^[multiply:#acef6a",
 			"cottages_feldweg_surface.png",
 			"cottages_feldweg_surface.png^cottages_feldweg_edges.png"},
 		paramtype = "light",
@@ -440,8 +440,8 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 		legacy_facedir_simple = true,
 		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
-		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
-			"default_dirt.png", "default_grass.png",
+		tiles = {"cottages_feldweg_end.png","default_dirt.png^(hades_core_grass_side_cover_colorable.png^[multiply:#acef6a)",
+			"default_dirt.png", "hades_core_grass_cover_colorable.png^[multiply:#acef6a",
 			"cottages_feldweg_surface.png",
 			"cottages_feldweg_surface.png^cottages_feldweg_edges.png"},
 		paramtype = "light",

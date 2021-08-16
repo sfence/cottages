@@ -33,6 +33,8 @@ if(     minetest.registered_items["hades_core:dirt_with_grass"]
 			timer:start(math.random(60, 300))
 		end
 		-- TODO: prevent dirt from beeing multiplied this way (that is: give no dirt!)
+    local inv = digger:get_inventory()
+    inv:remove_item("main", "hades_core:dirt")
 		return
 	end,
   })
