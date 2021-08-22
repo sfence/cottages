@@ -31,7 +31,7 @@ local enable_anvil = minetest.settings:get_bool("cottages_enable_anvil", false)
 
 if enable_anvil then
 	local cottages_anvil_formspec =
-																 "size[8,8]"..
+																 "size[10,8]"..
 					"image[7,3;1,1;glooptest_tool_steelhammer.png]"..
 	--                                "list[context;sample;0,0.5;1,1;]"..
 																	"list[context;input;2.5,1.5;1,1;]"..
@@ -48,7 +48,7 @@ if enable_anvil then
 						"label[0,0;"..S("Anvil").."]"..
 						"label[0,3.0;"..S("Punch anvil with hammer to").."]"..
 						"label[0,3.3;"..S("repair tool in workpiece-slot.").."]"..
-																	"list[current_player;main;0,4;8,4;]";
+																	"list[current_player;main;0,4;10,4;]";
 
 
 	minetest.register_node("hades_cottages:anvil", {

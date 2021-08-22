@@ -273,9 +273,9 @@ minetest.register_node("hades_cottages:shelf", {
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos);
 			meta:set_string("formspec",
-						"size[8,8]"..
+						"size[10,8]"..
 						"list[context;main;0,0;8,3;]"..
-						"list[current_player;main;0,4;8,4;]")
+						"list[current_player;main;0,4;10,4;]")
 			meta:set_string("infotext", S("Open storage shelf"))
 			local inv = meta:get_inventory();
 			inv:set_size("main", 24);
@@ -359,9 +359,9 @@ minetest.register_node("hades_cottages:bedside_table", {
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos);
 			meta:set_string("formspec",
-						"size[8,8]"..
+						"size[10,8]"..
 						"list[context;main;0,0;8,2;]"..
-						"list[current_player;main;0,4;8,4;]")
+						"list[current_player;main;0,4;10,4;]")
 			meta:set_string("infotext", S("Bedside table"))
 			local inv = meta:get_inventory();
 			inv:set_size("main", 24);
@@ -491,9 +491,9 @@ minetest.register_node("hades_cottages:cabinet", {
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos);
 			meta:set_string("formspec",
-						"size[8,8]"..
+						"size[10,8]"..
 						"list[context;main;0,0;8,3;]"..
-						"list[current_player;main;0,4;8,4;]")
+						"list[current_player;main;0,4;10,4;]")
 			meta:set_string("infotext", S("Cabinet"))
 			local inv = meta:get_inventory();
 			inv:set_size("main", 24);
@@ -574,9 +574,9 @@ minetest.register_node("hades_cottages:wallmounted_cabinet", {
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos);
 			meta:set_string("formspec",
-						"size[8,8]"..
+						"size[10,8]"..
 						"list[context;main;0,0;8,3;]"..
-						"list[current_player;main;0,4;8,4;]")
+						"list[current_player;main;0,4;10,4;]")
 			meta:set_string("infotext", S("Wallmounted cabinet"))
 			local inv = meta:get_inventory();
 			inv:set_size("main", 24);
@@ -702,9 +702,9 @@ minetest.register_node("hades_cottages:storage_barrel", {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos);
 		meta:set_string("formspec",
-					"size[8,8]"..
+					"size[10,8]"..
 					"list[context;main;1.5,0;5,4;]"..
-					"list[current_player;main;0,4;8,4;]")
+					"list[current_player;main;0,4;10,4;]")
 		meta:set_string("infotext", S("Storage barrel"))
 		local inv = meta:get_inventory();
 		inv:set_size("main", 24);

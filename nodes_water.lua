@@ -147,7 +147,7 @@ minetest.register_node("hades_cottages:water_gen", {
 		local meta = minetest.get_meta(pos)
 		local spos = pos.x .. "," .. pos.y .. "," .. pos.z
 		meta:set_string("formspec",
-			"size[8,9]" ..
+			"size[10,9]" ..
 			"label[3.0,0.0;Tree trunk well]"..
 			"label[1.5,0.7;Punch the well while wielding an empty bucket.]"..
 			"label[1.5,1.0;Your bucket will slowly be filled with river water.]"..
@@ -158,8 +158,8 @@ minetest.register_node("hades_cottages:water_gen", {
 			"label[1.5,1.9;Punch well with full water bucket in order to empty bucket.]"..
 			"button_exit[6.0,0.0;2,0.5;public;"..S("Public?").."]"..
 			"list[nodemeta:" .. spos .. ";main;1,3.3;8,1;]" ..
-			"list[current_player;main;0,4.85;8,1;]" ..
-			"list[current_player;main;0,6.08;8,3;8]" ..
+			"list[current_player;main;0,4.85;10,1;]" ..
+			"list[current_player;main;0,6.08;10,3;10]" ..
 			"listring[nodemeta:" .. spos .. ";main]" ..
 			"listring[current_player;main]")
 		local inv = meta:get_inventory()

@@ -101,7 +101,7 @@ minetest.register_node("hades_cottages:straw_dark", {
 -- -------------------- EQUIPMENT -------------------
 --
 
--- "size[8,8]"..
+-- "size[10,8]"..
 -- 			"image[3.5,2.5;1,1;"..cottages.texture_stick.."]"..
 -- 			"image[0,1;1,1;farming_wheat.png]"..
 -- 			"list[context;harvest;1,1;2,1;]"..
@@ -113,10 +113,10 @@ minetest.register_node("hades_cottages:straw_dark", {
 -- 			"label[0,0;"..S("Threshing floor").."]"..
 -- 			"label[0,2.5;"..S("Punch threshing floor with a stick").."]"..
 -- 			"label[0,3.0;"..S("to get straw and seeds from wheat.").."]"..
--- 			"list[current_player;main;0,4;8,4;]";
+-- 			"list[current_player;main;0,4;10,4;]";
 
 local cottages_formspec_treshing_floor = 
-			"size[8,8]"..
+			"size[10,8]"..
 			"image[3.5,2.5;1,1;"..cottages.texture_stick.."]"..
 			"image[0,1;1,1;farming_wheat.png]"..
 			"button_exit[3,1;2,1;public;"..S("Public?").."]"..
@@ -129,7 +129,7 @@ local cottages_formspec_treshing_floor =
 			"label[0,0;"..S("Threshing floor").."]"..
 			"label[0,2.5;"..S("Punch threshing floor with a stick").."]"..
 			"label[0,3.0;"..S("to get straw and seeds from wheat.").."]"..
-			"list[current_player;main;0,4;8,4;]";
+			"list[current_player;main;0,4;10,4;]";
 
 minetest.register_node("hades_cottages:threshing_floor", {
 	drawtype = "nodebox",
@@ -424,7 +424,7 @@ minetest.register_node("hades_cottages:threshing_floor", {
 
 
                                                   
-local cottages_handmill_formspec = "size[8,8]"..
+local cottages_handmill_formspec = "size[10,8]"..
 				"image[0,1;1,1;"..cottages.texture_wheat_seed.."]"..
 				"button_exit[6.0,0.0;1.5,0.5;public;"..S("Public?").."]"..
 				"list[current_name;seeds;1,1;1,1;]"..
@@ -434,7 +434,7 @@ local cottages_handmill_formspec = "size[8,8]"..
 				"label[0,0;"..S("Mill").."]"..
 				"label[0,2.5;"..S("Punch this hand-driven mill").."]"..
 				"label[0,3.0;"..S("to convert wheat seeds into flour.").."]"..
-				"list[current_player;main;0,4;8,4;]";
+				"list[current_player;main;0,4;10,4;]";
 
 minetest.register_node("hades_cottages:handmill", {
 	description = S("mill, powered by punching"),

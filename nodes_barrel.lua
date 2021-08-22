@@ -52,7 +52,7 @@ barrel.prepare_formspec = function(fill, contents)
 		percent = 100 * fill / barrel_max
 	end
 	
-	local formspec =  "size[8,9]"..
+	local formspec =  "size[10,9]"..
 				"image[2.6,2;2,3;default_wood.png^[lowpart:"..
 				percent .. ":cottages_water_indicator.png]"..
 				"label[2.2,0;"..S("Pour:").."]"..
@@ -60,7 +60,7 @@ barrel.prepare_formspec = function(fill, contents)
 				"item_image_button[5,2;1,1;" .. item .. ";" .. label .. ";" .. hint .. "]" ..
 				"label[5,3.3;"..S("Fill:").."]"..
 				"list[context;output;5,3.8;1,1;]"..
-				"list[current_player;main;0,5;8,4;]"
+				"list[current_player;main;0,5;10,4;]"
 				
 	return (formspec)
 end
