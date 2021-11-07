@@ -702,20 +702,20 @@ minetest.register_craft({
 -- Derivative blocks for straw blocks (bale and regular)
 -----
 
-cottages.derive_blocks("cottages", 
+cottages.derive_blocks("hades_cottages", 
 				"straw_bale", 
 				"Straw bale", 
 				"cottages_darkage_straw_bale.png", 
 				{snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3, roof = 1})
 
 				
-cottages.derive_blocks("cottages", 
+cottages.derive_blocks("hades_cottages", 
 				"straw", 
 				"Straw block", 
 				"cottages_darkage_straw.png", 
 				{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1})
 
-cottages.derive_blocks("cottages", 
+cottages.derive_blocks("hades_cottages", 
 				"straw_dark", 
 				"Dark straw block", 
 				"cottages_dark_straw.png", 

@@ -36,7 +36,7 @@ cottages.craftitem_iron  = "hades_core:iron_lump";
 -- used for: dirt road, brown roof (if no homedecor is installed)
 cottages.craftitem_dirt  = "hades_core:dirt";
 -- used for: loam
-cottages.craftitem_sand  = "hades_core:sand";
+cottages.craftitem_sand  = "hades_default:sand";
 -- used for: glass pane
 cottages.craftitem_glass = "hades_core:glass";
 -- used for: reet roof, reet block

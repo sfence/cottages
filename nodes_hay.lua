@@ -138,13 +138,13 @@ minetest.register_craft({
 
 -- derivative blocks
 
-cottages.derive_blocks( "cottages", 
+cottages.derive_blocks( "hades_cottages", 
 				"hay", 
 				S("Hay"), 
 				cottages.straw_texture.."^[multiply:#88BB88", 
 				{hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable = 3, roof = 1} )
                                                 
-cottages.derive_blocks( "cottages", 
+cottages.derive_blocks( "hades_cottages", 
 				"hay_bale", 
 				S("Hay bale"), 
 				"cottages_darkage_straw_bale.png^[multiply:#88BB88", 

@@ -312,7 +312,7 @@ minetest.register_craft({
 	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, '' }}
 });
 
-cottages.derive_blocks( "cottages", "slate_vertical", "Slate", "cottages_slate.png", {cracky = 2, roof = 1} )
+cottages.derive_blocks( "hades_cottages", "slate_vertical", "Slate", "cottages_slate.png", {cracky = 2, roof = 1} )
 
 
 ---------------------------------------------------------------------------------------
@@ -334,7 +334,7 @@ minetest.register_craft({
 	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, cottages.craftitem_coal_lump }}
 });
 
-cottages.derive_blocks( "cottages", "roof_vertical_asphalt", "Asphalt", "cottages_homedecor_shingles_asphalt.png", {cracky = 2, roof = 1} )
+cottages.derive_blocks( "hades_cottages", "roof_vertical_asphalt", "Asphalt", "cottages_homedecor_shingles_asphalt.png", {cracky = 2, roof = 1} )
 
 
 
@@ -357,7 +357,7 @@ minetest.register_craft({
 	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, cottages.craftitem_clay_brick }}
 });
 
-cottages.derive_blocks( "cottages", "roof_vertical_terracotta", "Terracotta", "cottages_homedecor_shingles_terracotta.png", {cracky = 2, roof = 1} )
+cottages.derive_blocks( "hades_cottages", "roof_vertical_terracotta", "Terracotta", "cottages_homedecor_shingles_terracotta.png", {cracky = 2, roof = 1} )
 
 
 
@@ -380,7 +380,7 @@ minetest.register_craft({
 	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, "group:tree" }}
 });
 
-cottages.derive_blocks( "cottages", "roof_vertical_wood", "Wooden", cottages.textures_roof_wood, {cracky = 2, roof = 1} )
+cottages.derive_blocks( "hades_cottages", "roof_vertical_wood", "Wooden", cottages.textures_roof_wood, {cracky = 2, roof = 1} )
 
 
 
@@ -403,7 +403,7 @@ minetest.register_craft({
 	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, cottages.craftitem_dirt }}
 });
 
-cottages.derive_blocks( "cottages", "roof_vertical_brown", "Brown shingle", "cottages_homedecor_shingles_wood.png", {cracky = 2, roof = 1} )
+cottages.derive_blocks( "hades_cottages", "roof_vertical_brown", "Brown shingle", "cottages_homedecor_shingles_wood.png", {cracky = 2, roof = 1} )
 
 
 
@@ -433,7 +433,7 @@ minetest.register_craft({
 	recipe = {{ cottages.craftitem_wood, "hades_cottages:wood_flat" }}
 });
      
-cottages.derive_blocks( "cottages", "roof_vertical_shingle", "Shingle", "cottages_homedecor_shingles_misc_wood.png", {cracky = 2, roof = 1} )
+cottages.derive_blocks( "hades_cottages", "roof_vertical_shingle", "Shingle", "cottages_homedecor_shingles_misc_wood.png", {cracky = 2, roof = 1} )
 
 
 ---------------------------------------------------------------------------------------
@@ -455,4 +455,4 @@ minetest.register_craft({
 	},
 })
 
-cottages.derive_blocks( "cottages", "reet", "Reed", "cottages_reet.png", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1} )
+cottages.derive_blocks( "hades_cottages", "reet", "Reed", "cottages_reet.png", {snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3, roof = 1} )

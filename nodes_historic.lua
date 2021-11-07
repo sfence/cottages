@@ -44,7 +44,7 @@ minetest.register_node("hades_cottages:loam", {
 
 -- register derivative blocks (stairs etc)
 
-cottages.derive_blocks( "cottages", "loam", "Loam", "cottages_loam.png", {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2} )
+cottages.derive_blocks( "hades_cottages", "loam", "Loam", "cottages_loam.png", {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2} )
 
 
 -- straw is a common material for places where animals are kept indoors
