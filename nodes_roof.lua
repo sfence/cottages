@@ -309,7 +309,7 @@ minetest.register_node("hades_cottages:slate_vertical", {
 
 minetest.register_craft({
 	output = "hades_cottages:slate_vertical 2",
-	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood, '' }}
+	recipe = {{ cottages.craftitem_stone, cottages.craftitem_wood}}
 });
 
 cottages.derive_blocks( "hades_cottages", "slate_vertical", "Slate", "cottages_slate.png", {cracky = 2, roof = 1} )
