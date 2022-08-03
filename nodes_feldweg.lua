@@ -381,8 +381,8 @@ end
 
 
 -- create stairs if possible
-if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab) then
-   stairs.register_stair_and_slab("feldweg", "hades_cottages:feldweg",
+if( minetest.get_modpath("hades_stairs") and hades_stairs and hades_stairs.register_stair_and_slab) then
+   hades_stairs.register_stair_and_slab("feldweg", "hades_cottages:feldweg",
 		{crumbly = 3, snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, bike_friendly = 1},
 		{"cottages_feldweg.png","default_dirt.png", "hades_core_grass_cover_colorable.png^[multiply:#acef6a","hades_core_grass_cover_colorable.png^[multiply:#acef6a","cottages_feldweg.png","cottages_feldweg.png"},
 		S("Dirt Road Stairs"),

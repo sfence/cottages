@@ -164,7 +164,7 @@ minetest.register_node("hades_cottages:wool_tent", {
 })
 
 -- a fallback for cases in which there is no wool
-if not minetest.get_modpath("wool") then
+if not minetest.get_modpath("hades_cloth") then
 	minetest.register_node("hades_cottages:wool", {
 			description = S("Wool"),
 			tiles = {"cottages_wool.png"},
@@ -172,7 +172,7 @@ if not minetest.get_modpath("wool") then
 			groups = {snappy=2,choppy=2,oddly_breakable_by_hand=3,flammable=3,wool=1},
 	})
 else
-	minetest.register_alias("hades_cottages:wool", "wool:white")
+	minetest.register_alias("hades_cottages:wool", "hades_cloth:white")
 end
 
 

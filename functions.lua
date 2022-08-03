@@ -52,9 +52,9 @@ end
 -- generalized function to register microblocks/stairs
 cottages.derive_blocks = function( modname, nodename, nodedesc, tile, groups )
 	
-	if stairs and stairs.mod and stairs.mod == "redo" then
+	if hades_stairs and hades_stairs.mod and hades_stairs.mod == "redo" then
 
-		stairs.register_all(nodename, modname .. ":" .. nodename,
+		hades_stairs.register_all(nodename, modname .. ":" .. nodename,
 			{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
 			{tile},
 			cottages.S(nodedesc .. " stair"),
@@ -72,7 +72,7 @@ cottages.derive_blocks = function( modname, nodename, nodedesc, tile, groups )
 
 	else
 
-		stairs.register_stair_and_slab(nodename, modname .. ":" .. nodename,
+		hades_stairs.register_stair_and_slab(nodename, modname .. ":" .. nodename,
 			{snappy = 3, choppy = 3, oddly_breakable_by_hand = 3, flammable = 3},
 			{tile},
 			cottages.S(nodedesc .. " stair"),

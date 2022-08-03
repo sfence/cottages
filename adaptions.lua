@@ -28,7 +28,7 @@ cottages.craftitem_cotton = "hades_extrafarming:cotton";
 -- used for: rope
 cottages.craftitem_string = "hades_farming:string";
 -- used for: bed (head+foot), wool for tents
-cottages.craftitem_wool  = "wool:white";
+cottages.craftitem_wool  = "hades_cloth:white";
 -- used for: washing place, loam
 cottages.craftitem_clay  = "hades_core:clay";
 -- used for: wagon wheel
@@ -52,8 +52,8 @@ cottages.craftitem_chest        = "hades_chests:chest";
 -- used for: hatch, table
 cottages.craftitem_slab_wood = "hades_moreblocks:slab_wood";
 -- use moreblocks slab > stairs slab > cottage planks
-if (minetest.get_modpath("stairs")) then
-	cottages.craftitem_slab_wood_fallback = "stairs:slab_wood";
+if (minetest.get_modpath("hades_stairs")) then
+	cottages.craftitem_slab_wood_fallback = "hades_stairs:slab_wood";
 else 
 	cottages.craftitem_slab_wood_fallback = "hades_cottages:wood_flat";
 end
@@ -114,7 +114,7 @@ if( not( minetest.registered_nodes["trees:tree"])) then
 	end
 end
 
-if( not( minetest.registered_nodes["wool:white"])) then
+if( not( minetest.registered_nodes["hades_cloth:white"])) then
 	cottages.craftitem_wool = "hades_cottages:wool";
 end
 
