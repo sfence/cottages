@@ -18,7 +18,7 @@ cottages.register_roof = function( name, description, tiles, basic_material, hom
 		tiles = tiles,
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, roof = 1},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, roof = 1, support_stairlight = 1},
 		node_box = {
 			type = "fixed",
 			fixed = {
@@ -107,7 +107,7 @@ cottages.register_roof = function( name, description, tiles, basic_material, hom
 		tiles = tiles,
 		paramtype = "light",
 		paramtype2 = "facedir",
-		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, roof = 1},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, roof = 1, support_stairlight = 1},
 		node_box = {
 			type = "fixed",
 			fixed = {
